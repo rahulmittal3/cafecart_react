@@ -1,1 +1,6 @@
 #for client
+client/node_modules
+
+
+#for server
+server/node_modules
