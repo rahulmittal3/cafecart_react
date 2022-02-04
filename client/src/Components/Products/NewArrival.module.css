@@ -1,0 +1,5 @@
+@media only screen and (max-width: 760px) {
+  .image_wrapper img {
+    height: 80% !important;
+  }
+}
