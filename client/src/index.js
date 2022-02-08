@@ -4,13 +4,26 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+//for redux storage
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import "antd/dist/antd.css";
+import "react-toastify/dist/ReactToastify.css";
 //for routing principles
 import { BrowserRouter } from "react-router-dom";
 
+//creating the redux store...
+import rootReducer from "./Reducers/rootReducer.js";
+const store = createStore(rootReducer, composeWithDevTools());
+
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>{" "}
+  </Provider>,
+
   document.getElementById("root")
 );
 

@@ -21,11 +21,9 @@ const SearchBar = () => {
                   >
                     <form>
                       <input
-                        style={{}}
                         type="text"
                         name="search"
-                        placeholder="Search..."
-                        defaultValue
+                        placeholder="Search for items, brands & inspiration"
                         autoCapitalize="off"
                         autoComplete="off"
                         autoCorrect="off"

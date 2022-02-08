@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Footer = () => {
+  const { user } = useSelector((state) => ({ ...state }));
   return (
     <footer className="bg3">
       <div className="container">
@@ -41,13 +43,19 @@ const Footer = () => {
             <h4 className="stext-301 cl0 p-b-10">Help</h4>
             <ul>
               <li className="p-b-10">
-                <Link to="/" className="stext-107 cl7 hov-cl1 trans-04">
+                <Link
+                  to={user ? "/home" : "/"}
+                  className="stext-107 cl7 hov-cl1 trans-04"
+                >
                   {" "}
                   Track Order{" "}
                 </Link>
               </li>
               <li className="p-b-10">
-                <Link to="/" className="stext-107 cl7 hov-cl1 trans-04">
+                <Link
+                  to={user ? "/home" : "/"}
+                  className="stext-107 cl7 hov-cl1 trans-04"
+                >
                   {" "}
                   Returns{" "}
                 </Link>
@@ -71,7 +79,10 @@ const Footer = () => {
               Reach out to us at Bulleshwar, Mumbai or call us on +91 7015060623
             </p>
             <div className="p-t-27">
-              <Link to="/" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+              <Link
+                to={user ? "/home" : "/"}
+                className="fs-18 cl7 hov-cl1 trans-04 m-r-16"
+              >
                 <i className="fa fa-facebook" />
               </Link>
               <Link
@@ -80,7 +91,10 @@ const Footer = () => {
               >
                 <i className="fa fa-instagram" />
               </Link>
-              <Link to="/" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+              <Link
+                to={user ? "/home" : "/"}
+                className="fs-18 cl7 hov-cl1 trans-04 m-r-16"
+              >
                 <i className="fa fa-pinterest-p" />
               </Link>
             </div>

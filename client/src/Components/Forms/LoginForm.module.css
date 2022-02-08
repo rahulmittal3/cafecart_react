@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2&family=Telex&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+h3 {
+  text-align: center;
+  font-family: "Baloo 2", cursive;
+  font-size: 32px;
+  margin: 10px 0 10px 0;
+  letter-spacing: 2px;
+  font-weight: bolder;
+}
+.modal_outer {
+  background-color: #fff;
+  width: 50vw;
+  border: solid #fff 2px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 10px;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: grow;
+}
+.btnStyle {
+  font-size: 16px;
+  border: none;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+#btnFacebook {
+  background-color: #4267b2;
+  color: white;
+  border: solid #4267b2 2px;
+}
+#btnGoogle {
+  background-color: #db4437;
+  border: solid #db4437 2px;
+  color: white;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputs {
+  padding: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-family: "Comfortaa", cursive;
+  background-color: #d3d3d3;
+  border: solid #d3d3d3 2px;
+  width: 25vw;
+  border-radius: 5px;
+}
+
+#loginBtn {
+  background-color: rgb(177, 126, 31);
+  color: white;
+  border: solid rgb(177, 126, 31) 2px;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 25vw;
+  font-family: "Baloo 2", cursive;
+  font-size: 20px;
+}
+label {
+  font-family: "Comfortaa", cursive;
+  margin-bottom: 10px;
+  display: block;
+  font-weight: bolder;
+}
+h5 {
+  margin-top: 3px;
+  text-align: center;
+  font-size: 16px;
+  font-family: "Baloo 2", cursive;
+}

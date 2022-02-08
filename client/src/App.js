@@ -1,5 +1,5 @@
 import "./App.css";
-
+import { ToastContainer } from "react-toastify";
 //importing React-Compnents..........
 import { Route, Routes } from "react-router-dom";
 
@@ -13,8 +13,12 @@ import Root from "./Pages/Root.js";
 import ShippingPolicy from "./Pages/ShippingPolicy.js";
 import TermsOfUse from "./Pages/TermsOfUse.js";
 import PrivacyPolicy from "./Pages/PrivacyPolicy.js";
+import Home from "./Pages/Root.js";
+import ChangePassword from "./Pages/User/ChangePassword.js";
+import Profile from "./Pages/User/Profile.js";
 
 import SingleProduct from "./Pages/Products/SingleProduct.js";
+import ProtectRoute from "./Components/Utilities/ProtectRoutes";
 //header and footer
 import Header from "./Components/Header/Header.js";
 import Footer from "./Components/Footer/Footer.js";
@@ -22,6 +26,7 @@ function App() {
   return (
     <>
       <Header />
+      <ToastContainer />
       <Routes>
         <Route path="/" exact element={<Root />} />
         <Route path="/pages/about-us" exact element={<AboutUs />} />
@@ -36,7 +41,34 @@ function App() {
           exact
           element={<ShippingPolicy />}
         />
-        <Route path="/products/:id" exact element={<SingleProduct />} />
+        <Route path="/products/:id" exact element={<SingleProduct />} />{" "}
+        <Route
+          path="/user/profile"
+          exact
+          element={
+            <ProtectRoute>
+              <Profile />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/home"
+          exact
+          element={
+            <ProtectRoute>
+              <Home />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/change-password"
+          exact
+          element={
+            <ProtectRoute>
+              <ChangePassword />
+            </ProtectRoute>
+          }
+        />
       </Routes>
       <Footer />
     </>

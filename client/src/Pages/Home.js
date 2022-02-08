@@ -7,14 +7,12 @@ import YouMayLike from "../Components/Products/YouMayLike.js";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const Root = () => {
+const Home = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => ({ ...state }));
-
   useEffect(() => {
-    if (window.localStorage.getItem("user")) {
+    if (window.localStorage.getItem("user") === null) {
       //user exists, redirect to /home
-      navigate("/home");
+      navigate("/");
     }
   }, []);
   return (
@@ -63,4 +61,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default Home;

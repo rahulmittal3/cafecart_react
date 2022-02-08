@@ -16,8 +16,8 @@ const Brands = () => {
             <h2 className="block-header-heading">Brands</h2>
           </div>
 
-          <div class="brandshr">
-            <div class="card-wrap">
+          <div className="brandshr">
+            <div className="card-wrap">
               <div>
                 <a
                   style={{
