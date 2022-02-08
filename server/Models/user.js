@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt-nodejs");
 const Schema = mongoose.Schema;
 
 const userSchema = Schema(
@@ -11,13 +10,17 @@ const userSchema = Schema(
     email: {
       type: String,
       require: true,
+      unique: [true, "User Already Exists"],
     },
     password: {
       type: String,
-      require: true,
     },
     contact: {
       type: String,
+    },
+    contactVerified: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
