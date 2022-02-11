@@ -10,6 +10,13 @@ const ProtectRoute = ({ children }) => {
   const verifyUser = async (token, email) => {
     try {
       const result = await currentUser(token, email);
+      if (window !== "undefined") {
+        window.localStorage.setItem("user", JSON.stringify(result.data));
+      }
+      dispatch({
+        type: "USER_CHANGED",
+        payload: result.data,
+      });
     } catch (error) {
       dispatch({
         type: "USER_CHANGED",

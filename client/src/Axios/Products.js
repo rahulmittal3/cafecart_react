@@ -16,4 +16,43 @@ const categories = async () => {
   return result;
 };
 
-export { newArrival, categories };
+const categorySlug = async (slug) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/category-slug/${slug}`,
+    data: { slug },
+  });
+  return result;
+};
+
+const parentVariety = async (id1, id2) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/category/${id1}/${id2}`,
+  });
+  return result;
+};
+
+const variety = async (id1, id2, id3) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/category/${id1}/${id2}/${id3}`,
+  });
+  return result;
+};
+
+const singleProduct = async (id) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/product/${id}`,
+  });
+  return result;
+};
+export {
+  newArrival,
+  categories,
+  categorySlug,
+  variety,
+  parentVariety,
+  singleProduct,
+};

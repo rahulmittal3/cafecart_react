@@ -6,9 +6,14 @@ import { categories } from "../../Axios/Products.js";
 import { useDispatch } from "react-redux";
 import SignUpModal from "../../Modals/SignUpModal.js";
 import { toast } from "react-toastify";
+import { slide as Menu } from "react-burger-menu";
+import fancy from "./Header.module.css";
+import Drawerr from "./Drawerr.js";
 const Header = () => {
   const [headers, setHeaders] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [isOpen, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
   let subtitle;
   const getHeaders = () => {
     categories()
@@ -20,7 +25,7 @@ const Header = () => {
   }, []);
   function openModal() {
     setIsOpen(true);
-    document.body.style.position = "fixed";
+    document.querySelector("#root").style.display = "none";
   }
 
   function afterOpenModal() {
@@ -30,7 +35,7 @@ const Header = () => {
   Modal.setAppElement("#modal");
   function closeModal() {
     setIsOpen(false);
-    document.body.style.position = "initial";
+    document.querySelector("#root").style.display = "block";
   }
   const customStyles = {
     content: {
@@ -87,6 +92,7 @@ const Header = () => {
                     fontWeight: 700,
                     marginBottom: "0rem",
                   }}
+                  className="custom"
                 >
                   CafeCart
                 </h2>
@@ -125,7 +131,7 @@ const Header = () => {
                                   >
                                     <Link
                                       className="dropdown-item-header"
-                                      to="/"
+                                      to={`/products/category/${curr.slug}/${sub.Parent_Subcategory.slug}`}
                                     >
                                       {sub.Parent_Subcategory.title}
                                     </Link>
@@ -137,7 +143,7 @@ const Header = () => {
                                               <Link
                                                 key={index}
                                                 className="dropdown-item"
-                                                to=""
+                                                to={`/products/category/${curr.slug}/${sub.Parent_Subcategory.slug}/${last.slug}`}
                                               >
                                                 {last.title}
                                               </Link>
@@ -308,7 +314,7 @@ const Header = () => {
                 </div>
                 <div
                   className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11"
-                  onclick="postdata()"
+                  // onclick="postdata()"
                 >
                   <i className="zmdi zmdi-favorite-outline p-t-7" />
                   <div className="point-badge p-t-7" id="dot" />
@@ -325,6 +331,7 @@ const Header = () => {
           style={{ display: "flex", flexDirection: "column" }}
         >
           {/* Button show menu */}
+
           <div
             style={{
               display: "flex",
@@ -333,11 +340,27 @@ const Header = () => {
               width: "100%",
             }}
           >
-            <div className="btn-show-menu-mobile hamburger hamburger--squeeze">
+            <div
+              className="btn-show-menu-mobile hamburger hamburger--squeeze"
+              onClick={
+                (e) => setVisible(!visible)
+                // document
+                //   .querySelector(".mobile-menu")
+                //   .classList.add("show-header-cart")
+              }
+            >
               <span className="hamburger-box">
                 <span className="hamburger-inner" />
               </span>
             </div>
+            <Drawerr
+              visible={visible}
+              setVisible={setVisible}
+              user={user}
+              headers={headers}
+              logoutHandler={logoutHandler}
+              openModal={openModal}
+            />
             <div className="logo-mobile">
               {/* <a href="index.html"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a> */}
               <Link to="/">
@@ -366,7 +389,7 @@ const Header = () => {
               </div>
               <div
                 className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11"
-                onclick="postdata()"
+                // onclick="postdata()"
               >
                 <i className="zmdi zmdi-favorite-outline p-t-7" />
                 <div className="point-badge p-t-7" id="dot1" />
@@ -374,7 +397,212 @@ const Header = () => {
             </div>
           </div>
         </div>
+        {/* Mobile Menu Here */}
+
+        {/* <div className="mobile-menu js-cart">
+          <div className="s-full js-hide-cart"></div>
+
+          <div className="menu-lists flex-col-l">
+            <div
+              className="header-title"
+              style={{ background: "#eeeeee63", height: 100 }}
+            >
+              <div className="header-user icon-header-item cl2 hov-cl1 trans-04 p-l-12 p-r-11">
+                <i className="zmdi zmdi-account-circle p-t-30"></i>
+              </div>
+
+              {user && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: "15px auto",
+                  }}
+                >
+                  <span
+                    className="mtext-102 cl2"
+                    style={{ textAlign: "left !important" }}
+                  >
+                    Welcome,
+                  </span>
+                  <span
+                    className="mtext-102 cl2"
+                    style={{ textAlign: "left !important" }}
+                  >
+                    {user.name}
+                  </span>
+                </div>
+              )}
+              {!user && (
+                <span className="mtext-103 cl2 p-l-25">Login / Register</span>
+              )}
+              <div className="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart cross ">
+                <i
+                  className="zmdi zmdi-close"
+                  onClick={(e) =>
+                    document
+                      .querySelector(".mobile-menu")
+                      .classList.remove("show-header-cart")
+                  }
+                />
+              </div>
+            </div>
+            <aside className="sidebar-left-collapse">
+              <div className="sidebar-links navelement">
+                {user && <Link to="/user/profile">View Profile</Link>}
+                {headers &&
+                  headers.map((curr, index) => {
+                    return (
+                      <div className={`links navelement`} key={index}>
+                        <div style={{ display: "flex", flexDirection: "row" }}>
+                          <span>
+                            <a href="/">{curr.title}</a>
+                          </span>
+                          <span className="icon-dropdown" data-toggle-menu-mb>
+                            <i
+                              className="fa fa-angle-right"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </div>
+                        <ul className="sub-links">
+                          {curr.Subcategories &&
+                            curr.Subcategories.map((second, index) => {
+                              return (
+                                <li className="navelement" key={index}>
+                                  <div className="link">
+                                    <div>
+                                      <span>
+                                        <a href="/">{second.title}</a>
+                                      </span>
+                                      <span
+                                        className="icon-dropdown"
+                                        data-toggle-menu-mb
+                                      >
+                                        <i
+                                          className="fa fa-angle-right"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    </div>
+                                    <ul className="sub-links">
+                                      {second.Subcategories &&
+                                        second.Subcategories.map(
+                                          (last, index) => {
+                                            return (
+                                              <li
+                                                className="navelement"
+                                                key={index}
+                                              >
+                                                <div className="link">
+                                                  <div>
+                                                    <span>
+                                                      <a href="/">
+                                                        {last.title}
+                                                      </a>
+                                                    </span>
+                                                    <span
+                                                      className="icon-dropdown"
+                                                      data-toggle-menu-mb
+                                                    >
+                                                      <i
+                                                        className="fa fa-angle-right"
+                                                        aria-hidden="true"
+                                                      />
+                                                    </span>
+                                                  </div>
+                                                  <ul className="sub-linkss ">
+                                                    {last.Child_Subcategory &&
+                                                      last.Child_Subcategory.map(
+                                                        (finish, index) => {
+                                                          return (
+                                                            <li key={index}>
+                                                              <Link
+                                                                to={`/products/category/${curr.slug}/${second.slug}/${last.slug}`}
+                                                              >
+                                                                {last.title}
+                                                              </Link>
+                                                            </li>
+                                                          );
+                                                        }
+                                                      )}
+                                                  </ul>
+                                                </div>
+                                              </li>
+                                            );
+                                          }
+                                        )}
+                                    </ul>
+                                  </div>
+                                </li>
+                              );
+                            })}
+                        </ul>
+                      </div>
+                    );
+                  })}
+                <div className="links navelement">
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <span>
+                      <Link to="/blog">Blogs</Link>
+                    </span>
+                  </div>
+                </div>
+                <div className="links navelement">
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <span>
+                      <Link to="/pages/about-us">About Us</Link>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div> */}
       </header>
+      <div>
+        <div className="wrap-header-cart js-panel-cart">
+          <div className="s-full js-hide-cart" />
+          <div className="header-cart flex-col-l p-l-35 p-r-25 p-b-20">
+            <div className="header-cart-title flex-w flex-sb-m p-b-4">
+              <span className="mtext-103 cl2">Your Cart</span>
+              <div className="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                <i className="zmdi zmdi-close" />
+              </div>
+            </div>
+            <div className="header-cart-content flex-w w-full js-pscroll">
+              <ul className="header-cart-wrapitem w-full" id="cart"></ul>
+            </div>
+            <div className="w-full">
+              <div
+                className="header-cart-total w-full p-tb-8"
+                id="side-cost"
+              ></div>
+              <div className="header-cart-buttons flex-w w-full">
+                <a
+                  href="/shopping-cart"
+                  className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10"
+                >
+                  View Cart
+                </a>
+                <a
+                  href="/shopping-cart"
+                  className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10"
+                  id="check_out_nav"
+                >
+                  Check Out
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Back to top */}
+        <div className="btn-back-to-top" id="myBtn">
+          <span className="symbol-btn-back-to-top">
+            <i className="zmdi zmdi-chevron-up" />
+          </span>
+        </div>
+      </div>
     </>
   );
 };

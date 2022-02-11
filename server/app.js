@@ -29,6 +29,7 @@ mongoose
 //handling different Routes here
 const PRODUCTS = require("./Routes/Products.js");
 const AUTH = require("./Routes/Authentication.js");
+const BLOG = require("./Routes/Blogs.js");
 app.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -44,4 +45,5 @@ app.get(
 );
 app.use("/api/v1", PRODUCTS);
 app.use("/api/v1", AUTH);
+app.use("/api/v1", BLOG);
 module.exports = app;

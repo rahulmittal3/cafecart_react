@@ -68,6 +68,7 @@ const login = async (req, res) => {
       id: byEmail._id,
       jwt: tokenCreated,
       contactVerified: byEmail.contactVerified,
+      name: byEmail.username,
     });
   } catch (error) {
     console.log(error);
@@ -76,8 +77,29 @@ const login = async (req, res) => {
 };
 
 const currentUser = async (req, res) => {
-  console.log(req.headers);
-  res.json("got the headers");
+  try {
+    if (!req.headers.authorization) {
+      return res.status(401).json("NO JWT! Unauthorised");
+    }
+    //we have the jwt now, lets verify first..
+    const decodedToken = await promisify(jwt.verify)(
+      req.headers.authorization.split(" ")[1],
+      process.env.JWT_STRING
+    );
+    if (!decodedToken.email) {
+      return res.status(401).json("JWT Disturbed");
+    }
+    const user1 = await user.findOne({ email: decodedToken.email });
+    return res.status(201).json({
+      id: user1._id,
+      jwt: req.headers.authorization.split(" ")[1],
+      contactVerified: user1.contactVerified,
+      name: user1.username,
+    });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+
   //get the id of the current user and loggedin...
   //first check the JWT_STRING
 };
@@ -116,6 +138,7 @@ const passwordless = async (req, res) => {
       id: result._id,
       jwt: tokenCreated,
       contactVerified: result.contactVerified,
+      name: result.username,
     });
   } catch (error) {
     console.log(error);

@@ -16,12 +16,14 @@ import PrivacyPolicy from "./Pages/PrivacyPolicy.js";
 import Home from "./Pages/Root.js";
 import ChangePassword from "./Pages/User/ChangePassword.js";
 import Profile from "./Pages/User/Profile.js";
-
+import CategorySlug from "./Pages/Products/CategorySlug.js";
 import SingleProduct from "./Pages/Products/SingleProduct.js";
 import ProtectRoute from "./Components/Utilities/ProtectRoutes";
+import ParentVariety from "./Pages/Products/ParentVariety.js";
 //header and footer
 import Header from "./Components/Header/Header.js";
 import Footer from "./Components/Footer/Footer.js";
+import Variety from "./Pages/Products/Variety.js";
 function App() {
   return (
     <>
@@ -30,9 +32,14 @@ function App() {
       <Routes>
         <Route path="/" exact element={<Root />} />
         <Route path="/pages/about-us" exact element={<AboutUs />} />
-        <Route path="/products/category/coffee" exact element={<Coffee />} />
+        {/* <Route path="/products/category/coffee" exact element={<Coffee />} />
         <Route path="/products/category/pods" exact element={<Pods />} />
-        <Route path="/products/category/machine" exact element={<Machine />} />
+        <Route path="/products/category/machine" exact element={<Machine />} /> */}
+        <Route
+          path="/products/category/:slug"
+          exact
+          element={<CategorySlug />}
+        />
         <Route path="/blog" exact element={<Blogs />} />
         <Route path="/pages/terms-of-use" exact element={<TermsOfUse />} />
         <Route path="/pages/privacy-policy" exact element={<PrivacyPolicy />} />
@@ -68,6 +75,16 @@ function App() {
               <ChangePassword />
             </ProtectRoute>
           }
+        />
+        <Route
+          path="/products/category/:id1/:id2/:id3"
+          exact
+          element={<Variety />}
+        />
+        <Route
+          path="/products/category/:id1/:id2"
+          exact
+          element={<ParentVariety />}
         />
       </Routes>
       <Footer />

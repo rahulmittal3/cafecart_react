@@ -1,0 +1,9 @@
+.product__manavesh1:hover {
+  transform: scale(1.15);
+  transition: all 0.3s;
+}
+
+.add_to_cart .view_gallery {
+  opacity: 1;
+  background-color: #fff;
+}

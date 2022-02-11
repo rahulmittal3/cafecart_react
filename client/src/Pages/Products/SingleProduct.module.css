@@ -1,0 +1,45 @@
+@media (max-width: 400px) {
+  .manavesh_1 {
+    display: block;
+  }
+  @media (min-width: 401px) {
+    .form-group--number {
+      width: 50%;
+    }
+  }
+}
+.scroll {
+  height: 500px;
+  overflow-y: scroll;
+}
+.btnMinus {
+  background-color: blueviolet;
+  color: white;
+  border: solid blueviolet;
+  font-size: 20px;
+  padding: 0px 10px;
+  width: 20%;
+}
+.btnPlus {
+  background-color: orange;
+  color: white;
+  border: solid orange;
+  font-size: 20px;
+  padding: 0px 10px;
+  width: 20%;
+}
+input {
+  border: none;
+  padding: 0px 10px;
+  border: solid rgb(175, 175, 181);
+  text-align: center;
+  width: 80%;
+  font-size: 20px !important;
+}
+
+.outerDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
