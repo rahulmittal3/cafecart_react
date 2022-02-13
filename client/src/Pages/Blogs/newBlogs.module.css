@@ -1,0 +1,401 @@
+@import url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Inconsolata:wght@300&family=Josefin+Sans:wght@300&family=Signika:wght@300&display=swap");
+.outer {
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.BlogTitle {
+  font-size: 36px;
+  width: 60vw;
+  text-align: left;
+}
+.heading {
+  padding-left: 30px;
+  padding-right: 30px;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+}
+.slick__image {
+  width: "60vw";
+  height: "100%";
+}
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+.left {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.right {
+  width: 30%;
+}
+
+/* for card */
+/* .card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+} */
+.card:hover {
+  transform: scale(1.02);
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.card__meta {
+  border-left: solid 0.5px grey;
+  border-right: solid 0.5px grey;
+  border-bottom: solid 0.5px grey;
+}
+.card__meta__title {
+  padding-top: 5px;
+  text-align: center;
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  /* font-family: "Cedarville Cursive", cursive !important; */
+  font-family: Inconsolata;
+}
+.card__meta__category {
+  font-size: 14px;
+  /* background-color: purple; */
+  text-align: center;
+  margin: 5px 10px;
+  padding: 5px 10px;
+  color: white;
+  /* border: solid purple 1px; */
+  border-radius: 3px;
+  font-family: "Cedarville Cursive", cursive !important;
+}
+
+.card__meta__preview {
+  font-family: "Inconsolata", monospace;
+  font-size: 15px;
+  padding: 5px;
+  word-wrap: normal;
+  /* font-family: "Cedarville Cursive", cursive !important; */
+  font-family: Inconsolata;
+}
+
+.categoriesWrap {
+  display: flex;
+  flex-direction: wrap;
+  justify-content: space-between;
+}
+
+.right__search {
+  color: grey;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0px 40px;
+  margin-bottom: 85px;
+}
+.right__search__input {
+  color: black;
+  font-size: 15px !important;
+  padding: 8px !important;
+  font-family: Inconsolata;
+  font-weight: bold !important;
+  border: solid #f7f7f7 1px;
+  background-color: #f7f7f7;
+
+  width: 100%;
+}
+.right__search__inputBtn {
+  font-size: 15px !important;
+  background-color: purple;
+  padding: 6px;
+  border: solid 1px purple;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: white;
+}
+.card__meta__read {
+  font-size: 15px;
+  font-weight: bolder;
+  text-align: center;
+  margin-bottom: 4px;
+}
+.right__info__outer {
+  border: solid #e6e6e6 1px;
+  padding: 20px 40px;
+  margin: 10px 40px;
+}
+.right__info__outer__title {
+  font-size: 24px;
+  color: rgb(184, 127, 53);
+  font-weight: 500;
+}
+.right__info__outer__desc {
+  font-size: 15px;
+  font-weight: 400;
+  font-family: Inconsolata;
+  margin: 0px 20px;
+}
+.right__aboutUsBtn {
+  background-color: #6610f2 !important;
+  font-size: 15px;
+  color: white;
+  padding: 5px 10px;
+  border: solid 1px #6610f2;
+  border-radius: 5px;
+  font-family: Inconsolata;
+}
+.right__outerBtns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.right__icons {
+  margin: 10px;
+}
+.categ .sidebarBox {
+  margin: 10px 40px;
+}
+.categ__heading {
+  font-size: 18px;
+  margin-top: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: solid 1px #e6e6e6;
+  margin-bottom: 30px;
+  margin-left: 40px;
+}
+/*Applying Media Queries*/
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+.categories li {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #dee2e6;
+  list-style: none;
+}
+.categories li a {
+  display: block;
+  font-size: 16px;
+}
+a {
+  transition: 0.3s all ease;
+  text-decoration: none;
+  color: #6610f2;
+  background-color: transparent;
+}
+.categories li a span {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #ccc;
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+}
+
+.sidebarBox {
+  margin-bottom: 4em;
+  font-size: 15px;
+  float: left;
+  background: #fff;
+  margin-left: 40px;
+}
+.sidebarBox .headingg {
+  font-size: 18px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e6e6e6;
+  text-align: left;
+}
+.headingg {
+  color: #000;
+}
+.tags li {
+  padding: 0;
+  margin: 0 4px 4px 0;
+  display: inline-block;
+}
+.tags {
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+}
+.tags li a {
+  float: left;
+  display: block;
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: gray;
+  background: #f2f2f2;
+}
+.iblogCategories {
+  font-size: 15px;
+  text-align: left;
+  background-color: #6610f2;
+  color: white;
+  border: solid 1px #6610f2;
+  border-radius: 2.5px;
+  display: inline-block;
+}
+.textData {
+  padding-right: 20px;
+  padding-left: 10px;
+  font-size: 18px !important;
+  font-family: Inconsolata !important;
+  font-weight: 450;
+  color: #63696e;
+  text-align: justify;
+}
+.textData p {
+  padding-right: 20px;
+  padding-left: 10px;
+  font-size: 18px !important;
+  font-family: Inconsolata !important;
+  color: #63696e;
+  font-weight: 450;
+  text-align: justify;
+}
+.textData li {
+  padding-right: 20px;
+  padding-left: 10px;
+  font-size: 18px !important;
+  font-family: Inconsolata !important;
+  font-weight: 450;
+  color: #63696e;
+  text-align: justify;
+}
+@media (max-width: 1000px) {
+  .wrapper {
+    flex-direction: column;
+  }
+  .left {
+    width: 100%;
+  }
+  .right {
+    width: 100%;
+  }
+  .heading {
+    padding: 0;
+  }
+}
+
+@media (min-width: 1141px) {
+  .banner {
+    width: 60vw;
+    height: 100%;
+  }
+}
+@media (min-width: 900px) and (max-width: 1140px) {
+  .banner {
+    width: 60vw;
+    height: 100%;
+  }
+  .right__info__outer {
+    margin: 10px 0px;
+  }
+}
+@media (min-width: 678px) and (max-width: 899px) {
+  .banner {
+    width: 60vw;
+    height: 100%;
+  }
+  .right__info__outer {
+    margin: 10px 0px;
+  }
+}
+.banner {
+  width: 60vw;
+  height: 100%;
+}
+.BlogTitle {
+  color: black;
+  font-family: "Josefin Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  padding-left: 20px;
+}
+
+/* new css2 */
+.card__picture__img {
+  max-width: 100%;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media (max-width: 600px) {
+  .banner {
+    width: 80vw;
+    height: 100%;
+  }
+  .right__info__outer {
+    margin: 10px 0px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 767px) {
+  .banner {
+    width: 80vw;
+    height: 100%;
+  }
+  .right__info__outer {
+    margin: 10px 0px;
+  }
+}
+@media (min-width: 768px) and (max-width: 900px) {
+  .banner {
+    width: 80vw;
+    height: 100%;
+  }
+  .right__info__outer {
+    margin: 10px 0px;
+  }
+}
+
+@media (min-width: 901px) {
+  .banner {
+    width: 50vw;
+    height: 100%;
+  }
+  .right__info__outer {
+    margin: 10px 0px;
+  }
+}
+@media (min-width: 1000px) {
+  .BlogTitle {
+    padding-left: 50px;
+  }
+}
+
+.timeStamp {
+  font-size: 20px;
+  font-size: 18px !important;
+  font-family: Inconsolata !important;
+  font-weight: 450;
+  color: #63696e;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+@media (min-width: 1000px) {
+  .timeStamp {
+    padding-left: 50px;
+  }
+}
+
+.banner123 {
+  height: auto;
+  height: 70vh;
+}

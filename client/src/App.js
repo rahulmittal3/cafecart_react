@@ -24,6 +24,8 @@ import ParentVariety from "./Pages/Products/ParentVariety.js";
 import Header from "./Components/Header/Header.js";
 import Footer from "./Components/Footer/Footer.js";
 import Variety from "./Pages/Products/Variety.js";
+import NewBlogs from "./Pages/Blogs/newBlogs.js";
+import IndividualBlog from "./Pages/Blogs/IndividualBlog.js";
 function App() {
   return (
     <>
@@ -41,6 +43,8 @@ function App() {
           element={<CategorySlug />}
         />
         <Route path="/blog" exact element={<Blogs />} />
+        <Route path="/new-blogs" exact element={<NewBlogs />} />
+        <Route path="/new-blogs/:blogId" exact element={<IndividualBlog />} />
         <Route path="/pages/terms-of-use" exact element={<TermsOfUse />} />
         <Route path="/pages/privacy-policy" exact element={<PrivacyPolicy />} />
         <Route

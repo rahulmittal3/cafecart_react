@@ -8,5 +8,15 @@ const allBlogs = async (req, res) => {
     res.status(400).json(error);
   }
 };
-const object = { allBlogs };
+
+const getParticularBlog = async (req, res) => {
+  try {
+    const result = await blog.findOne({ _id: req.params.blogId });
+    return res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json(error);
+  }
+};
+const object = { allBlogs, getParticularBlog };
 module.exports = object;
