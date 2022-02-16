@@ -9,6 +9,11 @@ import { toast } from "react-toastify";
 import { slide as Menu } from "react-burger-menu";
 import fancy from "./Header.module.css";
 import Drawerr from "./Drawerr.js";
+import Drawerrr from "../Cart/Drawer.js";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+// import Badge from "@mui/material/Badge";
+import { Badge } from "antd";
 const Header = () => {
   const [headers, setHeaders] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -48,9 +53,14 @@ const Header = () => {
       border: "none",
     },
   };
-  const { user } = useSelector((state) => ({ ...state }));
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  let local = [];
+  if (window !== "undefined" && window.localStorage.getItem("cart")) {
+    local = JSON.parse(window.localStorage.getItem("cart"));
+  }
+  const { user, cart, wishlist } = useSelector((state) => ({ ...state }));
+  const navigate = useNavigate();
+
   const logoutHandler = () => {
     //clear the redux and localstorage...state
     if (window !== "undefined" && window.localStorage.getItem("user")) {
@@ -65,6 +75,7 @@ const Header = () => {
     toast.success("Logged Out Successfully");
     window.location.reload("/");
   };
+  const [show, setShow] = useState(false);
   return (
     <>
       <Modal
@@ -76,8 +87,10 @@ const Header = () => {
       >
         <SignUpModal />
       </Modal>
+
       <header style={{ position: "relative", height: 70 }}>
         <div className="container-menu-desktop">
+          <Drawerrr show={show} setShow={setShow} />
           <div className="wrap-menu-desktop">
             <nav
               className="limiter-menu-desktop "
@@ -305,18 +318,42 @@ const Header = () => {
                     </div>
                   </li>
                 )}
-                <div
+                {/* <div
                   className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
                   data-notify
                   id="js-cart"
                 >
-                  <i className="zmdi zmdi-shopping-cart" />
+                  <ShoppingCartIcon />
+                </div> */}
+                <div className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                  <Badge
+                    count={local?.length}
+                    color="warning"
+                    showZero={false}
+                    onClick={(e) => setShow(!show)}
+                  >
+                    <ShoppingCartIcon
+                      sx={{ fontSize: 28 }}
+                      // onClick={(e) => setCartd(!cartd)}
+                    />
+                  </Badge>
                 </div>
+
                 <div
                   className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11"
                   // onclick="postdata()"
                 >
-                  <i className="zmdi zmdi-favorite-outline p-t-7" />
+                  <Badge
+                    count={wishlist?.length}
+                    color="warning"
+                    showZero={false}
+                  >
+                    <FavoriteBorderIcon
+                      sx={{ fontSize: 28 }}
+                      onClick={(e) => navigate("/wishlist")}
+                      // onClick={(e) => setCartd(!cartd)}
+                    />
+                  </Badge>
                   <div className="point-badge p-t-7" id="dot" />
                 </div>
                 <form id="wishform" action="/wishlist" method="POST">
@@ -361,6 +398,7 @@ const Header = () => {
               logoutHandler={logoutHandler}
               openModal={openModal}
             />
+            {/* //<Drawer /> */}
             <div className="logo-mobile">
               {/* <a href="index.html"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a> */}
               <Link to="/">
@@ -380,185 +418,46 @@ const Header = () => {
               </Link>
             </div>
             <div className="wrap-icon-header flex-w flex-r-m m-r-15">
-              <div
+              {/* <div
                 className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
                 data-notify
                 id="js-cart1"
               >
                 <i className="zmdi zmdi-shopping-cart" />
+              </div> */}
+              <div className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                <Badge
+                  count={local?.length}
+                  color="warning"
+                  showZero={false}
+                  onClick={(e) => setShow(!show)}
+                >
+                  <ShoppingCartIcon
+                    sx={{ fontSize: 28 }}
+                    // onClick={(e) => setCartd(!cartd)}
+                  />
+                </Badge>
               </div>
               <div
                 className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11"
                 // onclick="postdata()"
               >
-                <i className="zmdi zmdi-favorite-outline p-t-7" />
+                <Badge
+                  count={wishlist?.length}
+                  color="warning"
+                  showZero={false}
+                >
+                  <FavoriteBorderIcon
+                    sx={{ fontSize: 28 }}
+                    onClick={(e) => navigate("/wishlist")}
+                    // onClick={(e) => setCartd(!cartd)}
+                  />
+                </Badge>
                 <div className="point-badge p-t-7" id="dot1" />
               </div>
             </div>
           </div>
         </div>
-        {/* Mobile Menu Here */}
-
-        {/* <div className="mobile-menu js-cart">
-          <div className="s-full js-hide-cart"></div>
-
-          <div className="menu-lists flex-col-l">
-            <div
-              className="header-title"
-              style={{ background: "#eeeeee63", height: 100 }}
-            >
-              <div className="header-user icon-header-item cl2 hov-cl1 trans-04 p-l-12 p-r-11">
-                <i className="zmdi zmdi-account-circle p-t-30"></i>
-              </div>
-
-              {user && (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    margin: "15px auto",
-                  }}
-                >
-                  <span
-                    className="mtext-102 cl2"
-                    style={{ textAlign: "left !important" }}
-                  >
-                    Welcome,
-                  </span>
-                  <span
-                    className="mtext-102 cl2"
-                    style={{ textAlign: "left !important" }}
-                  >
-                    {user.name}
-                  </span>
-                </div>
-              )}
-              {!user && (
-                <span className="mtext-103 cl2 p-l-25">Login / Register</span>
-              )}
-              <div className="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart cross ">
-                <i
-                  className="zmdi zmdi-close"
-                  onClick={(e) =>
-                    document
-                      .querySelector(".mobile-menu")
-                      .classList.remove("show-header-cart")
-                  }
-                />
-              </div>
-            </div>
-            <aside className="sidebar-left-collapse">
-              <div className="sidebar-links navelement">
-                {user && <Link to="/user/profile">View Profile</Link>}
-                {headers &&
-                  headers.map((curr, index) => {
-                    return (
-                      <div className={`links navelement`} key={index}>
-                        <div style={{ display: "flex", flexDirection: "row" }}>
-                          <span>
-                            <a href="/">{curr.title}</a>
-                          </span>
-                          <span className="icon-dropdown" data-toggle-menu-mb>
-                            <i
-                              className="fa fa-angle-right"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </div>
-                        <ul className="sub-links">
-                          {curr.Subcategories &&
-                            curr.Subcategories.map((second, index) => {
-                              return (
-                                <li className="navelement" key={index}>
-                                  <div className="link">
-                                    <div>
-                                      <span>
-                                        <a href="/">{second.title}</a>
-                                      </span>
-                                      <span
-                                        className="icon-dropdown"
-                                        data-toggle-menu-mb
-                                      >
-                                        <i
-                                          className="fa fa-angle-right"
-                                          aria-hidden="true"
-                                        />
-                                      </span>
-                                    </div>
-                                    <ul className="sub-links">
-                                      {second.Subcategories &&
-                                        second.Subcategories.map(
-                                          (last, index) => {
-                                            return (
-                                              <li
-                                                className="navelement"
-                                                key={index}
-                                              >
-                                                <div className="link">
-                                                  <div>
-                                                    <span>
-                                                      <a href="/">
-                                                        {last.title}
-                                                      </a>
-                                                    </span>
-                                                    <span
-                                                      className="icon-dropdown"
-                                                      data-toggle-menu-mb
-                                                    >
-                                                      <i
-                                                        className="fa fa-angle-right"
-                                                        aria-hidden="true"
-                                                      />
-                                                    </span>
-                                                  </div>
-                                                  <ul className="sub-linkss ">
-                                                    {last.Child_Subcategory &&
-                                                      last.Child_Subcategory.map(
-                                                        (finish, index) => {
-                                                          return (
-                                                            <li key={index}>
-                                                              <Link
-                                                                to={`/products/category/${curr.slug}/${second.slug}/${last.slug}`}
-                                                              >
-                                                                {last.title}
-                                                              </Link>
-                                                            </li>
-                                                          );
-                                                        }
-                                                      )}
-                                                  </ul>
-                                                </div>
-                                              </li>
-                                            );
-                                          }
-                                        )}
-                                    </ul>
-                                  </div>
-                                </li>
-                              );
-                            })}
-                        </ul>
-                      </div>
-                    );
-                  })}
-                <div className="links navelement">
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <span>
-                      <Link to="/blog">Blogs</Link>
-                    </span>
-                  </div>
-                </div>
-                <div className="links navelement">
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <span>
-                      <Link to="/pages/about-us">About Us</Link>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </aside>
-          </div>
-        </div> */}
       </header>
       <div>
         <div className="wrap-header-cart js-panel-cart">

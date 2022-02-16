@@ -34,7 +34,7 @@ const LoginForm = () => {
           window.location.reload("/home");
         })
         .catch((err) => {
-          toast.error(err.response.data);
+          toast.error(err);
         });
     }
     //thisProfileObj gives us the google user and its login credentials....

@@ -1,15 +1,32 @@
 import React from "react";
 import styles from "./SingleProduct.module.css";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { singleProduct } from "../../Axios/Products.js";
 import { Carousel } from "react-responsive-carousel";
 import ModalImage from "react-modal-image";
-
+import { toast } from "react-toastify";
+import axios from "axios";
 import { Tabs } from "antd";
 
 const { TabPane } = Tabs;
 const SingleProduct = () => {
+  const dispatch = useDispatch();
+  let WL = [];
+  React.useEffect(() => {
+    if (window !== "undefined" && window.localStorage.getItem("wishlist")) {
+      WL = JSON.parse(window.localStorage.getItem("wishlist"));
+    }
+    dispatch({
+      type: "WISHLIST",
+      payload: WL,
+    });
+  }, []);
+
+  console.log(WL);
+
   const [value, setValue] = React.useState("one");
+  const [addedtoCart, setAddedtoCart] = React.useState(false);
   const [p, setP] = React.useState(null);
   const params = useParams();
   const getProduct = () => {
@@ -24,6 +41,88 @@ const SingleProduct = () => {
 
   const create = (hello) => {
     return { __html: hello };
+  };
+  const addtocart = (p) => {
+    //get the cart from the localStorage................................................................
+    let cartFromLS = [];
+    if (window !== "undefined" && window.localStorage.getItem("cart")) {
+      cartFromLS = JSON.parse(window.localStorage.getItem("cart"));
+    }
+    //1) we have the cart item now, find and update the cart with this item
+    const newItem = {
+      productId: p?._id,
+      quantity: 1,
+    };
+    const found = cartFromLS.find(
+      (element) => element.productId === newItem.productId
+    );
+    //what if the item is already added to cart ? , we need to update again @ any cost , for avoiding redundancy
+    if (found) {
+      //update it
+      cartFromLS[found] = newItem;
+    } else {
+      //just push the item there and update
+      cartFromLS.push(newItem);
+    }
+    window.localStorage.setItem("cart", JSON.stringify(cartFromLS));
+    //also, just push it to Redux :
+    dispatch({
+      type: "CART",
+      payload: cartFromLS,
+    });
+    setAddedtoCart(true);
+    toast.success(`${p?.title} has been added to Cart! Happy Shopping! 🛍️`);
+  };
+  const [pin, setPin] = React.useState("");
+  const [pinMsg, setPinMsg] = React.useState(null);
+  const handlePin = async (e) => {
+    e.preventDefault();
+    console.log(pin);
+    try {
+      const result = await axios({
+        method: "GET",
+        url: `https://api.postalpincode.in/pincode/${pin}`,
+      });
+      console.log(result.data[0].PostOffice);
+      if (result.data[0].PostOffice) {
+        //means avalid post office here, gte the 1st item here
+        toast.success(
+          `Shipping Available at ${result.data[0].PostOffice[0].Name},${result.data[0].PostOffice[0].District}! There will be a delay in shipping of your order owing to the COVID situation.`
+        );
+        setPinMsg(
+          `Shipping Available at ${result.data[0].PostOffice[0].Name},${result.data[0].PostOffice[0].District}! There will be a delay in shipping of your order owing to the COVID situation.`
+        );
+        setPin("");
+      } else {
+        //means valid post office not present
+        toast.error("Item unavailable for delivery at your doorstep!");
+        setPin("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //add to wishlist
+  const addToWishlist = (e) => {
+    let WL = [];
+    if (window !== "undefined" && window.localStorage.getItem("wishlist")) {
+      WL = JSON.parse(window.localStorage.getItem("wishlist"));
+    }
+    const indexIfAlreadyExists = WL.indexOf(e);
+    if (indexIfAlreadyExists !== -1) {
+      //not found, then  add to wishlist
+      toast.warning("Item already added in Wishlist! 😀");
+      return;
+    }
+    WL.push(e);
+    window.localStorage.setItem("wishlist", JSON.stringify(WL));
+    dispatch({
+      type: "WISHLIST",
+      payload: WL,
+    });
+    toast.success(
+      "Item Added to Wishlist! Checkout Now to Complete your Shopping! 🛍️"
+    );
   };
   return (
     <React.Fragment>
@@ -177,6 +276,7 @@ const SingleProduct = () => {
                       {p?.title} &emsp;
                       <i
                         className="fa fa-heart-o toggle"
+                        onClick={(e) => addToWishlist(p?._id)}
                         //onclick="addwishlist(`<%=product._id%>`)"
                       ></i>
                     </h1>
@@ -331,6 +431,7 @@ const SingleProduct = () => {
                         <p
                           id="ContentPlaceHolder1_adCart"
                           className="ps-btn "
+                          onClick={() => addtocart(p)}
                           //onclick="submitmyform()"
                           style={{
                             backgroundColor: "rgb(59, 17, 17)",
@@ -341,7 +442,7 @@ const SingleProduct = () => {
                             marginTop: "5px",
                           }}
                         >
-                          Add to cart
+                          {addedtoCart ? "Added to Cart " : "Add to Cart"}
                         </p>
 
                         <p
@@ -377,6 +478,10 @@ const SingleProduct = () => {
                                 id="zip"
                                 className="form-control mainbtn"
                                 placeholder="Enter Pincode For Delivery"
+                                value={pin}
+                                onChange={(e) => setPin(e.target.value)}
+                                minLength="6"
+                                maxLength="6"
                               />
                             </td>
                             <td style={{ width: "40%" }}>
@@ -389,6 +494,8 @@ const SingleProduct = () => {
                                   backgroundColor: "rgb(177 174 168)",
                                   textAlign: "center",
                                 }}
+                                onClick={handlePin}
+                                disabled={pin.length !== 6}
                               />
                             </td>
                           </tr>

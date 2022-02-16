@@ -30,6 +30,9 @@ mongoose
 const PRODUCTS = require("./Routes/Products.js");
 const AUTH = require("./Routes/Authentication.js");
 const BLOG = require("./Routes/Blogs.js");
+const CART = require("./Routes/Cart.js");
+const COUPON = require("./Routes/Coupon.js");
+const PAYMENT = require("./Routes/Payment.js");
 app.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -46,4 +49,7 @@ app.get(
 app.use("/api/v1", PRODUCTS);
 app.use("/api/v1", AUTH);
 app.use("/api/v1", BLOG);
+app.use("/api/v1", CART);
+app.use("/api/v1", COUPON);
+app.use("/api/v1", PAYMENT);
 module.exports = app;

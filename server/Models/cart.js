@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const cartSchema = new mongoose.Schema({
   items: [
     {
       productId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: "Product",
       },
       qty: {
         type: Number,
@@ -56,7 +56,7 @@ const cartSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: false,
   },
   createdAt: {
@@ -65,4 +65,4 @@ const cartSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Cart', cartSchema);
+module.exports = mongoose.model("NewCart", cartSchema);

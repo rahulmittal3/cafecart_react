@@ -1,0 +1,31 @@
+.couponInput {
+  font-size: 14px !important;
+  width: 220px !important;
+  padding: 7px !important;
+  margin-right: 5px !important;
+  vertical-align: top !important;
+  color: #777 !important;
+  border: 1px solid #232323 !important;
+}
+
+.couponBtn {
+  padding: 10px 8px !important;
+  font-size: 12px !important;
+  background: #ffc21d !important;
+  color: #232323 !important;
+  letter-spacing: 2px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+}
+.finalBtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.alert {
+  background-color: rgb(32, 179, 32);
+  color: white !important;
+  padding: 5px;
+  border: 1px solid rgb(32, 179, 32);
+  border-radius: 5px;
+}

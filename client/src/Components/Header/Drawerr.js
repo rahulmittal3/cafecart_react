@@ -35,7 +35,7 @@ const Drawerr = ({
         width={304}
         title={
           user ? (
-            `Welcome Back, ${user.name.split(" ")[0]}`
+            `Welcome Back, ${user?.name?.split(" ")[0]}`
           ) : (
             <h4 onClick={openModal}>LOGIN / SIGNUP</h4>
           )
@@ -63,18 +63,18 @@ const Drawerr = ({
           {headers &&
             headers.map((curr, index) => {
               return (
-                <SubMenu key={curr.slug} title={curr.title}>
+                <SubMenu key={index} title={curr.title}>
                   {curr.Subcategories &&
                     curr.Subcategories.map((second, index) => {
                       return (
                         <SubMenu
-                          key={second.slug}
+                          key={index}
                           title={second.Parent_Subcategory.title}
                         >
                           {second.Child_Subcategory.length > 0 &&
                             second.Child_Subcategory.map((third, index) => {
                               return (
-                                <Menu.Item key={third.slug}>
+                                <Menu.Item key={index}>
                                   <Link
                                     to={`/products/category/${curr.slug}/${second.Parent_Subcategory.slug}/${third.slug}`}
                                   >

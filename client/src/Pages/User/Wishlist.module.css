@@ -1,0 +1,13 @@
+.head {
+  padding-left: 30px;
+  margin-top: 40px;
+}
+.items {
+  margin-left: 30px;
+  margin-right: 30px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}

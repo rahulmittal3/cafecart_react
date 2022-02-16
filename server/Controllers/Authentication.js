@@ -95,6 +95,7 @@ const currentUser = async (req, res) => {
       jwt: req.headers.authorization.split(" ")[1],
       contactVerified: user1.contactVerified,
       name: user1.username,
+      email: user1.email,
     });
   } catch (error) {
     return res.status(500).json(error);
@@ -139,6 +140,7 @@ const passwordless = async (req, res) => {
       jwt: tokenCreated,
       contactVerified: result.contactVerified,
       name: result.username,
+      email: result.email,
     });
   } catch (error) {
     console.log(error);
