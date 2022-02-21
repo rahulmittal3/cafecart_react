@@ -1,0 +1,35 @@
+.wrapper {
+  border: solid 2px blanchedalmond;
+  width: 62.5%;
+  margin: 20px 10px;
+  padding: 20px;
+  border-radius: 10px;
+}
+.wrapper:hover {
+  background-color: blanchedalmond;
+  cursor: pointer;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+}
+.header_preview {
+  margin-left: 15px;
+}
+.orderItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.productImage {
+  height: 75px;
+  width: auto;
+  margin: 10px;
+  background-color: blanchedalmond;
+}

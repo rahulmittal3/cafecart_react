@@ -33,6 +33,8 @@ const BLOG = require("./Routes/Blogs.js");
 const CART = require("./Routes/Cart.js");
 const COUPON = require("./Routes/Coupon.js");
 const PAYMENT = require("./Routes/Payment.js");
+const ORDER = require("./Routes/Order.js");
+const MAIL = require("./Routes/Mailer.js");
 app.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -52,4 +54,6 @@ app.use("/api/v1", BLOG);
 app.use("/api/v1", CART);
 app.use("/api/v1", COUPON);
 app.use("/api/v1", PAYMENT);
+app.use("/api/v1", ORDER);
+app.use("/api/v1", MAIL);
 module.exports = app;

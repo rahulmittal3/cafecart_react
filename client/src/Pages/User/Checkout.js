@@ -10,6 +10,7 @@ import { getFromCart } from "../../Axios/Cart.js";
 import { checkCoupon } from "../../Axios/Coupon.js";
 import { createPayment, createPaymentPrepaid } from "../../Axios/Payment.js";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 const Checkout = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
@@ -90,39 +91,30 @@ const Checkout = () => {
   };
   const handleCheckout = () => {
     //1) calling backend function for payment
-    if (method === "COD") {
-      createPayment(data)
-        .then((res) => {
-          toast.success(
-            "Order has been placed succesfully! An email has been succesfully sent to your email id"
-          );
-          window.localStorage.removeItem("cart");
-          dispatch({
-            type: "CART",
-            payload: [],
-          });
-          navigate("/user/profile");
-        })
-        .catch((err) => {
-          toast.error(
-            "Order could not be placed! Complete the Checkout Process Again to Confirm your Order"
-          );
-          navigate("/home");
-        });
-    } else {
-      createPaymentPrepaid(data)
-        .then((res) =>
-          fetch("https://secure.payu.in/_payment", {
-            method: "POST",
-            form: res.data,
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          })
-        )
-        .catch((err) => console.log(err));
-    }
+    // if (method === "COD") {
+    //   createPayment(data)
+    //     .then((res) => {
+    //       toast.success(
+    //         "Order has been placed succesfully! An email has been succesfully sent to your email id"
+    //       );
+    //       window.localStorage.removeItem("cart");
+    //       dispatch({
+    //         type: "CART",
+    //         payload: [],
+    //       });
+    //       navigate("/user/profile");
+    //     })
+    //     .catch((err) => {
+    //       toast.error(
+    //         "Order could not be placed! Complete the Checkout Process Again to Confirm your Order"
+    //       );
+    //       navigate("/home");
+    //     });
+    // } else {
+    //   createPaymentPrepaid(data)
+    //     .then((res) => bolt.launch(res.data))
+    //     .catch((err) => console.log(err));
+    // }
   };
   return (
     <React.Fragment>
@@ -132,6 +124,17 @@ const Checkout = () => {
       </center>
       {cart && (
         <>
+          <Helmet>
+            <meta charSet="utf-8" />
+            <title>My Title</title>
+            <script
+              id="bolt"
+              src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js"
+              bolt-
+              color="<color-code>"
+              bolt-logo="<image path>"
+            ></script>
+          </Helmet>
           <div className={styles.page}>
             <div className={styles.left}>
               <div className={styles.email}>
@@ -333,7 +336,76 @@ const Checkout = () => {
                     position="right"
                   >
                     <button
-                      onClick={handleCheckout}
+                      onClick={(e) => {
+                        if (method === "COD") {
+                          createPayment(data)
+                            .then((res) => {
+                              toast.success(
+                                "Order has been placed succesfully! An email has been succesfully sent to your email id"
+                              );
+                              window.localStorage.removeItem("cart");
+                              dispatch({
+                                type: "CART",
+                                payload: [],
+                              });
+                              navigate("/user/profile");
+                            })
+                            .catch((err) => {
+                              toast.error(
+                                "Order could not be placed! Complete the Checkout Process Again to Confirm your Order"
+                              );
+                              navigate("/home");
+                            });
+                        } else {
+                          console.log("PREPAID");
+                          console.log(data);
+                          createPaymentPrepaid(data)
+                            .then(async (res) => {
+                              console.log(res.data);
+                              // await axios(
+                              //   {
+                              //     method: "POST",
+                              //     headers: {
+                              //       Accept: "application/json",
+                              //       "Content-Type":	"multipart/form-data"
+                              //     },
+                              //     url: "http://secure.payu.in/_payment", //Production  url
+                              //     form: res.data,
+                              //   },
+                              fetch("https://secure.payu.in/_payment", {
+                                method: "POST",
+                                headers: {
+                                  Accept: "application/json",
+                                  "Content-Type": "application/json",
+                                },
+                                form: res.data,
+                              })
+                                .then((res) => console.log(res))
+                                .catch((err) => console.log(err));
+
+                              // function (error, httpRes, body) {
+                              //   if (error)
+                              //     res.send({
+                              //       status: false,
+                              //       message: error.toString(),
+                              //     });
+                              //   if (httpRes.statusCode === 200) {
+                              //     ////console.log("hi bae");
+                              //     res.send(body);
+                              //   } else if (
+                              //     httpRes.statusCode >= 300 &&
+                              //     httpRes.statusCode <= 400
+                              //   ) {
+                              //     res.redirect(
+                              //       httpRes.headers.location.toString()
+                              //     );
+                              //   }
+                              // }
+                              // );
+                            })
+                            .catch((err) => console.log(err));
+                        }
+                      }}
                       className={styles.finalPress}
                       disabled={!method}
                     >

@@ -8,6 +8,7 @@ const Product = require("../Models/product.js");
 const NewOrder = require("../Models/newOrder.js");
 const uniqid = require("uniqid");
 const generateUniqueId = require("generate-unique-id");
+var bodyParser = require("body-parser");
 async function genTxnid() {
   const d = new Date();
   let gentxnid = cryptoJs.SHA256(
@@ -240,6 +241,7 @@ const finaliseCOD = async (req, res) => {
   // 1) CREATE AN ORDER FOR THE USER AND
 };
 //for prepaid orders, we need to
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const createPaymentPrepaid = async (req, res) => {
   const findUser = await User.findOne({ email: req.body.email });
   const cart = await NewCart.findOne({ user: findUser._id });
@@ -280,7 +282,7 @@ const createPaymentPrepaid = async (req, res) => {
       key: process.env.PAYU_MERCHANT_KEY,
       txnid: txnId,
       amount: cart.finalAmount,
-      productInfo: productInfo,
+      productinfo: productInfo,
       firstname: req.body.fName,
       email: req.body.email,
       phone: req.body.contact,

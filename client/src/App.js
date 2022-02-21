@@ -24,6 +24,9 @@ import ParentVariety from "./Pages/Products/ParentVariety.js";
 import Cart from "./Pages/User/Cart.js";
 import Checkout from "./Pages/User/Checkout.js";
 import Wishlist from "./Pages/User/Wishlist.js";
+import Orders from "./Pages/User/Orders.js";
+import EditProfile from "./Pages/User/EditProfile.js";
+import SingleOrder from "./Pages/User/SingleOrder.js";
 //header and footer
 import Header from "./Components/Header/Header.js";
 import Footer from "./Components/Footer/Footer.js";
@@ -130,6 +133,33 @@ function App() {
           element={
             <ProtectRoute>
               <Checkout />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/user/orders"
+          exact
+          element={
+            <ProtectRoute>
+              <Orders />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/user/edit-profile"
+          exact
+          element={
+            <ProtectRoute>
+              <EditProfile />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/user/order/:orderId"
+          exact
+          element={
+            <ProtectRoute>
+              <SingleOrder />
             </ProtectRoute>
           }
         />
