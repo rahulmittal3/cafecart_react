@@ -1,8 +1,9 @@
 import axios from "axios";
-const allBlogs = async () => {
+const allBlogs = async (page) => {
   const result = await axios({
     method: "GET",
     url: `${process.env.REACT_APP_BACKEND_URL}/all-blogs`,
+    params: { page: page },
   });
   return result;
 };

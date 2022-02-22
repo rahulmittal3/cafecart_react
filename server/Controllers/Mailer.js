@@ -21,7 +21,7 @@ const sendAboutUsMail = async (req, res) => {
     res
       .status(201)
       .json(
-        "An Email has been sent to Cafecart! The Team will Reach out to you soon!"
+        "We have successfully received your message! After reviewing it, our team will get back to you"
       );
   } catch (error) {
     res.status(400).json("Email could not be sent. Please Try Again");

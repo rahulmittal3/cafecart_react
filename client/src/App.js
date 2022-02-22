@@ -33,6 +33,7 @@ import Footer from "./Components/Footer/Footer.js";
 import Variety from "./Pages/Products/Variety.js";
 import NewBlogs from "./Pages/Blogs/newBlogs.js";
 import IndividualBlog from "./Pages/Blogs/IndividualBlog.js";
+import SingleBlog from "./Pages/SingleBlog.js";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -79,7 +80,7 @@ function App() {
         />
         <Route path="/blog" exact element={<Blogs />} />
         <Route path="/new-blogs" exact element={<NewBlogs />} />
-        <Route path="/new-blogs/:blogId" exact element={<IndividualBlog />} />
+        <Route path="/blog/:blogId" exact element={<SingleBlog />} />
         <Route path="/pages/terms-of-use" exact element={<TermsOfUse />} />
         <Route path="/pages/privacy-policy" exact element={<PrivacyPolicy />} />
         <Route

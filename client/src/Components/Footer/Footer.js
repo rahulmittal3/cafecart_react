@@ -8,39 +8,41 @@ const Footer = () => {
       <div className="container">
         <div className="row">
           <div className="col-sm-6 col-lg-3 p-t-20">
-            <h4 className="stext-301 cl0 p-b-10">Categories</h4>
+            <h4 className="stext-301 cl0 p-b-10 m-l-40">Categories</h4>
             <ul>
               {/* <li class="p-b-10">
       <a href="#" class="stext-107 cl7 hov-cl1 trans-04">  </a>
     </li> */}
-              <li className="p-b-10">
-                <Link
-                  to="/products/category/coffee"
-                  className="stext-107 cl7 hov-cl1 trans-04"
-                >
-                  Coffees
-                </Link>
-              </li>
-              <li className="p-b-10">
-                <Link
-                  to="/products/category/pods"
-                  className="stext-107 cl7 hov-cl1 trans-04"
-                >
-                  Pods
-                </Link>
-              </li>
-              <li className="p-b-10">
-                <Link
-                  to="/products/category/machine"
-                  className="stext-107 cl7 hov-cl1 trans-04"
-                >
-                  Coffee Machines
-                </Link>
-              </li>
+              <center>
+                <li className="p-b-10">
+                  <Link
+                    to="/products/category/coffee"
+                    className="stext-107 cl7 hov-cl1 trans-04"
+                  >
+                    Coffees
+                  </Link>
+                </li>
+                <li className="p-b-10">
+                  <Link
+                    to="/products/category/pods"
+                    className="stext-107 cl7 hov-cl1 trans-04"
+                  >
+                    Pods
+                  </Link>
+                </li>
+                <li className="p-b-10">
+                  <Link
+                    to="/products/category/machine"
+                    className="stext-107 cl7 hov-cl1 trans-04"
+                  >
+                    Coffee Machines
+                  </Link>
+                </li>
+              </center>
             </ul>
           </div>
           <div className="col-sm-6 col-lg-3 p-t-20">
-            <h4 className="stext-301 cl0 p-b-10">Help</h4>
+            <h4 className="stext-301 cl0 p-b-10  m-l-40">Help</h4>
             <ul>
               <li className="p-b-10">
                 <Link
@@ -100,7 +102,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-sm-6 col-lg-3 p-t-20">
-            <h4 className="stext-301 cl0 p-b-10">Help</h4>
+            <h4 className="stext-301 cl0 p-b-10  m-l-40">Help</h4>
             <ul>
               <li className="p-b-10">
                 <Link

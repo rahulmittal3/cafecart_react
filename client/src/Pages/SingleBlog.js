@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { allBlogs } from "../Axios/Blog.js";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { allBlogs, getParticularBlog } from "../Axios/Blog.js";
 import BlogsIndividual from "../Components/Blogs/BlogsIndividual.js";
 import Slider from "react-slick";
 import styles from "./Blogs.module.css";
@@ -11,125 +11,61 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import { Pagination } from "antd";
+
 //for single one
 import moment from "moment";
-import { style } from "@mui/system";
-const Blogs = () => {
+
+const SingleBlog = () => {
+  const params = useParams();
   const navigate = useNavigate();
   const [blogs, setBlogs] = React.useState(null);
   const [page, setPage] = React.useState(1);
   const [total, setTotal] = React.useState(0);
   const [search, setSearch] = React.useState("");
-  const getBlogs = (page) => {
-    allBlogs(page)
+  const [pblog, setPblog] = React.useState(null);
+  const getBlogs = () => {
+    getParticularBlog(params.blogId)
       .then((res) => {
-        setBlogs(res.data.blogs);
-        setTotal(res.data.total);
+        setPblog(res.data);
       })
       .catch((err) => console.log(err));
   };
   React.useEffect(() => {
-    getBlogs(page);
-  }, [page]);
-  const handlePageChange = (pg) => {
-    setPage(pg);
-  };
+    getBlogs();
+  }, []);
+
   var settings = {
     infinite: true,
     // speed: 100,
     // slidesToShow: 1,
     slidesToScroll: 1,
-    accessibility: true,
-    arrows: true,
-    dots: true,
+    // accessibility: true,
+    // arrows: true,
+    // dots: true,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 2000,
     fade: true,
+  };
+  const createMarkup = () => {
+    return { __html: pblog?.description };
   };
   return (
     <>
       <div className={styles.blogOuter}>
-        <div className={styles.slick}>
-          <Slider {...settings}>
-            {blogs &&
-              blogs.length > 0 &&
-              blogs.map((curr, index) => {
-                return (
-                  <div className={styles.container} key={index}>
-                    <img
-                      src={
-                        "https://res.cloudinary.com/techbuy/image/upload/v1645478597/hey_iv29vv.jpg"
-                      }
-                      alt="slick"
-                      //style={{ width: "80vw", height: "100%" }}
-                      //
-                      className={styles.banner}
-                    />
-                    <div className={styles.txtImg}>
-                      {curr?.title} <br />
-                      <div className={styles.txtImg2}>
-                        {curr?.preview.substring(0, 40)}...
-                      </div>
-                      <button
-                        className={styles.magic}
-                        onClick={(e) => navigate(`/blog/${curr._id}`)}
-                      >
-                        Read More
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-          </Slider>
-        </div>
-        <div className={styles.heading1}>Coffee Talk</div>
-        <div className={styles.divider}>
-          <div className={styles.blogs}>
-            {blogs &&
-              blogs.length > 0 &&
-              blogs.map((curr, index) => {
-                return (
-                  curr.title.includes(search) && (
-                    <div className={styles.blogsList} key={index}>
-                      <div className={styles.imgBlog}>
-                        <img
-                          src={curr.imagePath}
-                          className={styles.singleImg}
-                          alt="blog"
-                        />
-                      </div>
-                      <div className={styles.singleDate}>
-                        {moment(curr.createdAt).format("MMM Do YY")}
-                      </div>
-                      <div className={styles.singleTitle}>{curr.title}</div>
-                      <div className={styles.singleDescription}>
-                        {curr.preview}
-                      </div>
-                      <div
-                        className={styles.singleButton}
-                        onClick={(e) => navigate(`/blog/${curr._id}`)}
-                      >
-                        <button className={styles.singleBtn}>Read More</button>
-                      </div>
-                    </div>
-                  )
-                );
-              })}
-
-            <div style={{ width: "100%" }}>
-              {" "}
-              <div>
-                <center>
-                  <Pagination
-                    defaultCurrent={1}
-                    // defaultPageSize={2}
-                    current={page}
-                    total={total * 3}
-                    onChange={handlePageChange}
-                  />
-                </center>
-              </div>
+        <div className={`${styles.divider} ${styles.singleDivider}`}>
+          <div className={styles.left}>
+            <div className={styles.left_head}>{pblog?.title}</div>
+            <div>
+              <img
+                src={pblog?.imagePath}
+                alt="je"
+                className={styles.left_img}
+              />
             </div>
+            <div
+              className={styles.left_desc}
+              dangerouslySetInnerHTML={createMarkup()}
+            ></div>
           </div>
 
           <div className={styles.search}>
@@ -303,4 +239,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default SingleBlog;
