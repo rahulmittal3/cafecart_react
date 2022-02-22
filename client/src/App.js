@@ -35,6 +35,11 @@ import NewBlogs from "./Pages/Blogs/newBlogs.js";
 import IndividualBlog from "./Pages/Blogs/IndividualBlog.js";
 import SingleBlog from "./Pages/SingleBlog.js";
 
+//for admin users
+import AdminLogin from "./Pages/Admin/Login.js";
+import AdminHome from "./Pages/Admin/Home.js";
+import ProtectRouteAdmin from "./Components/Admin/ProtectRouteAdmin.js";
+
 import { useSelector, useDispatch } from "react-redux";
 
 function App() {
@@ -65,107 +70,268 @@ function App() {
   // });
   return (
     <>
-      <Header />
       <ToastContainer />
       <Routes>
-        <Route path="/" exact element={<Root />} />
-        <Route path="/pages/about-us" exact element={<AboutUs />} />
-        {/* <Route path="/products/category/coffee" exact element={<Coffee />} />
-        <Route path="/products/category/pods" exact element={<Pods />} />
-        <Route path="/products/category/machine" exact element={<Machine />} /> */}
+        <Route
+          path="/"
+          exact
+          element={
+            <>
+              <Header />
+              <Root />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/pages/about-us"
+          exact
+          element={
+            <>
+              <Header />
+              <AboutUs />
+              <Footer />
+            </>
+          }
+        />
         <Route
           path="/products/category/:slug"
           exact
-          element={<CategorySlug />}
+          element={
+            <>
+              <Header />
+              <CategorySlug />
+              <Footer />
+            </>
+          }
         />
-        <Route path="/blog" exact element={<Blogs />} />
-        <Route path="/new-blogs" exact element={<NewBlogs />} />
-        <Route path="/blog/:blogId" exact element={<SingleBlog />} />
-        <Route path="/pages/terms-of-use" exact element={<TermsOfUse />} />
-        <Route path="/pages/privacy-policy" exact element={<PrivacyPolicy />} />
+        <Route
+          path="/blog"
+          exact
+          element={
+            <>
+              <Header />
+              <Blogs />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/new-blogs"
+          exact
+          element={
+            <>
+              <Header />
+              <NewBlogs />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/blog/:blogId"
+          exact
+          element={
+            <>
+              <Header />
+              <SingleBlog />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/pages/terms-of-use"
+          exact
+          element={
+            <>
+              <Header />
+              <TermsOfUse />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/pages/privacy-policy"
+          exact
+          element={
+            <>
+              <Header />
+              <PrivacyPolicy />
+              <Footer />
+            </>
+          }
+        />
         <Route
           path="/pages/shipping-policy"
           exact
-          element={<ShippingPolicy />}
+          element={
+            <>
+              <Header />
+              <ShippingPolicy />
+              <Footer />
+            </>
+          }
         />
-        <Route path="/products/:id" exact element={<SingleProduct />} />{" "}
+        <Route
+          path="/products/:id"
+          exact
+          element={
+            <>
+              {" "}
+              <Header />
+              <SingleProduct />
+              <Footer />
+            </>
+          }
+        />{" "}
         <Route
           path="/user/profile"
           exact
           element={
-            <ProtectRoute>
-              <Profile />
-            </ProtectRoute>
+            <>
+              <Header />
+              <ProtectRoute>
+                <Profile />
+              </ProtectRoute>
+              <Footer />
+            </>
           }
         />
         <Route
           path="/home"
           exact
           element={
-            <ProtectRoute>
-              <Home />
-            </ProtectRoute>
+            <>
+              <Header />
+              <ProtectRoute>
+                <Home />
+              </ProtectRoute>
+              <Footer />
+            </>
           }
         />
         <Route
           path="/change-password"
           exact
           element={
-            <ProtectRoute>
-              <ChangePassword />
-            </ProtectRoute>
+            <>
+              <Header />
+              <ProtectRoute>
+                <ChangePassword />
+              </ProtectRoute>
+              <Footer />
+            </>
           }
         />
         <Route
           path="/products/category/:id1/:id2/:id3"
           exact
-          element={<Variety />}
+          element={
+            <>
+              <Header />
+
+              <Variety />
+              <Footer />
+            </>
+          }
         />
-        <Route path="/wishlist" exact element={<Wishlist />} />
+        <Route
+          path="/wishlist"
+          exact
+          element={
+            <>
+              <Header />
+
+              <Wishlist />
+              <Footer />
+            </>
+          }
+        />
         <Route
           path="/products/category/:id1/:id2"
           exact
-          element={<ParentVariety />}
+          element={
+            <>
+              <Header />
+              <ParentVariety />
+              <Footer />
+            </>
+          }
         />
-        <Route path="/cart" exact element={<Cart />} />
+        <Route
+          path="/cart"
+          exact
+          element={
+            <>
+              <Header />
+              <Cart />
+              <Footer />
+            </>
+          }
+        />
         <Route
           path="/checkout"
           exact
           element={
-            <ProtectRoute>
-              <Checkout />
-            </ProtectRoute>
+            <>
+              <Header />
+              <ProtectRoute>
+                <Checkout />
+              </ProtectRoute>
+              <Footer />
+            </>
           }
         />
         <Route
           path="/user/orders"
           exact
           element={
-            <ProtectRoute>
-              <Orders />
-            </ProtectRoute>
+            <>
+              <Header />
+              <ProtectRoute>
+                <Orders />
+              </ProtectRoute>
+              <Footer />
+            </>
           }
         />
         <Route
           path="/user/edit-profile"
           exact
           element={
-            <ProtectRoute>
-              <EditProfile />
-            </ProtectRoute>
+            <>
+              <Header />
+              <ProtectRoute>
+                <EditProfile />
+              </ProtectRoute>
+              <Footer />
+            </>
           }
         />
         <Route
           path="/user/order/:orderId"
           exact
           element={
-            <ProtectRoute>
-              <SingleOrder />
-            </ProtectRoute>
+            <>
+              <Header />
+              <ProtectRoute>
+                <SingleOrder />
+              </ProtectRoute>
+              <Footer />
+            </>
+          }
+        />
+        {/* FOR ADMIN DEFINED ROUTES*/}
+        <Route path="/admin/login" exact element={<AdminLogin />} />
+        <Route
+          path="/admin"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminHome />
+            </ProtectRouteAdmin>
           }
         />
       </Routes>
-      <Footer />
     </>
   );
 }

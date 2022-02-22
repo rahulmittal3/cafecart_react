@@ -275,6 +275,7 @@ const createPaymentPrepaid = async (req, res) => {
       "|" +
       "|||||" +
       process.env.PAYU_SALT;
+    console.log(hashString);
     const sha = new jssha("SHA-512", "TEXT");
     sha.update(hashString);
     const hash = sha.getHash("HEX");
@@ -303,28 +304,40 @@ const createPaymentPrepaid = async (req, res) => {
       udf4: req.body.city,
       udf5: `${req.body.district} ${req.body.state}`,
     };
-    // request.post(
-    //   {
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //     },
-    //     url: "https://sandboxsecure.payu.in/_payment%27", //Production  url
-    //     form: pay,
-    //   },
 
-    //   function (error, httpRes, body) {
-    //     if (error) res.send({ status: false, message: error.toString() });
-    //     if (httpRes.statusCode === 200) {
-    //       ////console.log("hi bae");
-    //       res.send(body);
-    //     } else if (httpRes.statusCode >= 300 && httpRes.statusCode <= 400) {
-    //       res.redirect(httpRes.headers.location.toString());
-    //     }
-    //   }
-    // );
-    // return res.status(201).json("Created");
-    return res.status(200).json(pay);
+    console.log(pay);
+    //payment parameters are calculated, now send to payumoney for paytm
+    const result = await axios({
+      url: "https://secure.payu.in/_payment",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: pay,
+    });
+    console.log(pay);
+    if (result.status === 200) {
+      console.log(result);
+      res.send(result.data);
+    } else if (result.status >= 300 && result.status <= 400) {
+      res.redirect(req.headers.location.toString());
+    }
+
+    // fetch("https://secure.payu.in/_payment", {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   form: pay,
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data))
+    //   .catch((err) => console.log(err));
+
+    // response.json().then((data) => {
+    //   console.log(data);
+    // });
   } catch (error) {
     console.log("87", error);
     res.status(400).json(error);

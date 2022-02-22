@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Checkout.module.css";
 import axios from "axios";
@@ -89,35 +90,13 @@ const Checkout = () => {
         // setDiscount(0);
       });
   };
-  const handleCheckout = () => {
-    //1) calling backend function for payment
-    // if (method === "COD") {
-    //   createPayment(data)
-    //     .then((res) => {
-    //       toast.success(
-    //         "Order has been placed succesfully! An email has been succesfully sent to your email id"
-    //       );
-    //       window.localStorage.removeItem("cart");
-    //       dispatch({
-    //         type: "CART",
-    //         payload: [],
-    //       });
-    //       navigate("/user/profile");
-    //     })
-    //     .catch((err) => {
-    //       toast.error(
-    //         "Order could not be placed! Complete the Checkout Process Again to Confirm your Order"
-    //       );
-    //       navigate("/home");
-    //     });
-    // } else {
-    //   createPaymentPrepaid(data)
-    //     .then((res) => bolt.launch(res.data))
-    //     .catch((err) => console.log(err));
-    // }
+
+  const createMarkup = (data) => {
+    return { __html: data };
   };
   return (
     <React.Fragment>
+      <div id="hello"></div>
       <center>
         {" "}
         <div className={styles.heading}>CheckOut</div>
@@ -361,47 +340,8 @@ const Checkout = () => {
                           console.log(data);
                           createPaymentPrepaid(data)
                             .then(async (res) => {
-                              console.log(res.data);
-                              // await axios(
-                              //   {
-                              //     method: "POST",
-                              //     headers: {
-                              //       Accept: "application/json",
-                              //       "Content-Type":	"multipart/form-data"
-                              //     },
-                              //     url: "http://secure.payu.in/_payment", //Production  url
-                              //     form: res.data,
-                              //   },
-                              fetch("https://secure.payu.in/_payment", {
-                                method: "POST",
-                                headers: {
-                                  Accept: "application/json",
-                                  "Content-Type": "application/json",
-                                },
-                                form: res.data,
-                              })
-                                .then((res) => console.log(res))
-                                .catch((err) => console.log(err));
-
-                              // function (error, httpRes, body) {
-                              //   if (error)
-                              //     res.send({
-                              //       status: false,
-                              //       message: error.toString(),
-                              //     });
-                              //   if (httpRes.statusCode === 200) {
-                              //     ////console.log("hi bae");
-                              //     res.send(body);
-                              //   } else if (
-                              //     httpRes.statusCode >= 300 &&
-                              //     httpRes.statusCode <= 400
-                              //   ) {
-                              //     res.redirect(
-                              //       httpRes.headers.location.toString()
-                              //     );
-                              //   }
-                              // }
-                              // );
+                              document.querySelector("#hello").innerHTML =
+                                res.data;
                             })
                             .catch((err) => console.log(err));
                         }
