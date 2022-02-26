@@ -36,10 +36,23 @@ import IndividualBlog from "./Pages/Blogs/IndividualBlog.js";
 import SingleBlog from "./Pages/SingleBlog.js";
 
 //for admin users
+import AdminAppBar from "./Components/Admin/AdminAppBar.js";
 import AdminLogin from "./Pages/Admin/Login.js";
 import AdminHome from "./Pages/Admin/Home.js";
+import AdminCoupon from "./Pages/Admin/Coupons.js";
 import ProtectRouteAdmin from "./Components/Admin/ProtectRouteAdmin.js";
-
+import CreateCoupon from "./Pages/Admin/CreateCoupon.js";
+import SingleCouponAdmin from "./Pages/Admin/SingleCoupon.js";
+import AdminUser from "./Pages/Admin/User.js";
+import AdminBlog from "./Pages/Admin/Blog.js";
+import CreateBlog from "./Pages/Admin/CreateBlog.js";
+import SingleBlogAdmin from "./Pages/Admin/SingleBlog.js";
+import SubcategoriesChildren from "./Pages/Admin/SubcategoriesChildren.js";
+import CreateSubcategoriesChildren from "./Pages/Admin/CreateSubcategoriesChildren.js";
+import SingleSubcategoriesChildren from "./Pages/Admin/SingleSubcategoriesChildren.js";
+import SubcategoriesParent from "./Pages/Admin/SubcategoriesParent.js";
+import CreateSubcategoriesParent from "./Pages/Admin/CreateSubcategoriesParent.js";
+import SingleSubcategoriesParent from "./Pages/Admin/SingleSubcategoriesParent.js";
 import { useSelector, useDispatch } from "react-redux";
 
 function App() {
@@ -327,7 +340,138 @@ function App() {
           exact
           element={
             <ProtectRouteAdmin>
+              <AdminAppBar />
               <AdminHome />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/coupons"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminCoupon />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/coupon/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateCoupon />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/coupon/:id"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SingleCouponAdmin />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/users"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminUser />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/blogs"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminBlog />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/blog/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateBlog />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/blog/:id"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SingleBlogAdmin />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/subcategory-children"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SubcategoriesChildren />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/subcategory-children/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateSubcategoriesChildren />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/subcategory-children/:id"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SingleSubcategoriesChildren />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/subcategory-parent"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SubcategoriesParent />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/subcategory-parent/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateSubcategoriesParent />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/subcategory-parent/:id"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SingleSubcategoriesParent />
             </ProtectRouteAdmin>
           }
         />

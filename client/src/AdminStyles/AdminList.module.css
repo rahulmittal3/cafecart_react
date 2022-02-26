@@ -1,0 +1,65 @@
+.overall {
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+}
+.left {
+  width: auto;
+}
+.right {
+  width: 100%;
+}
+.right h1 {
+  text-align: center;
+  font-weight: bolder;
+  color: purple;
+  font-size: 50px;
+}
+.right h3 {
+  color: brown;
+  font-size: 30px;
+  font-weight: bold;
+}
+.rightInner {
+  padding: 50px;
+}
+.couponHeading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 0px;
+}
+.couponLeft {
+  font-size: 40px;
+  font-weight: bold;
+}
+.user__yes {
+  background-color: green;
+}
+
+.user__no {
+  background-color: red;
+}
+.user__yes,
+.user__no {
+  color: white;
+  padding: 3px 5px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.blogForm label {
+  font-size: 16px;
+}
+.blogForm input {
+  border: 1px grey solid;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.cbBtn {
+  background-color: blue;
+  color: white;
+}
+.deleteIcon:hover {
+  cursor: pointer;
+}
