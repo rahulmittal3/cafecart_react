@@ -75,3 +75,39 @@
 .removePadding {
   padding: "0px" !important;
 }
+
+/*/---------------------------------FORGOT PASSWORD MODAL------------------------//*/
+.FPBackground {
+  /* background-color: burlywood; */
+  padding: 20px;
+  border-radius: 10px;
+  /* width: 500px; */
+}
+.FPHead {
+  font-size: 24px;
+  text-align: center;
+}
+.FPInput {
+  width: 100%;
+  margin: 10px 5px;
+  border: 1.5px solid burlywood;
+  padding: 3.5px;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.FPInput::placeholder {
+  font-size: 15px;
+}
+.FPSubmit {
+  background-color: #000;
+  border: none;
+  color: whitesmoke;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 10px;
+}
+.FPLabel {
+  margin-top: 30px;
+  color: black;
+  text-align: center;
+}

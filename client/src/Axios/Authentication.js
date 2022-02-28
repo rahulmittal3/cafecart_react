@@ -40,4 +40,16 @@ const passwordless = async (profile) => {
   });
   return result;
 };
-export { register, login, currentUser, passwordless };
+
+const updatePassword = async (jwt, data) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/update-password`,
+    data: data,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+  });
+  return result;
+};
+export { register, login, currentUser, passwordless, updatePassword };

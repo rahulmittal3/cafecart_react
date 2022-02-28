@@ -170,5 +170,33 @@ const passwordless = async (req, res) => {
   //   });
 };
 
-const object = { register, login, currentUser, passwordless };
+const changePassword = async (req, res) => {
+  try {
+    console.log(req.body);
+    if (!req.body.current || !req.body.current || !req.body.currentVerified) {
+      throw "Incomplete Details Submitted";
+    }
+    if (req.body.current !== req.body.currentVerified) {
+      throw "Passwords didn't match! Please Try Again";
+    }
+    //check, whether the previous password is same as that of the now or not
+    console.log(req.user);
+    const matched = await bcrypt.compare(req.body.previous, req.user.password);
+    if (!matched) {
+      throw "Current Password Not Verified! Please Try Again";
+    }
+    //otherwise, we can update the password an
+    const hash = await bcrypt.hash(req.body.current, 12);
+    const updatedUser = await user.findByIdAndUpdate(
+      req.user._id,
+      { password: hash },
+      { new: true }
+    );
+
+    return res.status(201).json("Okay");
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const object = { register, login, currentUser, passwordless, changePassword };
 module.exports = object;

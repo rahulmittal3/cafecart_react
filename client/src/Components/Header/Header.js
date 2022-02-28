@@ -12,6 +12,10 @@ import Drawerr from "./Drawerr.js";
 import Drawerrr from "../Cart/Drawer.js";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import * as All from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import { updatePassword } from "../../Axios/Authentication.js";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 // import Badge from "@mui/material/Badge";
 import { Badge } from "antd";
 const Header = () => {
@@ -19,6 +23,9 @@ const Header = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [on, setOn] = useState(false);
+  const [fp, setfp] = useState({});
+  const [loading, setLoading] = useState(false);
   let subtitle;
   const getHeaders = () => {
     categories()
@@ -76,6 +83,28 @@ const Header = () => {
     window.location.reload("/");
   };
   const [show, setShow] = useState(false);
+  const handleFp = (e) => {
+    console.log(user);
+    e.preventDefault();
+    if (!fp.previous || !fp.current || !fp.currentVerified) {
+      toast.error("Please Fill in All the Details Carefully!");
+      return;
+    }
+    setLoading(true);
+    //otherwise, proceed to submit the form...
+    const randomString = user?.jwt ? user.jwt : "randomString";
+    updatePassword(randomString, fp)
+      .then((res) => {
+        toast.success("Password Changed Successfully");
+        setfp({});
+        setLoading(false);
+        setOn(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        toast.error(err.response.data);
+      });
+  };
   return (
     <>
       <Modal
@@ -87,6 +116,47 @@ const Header = () => {
       >
         <SignUpModal />
       </Modal>
+      <All.Modal open={on} onClose={(e) => setOn(false)} center>
+        <div className={fancy.FPBackground}>
+          <h2 className={fancy.FPHead}>Change Password</h2>
+          <form onSubmit={handleFp}>
+            <input
+              type="password"
+              className={fancy.FPInput}
+              placeholder="Current Password"
+              onChange={(e) => setfp({ ...fp, previous: e.target.value })}
+              value={fp?.previous}
+            />
+            <input
+              type="password"
+              className={fancy.FPInput}
+              placeholder="New Password"
+              onChange={(e) => setfp({ ...fp, current: e.target.value })}
+              value={fp?.current}
+            />
+            <input
+              type="text"
+              className={fancy.FPInput}
+              placeholder="Confirm Password"
+              onChange={(e) =>
+                setfp({ ...fp, currentVerified: e.target.value })
+              }
+              value={fp?.currentVerified}
+            />
+
+            <label className={fancy.FPLabel}>
+              * Passwords are Case-Sensitive
+            </label>
+            <center>
+              <input
+                type="submit"
+                className={fancy.FPSubmit}
+                value={loading ? "Please Wait..." : "Change Password"}
+              />
+            </center>
+          </form>
+        </div>
+      </All.Modal>
 
       <header style={{ position: "relative", height: 70 }}>
         <div className="container-menu-desktop">
@@ -252,11 +322,12 @@ const Header = () => {
                           </div>
                         </div>
                       </Link>
-                      <Link className="dropdown-item" to="/change-password">
+                      <Link className="dropdown-item" to="#">
                         <div className="dropdown-menu-container">
                           <div
                             className="dropdown-menu-subsection"
                             style={{ display: "flex" }}
+                            onClick={(e) => setOn(true)}
                           >
                             Change Password &nbsp;
                             <i
