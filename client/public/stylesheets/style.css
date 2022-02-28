@@ -328,11 +328,11 @@ a:focus {
   overflow: hidden;
 }
 
-@media screen and (max-width: 768px) {
-  .carousel {
-    height: 20vh;
-  }
+/* @media screen and (max-width: 768px) { */
+.carousel {
+  height: 0vh;
 }
+/* } */
 
 #products-carousel {
   width: 95%;

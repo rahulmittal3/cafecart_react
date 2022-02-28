@@ -2,46 +2,13 @@ import React from "react";
 import styles from "../../AdminStyles/AdminList.module.css";
 import AdminList from "../../Components/Admin/AdminList.js";
 import { Table, Badge, Button } from "antd";
-import { getAllCoupons } from "../../Axios/Admin.js";
+import { getAllOrders } from "../../Axios/Admin.js";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
-const columns = [
-  {
-    title: "Id",
-    dataIndex: "_id",
-    width: 150,
-    align: "center",
-    render: (text) => <Link to={`/admin/coupon/${text}`}>{text}</Link>,
-  },
-  {
-    title: "Name",
-    dataIndex: "coupon",
-    width: 150,
-    align: "center",
-  },
-  {
-    title: "Minimum Cart Amount",
-    dataIndex: "minimumCartAmount",
-    width: 150,
-    align: "center",
-  },
-  {
-    title: "Pricedrop",
-    dataIndex: "pricedrop",
-    width: 150,
-    align: "center",
-  },
-  {
-    title: "Maximum Amount",
-    dataIndex: "maxAmount",
-    width: 150,
-    align: "center",
-  },
-];
-
-const Coupons = () => {
+import moment from "moment";
+const Orders = () => {
   const navigate = useNavigate();
   const [data, setData] = React.useState([]);
   let token = "randomString";
@@ -49,13 +16,50 @@ const Coupons = () => {
     token = JSON.parse(window.localStorage.getItem("jwtAdmin"));
   }
   const getCoupons = () => {
-    getAllCoupons(token)
+    getAllOrders(token)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   };
   React.useEffect(() => {
     getCoupons();
   }, []);
+  const columns = [
+    {
+      title: "Id",
+      dataIndex: "_id",
+      width: 150,
+      align: "center",
+      render: (text) => <Link to={`/admin/order/${text}`}>{text}</Link>,
+    },
+    {
+      title: "User",
+      dataIndex: "user",
+      width: 150,
+      align: "center",
+      render: (text) => text.username,
+    },
+    {
+      title: "Method",
+      dataIndex: "orderType",
+      width: 60,
+      align: "center",
+    },
+    {
+      title: "Shiprocket Id",
+      dataIndex: "SRID",
+      width: 150,
+      align: "center",
+      render: (text) => (text ? text : "Not Available"),
+    },
+    {
+      title: "Order Date",
+      dataIndex: "createdAt",
+      width: 150,
+      align: "center",
+      render: (text) =>
+        text ? moment(text).format("DD MMMM YYYY") : "Not Available",
+    },
+  ];
 
   return (
     <div className={styles.overall}>
@@ -70,10 +74,10 @@ const Coupons = () => {
               offset={[20, 10]}
               overflowCount={999}
             >
-              <div className={styles.couponLeft}>Coupons</div>
+              <div className={styles.couponLeft}>Orders</div>
             </Badge>
 
-            <div className={styles.couponRight}>
+            {/* <div className={styles.couponRight}>
               {" "}
               <Button
                 type="primary"
@@ -82,7 +86,7 @@ const Coupons = () => {
               >
                 Create Coupon
               </Button>
-            </div>
+            </div> */}
           </div>
           <center>
             <Table
@@ -98,4 +102,4 @@ const Coupons = () => {
   );
 };
 
-export default Coupons;
+export default Orders;

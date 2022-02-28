@@ -29,16 +29,24 @@ const AdminList = () => {
       style={{ width: 256 }}
     >
       <SubMenu key="sub1" icon={<MailOutlined />} title="Admin Content">
-        <Menu.Item key="1">HomePage</Menu.Item>
-        <Menu.Item key="2">Product</Menu.Item>
+        <Menu.Item key="1" onClick={(e) => navigate("/admin/home-page")}>
+          HomePage
+        </Menu.Item>
+        <Menu.Item key="2" onClick={(e) => navigate("/admin/products")}>
+          Product
+        </Menu.Item>
         <Menu.Item key="3" onClick={(e) => navigate("/admin/blogs")}>
           Blog
         </Menu.Item>
         <Menu.Item key="4" onClick={(e) => navigate("/admin/coupons")}>
           Coupon
         </Menu.Item>
-        <Menu.Item key="5">Shipping Charge</Menu.Item>
-        <Menu.Item key="6">Category</Menu.Item>
+        <Menu.Item key="5" onClick={(e) => navigate("/admin/shipping-charges")}>
+          Shipping Charge
+        </Menu.Item>
+        <Menu.Item key="6" onClick={(e) => navigate("/admin/category")}>
+          Category
+        </Menu.Item>
         <Menu.Item
           key="7"
           onClick={(e) => navigate("/admin/subcategory-parent")}
@@ -57,7 +65,9 @@ const AdminList = () => {
         <Menu.Item key="9" onClick={(e) => navigate("/admin/users")}>
           Users
         </Menu.Item>
-        <Menu.Item key="10">Orders</Menu.Item>
+        <Menu.Item key="10" onClick={(e) => navigate("/admin/orders")}>
+          Orders
+        </Menu.Item>
       </SubMenu>
     </Menu>
   );

@@ -2,70 +2,82 @@ import React from "react";
 import styles from "../../AdminStyles/AdminList.module.css";
 import AdminList from "../../Components/Admin/AdminList.js";
 import { Table, Badge, Button } from "antd";
-import { useNavigate, Link } from "react-router-dom";
-import { getAllCategories, deleteCategory } from "../../Axios/Admin.js";
-import moment from "moment";
+import { getAllProducts, deleteProduct } from "../../Axios/Admin.js";
+import { useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-const Category = () => {
-  const [data, setData] = React.useState([]);
+const Coupons = () => {
   const navigate = useNavigate();
+  const [data, setData] = React.useState([]);
   let token = "randomString";
   if (window !== "undefined" && window.localStorage.getItem("jwtAdmin")) {
     token = JSON.parse(window.localStorage.getItem("jwtAdmin"));
   }
-  const getData = () => {
-    getAllCategories(token)
+  const getCoupons = () => {
+    getAllProducts(token)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   };
   React.useEffect(() => {
-    getData();
+    getCoupons();
   }, []);
   const columns = [
     {
       title: "Id",
       dataIndex: "_id",
-      // : 60,
+      width: 150,
       align: "center",
-      // render: (text) => (
-      //   <Link to={`/admin/subcategory-parent/${text}`}>{text}</Link>
-      // ),
+      render: (text) => <Link to={`/admin/product/${text}`}>{text}</Link>,
     },
     {
       title: "Title",
       dataIndex: "title",
-      // : 80,
+      width: 150,
       align: "center",
     },
     {
-      title: "Slug",
-      dataIndex: "slug",
-      // : 80,
+      title: "Manufacturer",
+      dataIndex: "manufacturer",
+      width: 150,
       align: "center",
     },
     {
-      title: "Available Subcategories",
-      dataIndex: "Subcategories",
-      // : 80,
+      title: "Quantity",
+      dataIndex: "specific_quantity",
+      width: 60,
       align: "center",
-      render: (text) => text.length,
     },
     {
-      title: "Delete",
+      title: "Selling Price",
+      dataIndex: "price",
+      width: 50,
       align: "center",
+    },
+    {
+      title: "MRP",
+      dataIndex: "mrpPrice",
+      width: 50,
+      align: "center",
+    },
+    {
+      title: "Remove",
       dataIndex: "_id",
+      width: 40,
+      align: "center",
       render: (text) => (
         <DeleteIcon
-          sx={{ fontSize: 24, color: "red" }}
-          className={styles.deleteIcon}
+          sx={{ fontSize: 30, color: "red" }}
           onClick={(e) => {
-            deleteCategory(token, text)
+            deleteProduct(token, text)
               .then((res) => {
-                toast.success("Category Deleted Successfully!");
-                getData();
+                toast.success("Deleted Successfully!");
+                getCoupons();
               })
-              .catch((err) => toast.error("Please Try Again"));
+              .catch((eror) => {
+                toast.error(eror.response.data);
+              });
           }}
         />
       ),
@@ -79,17 +91,22 @@ const Category = () => {
       <div className={styles.right}>
         <div className={styles.rightInner}>
           <div className={styles.couponHeading}>
-            <Badge count={data ? data.length : 0} offset={[20, 10]}>
-              <div className={styles.couponLeft}>Categories</div>
+            <Badge
+              count={data ? data.length : 0}
+              offset={[20, 10]}
+              overflowCount={999}
+            >
+              <div className={styles.couponLeft}>Products</div>
             </Badge>
+
             <div className={styles.couponRight}>
               {" "}
               <Button
                 type="primary"
                 size="large"
-                onClick={(e) => navigate("/admin/category/new")}
+                onClick={(e) => navigate("/admin/product/new")}
               >
-                + Create New
+                Create Product
               </Button>
             </div>
           </div>
@@ -107,4 +124,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Coupons;

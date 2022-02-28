@@ -6,6 +6,13 @@ const Blog = require("../Models/blog.js");
 const SubCategoryChild = require("../Models/childcat.js");
 const slugify = require("slugify");
 const SubCategoryParent = require("../Models/subcategory.js");
+const Category = require("../Models/category.js");
+const Product = require("../Models/product.js");
+const Shippingcharge = require("../Models/shippingcharges.js");
+const Homepage = require("../Models/homepage.js");
+const Order = require("../Models/order.js");
+const NewOrder = require("../Models/newOrder.js");
+var _ = require("lodash");
 const loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -270,6 +277,292 @@ const deleteSubParent = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+//-------------------for categories --------------------------\
+const getAllCategories = async (req, res) => {
+  try {
+    const result = await Category.find({}).sort({ title: "ascending" });
+    return res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const createCategory = async (req, res) => {
+  const finalData = req.body.subcategories.filter((el) => {
+    return el.Parent_Category || el.Child_Subcategory;
+  });
+  try {
+    const slug = slugify(req.body.title);
+    let query = new Category({
+      title: req.body.title,
+      slug: slug,
+      Subcategories: finalData,
+    });
+    const result = await query.save();
+    console.log(result);
+    res.status(200).json("ok");
+  } catch (error) {
+    res.status(500).json("failed");
+  }
+};
+const deleteCategory = async (req, res) => {
+  console.log(req.query);
+  try {
+    const result = await Category.findByIdAndDelete(req.query.id);
+    res.status(200).json("OK");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+//---------------products ----------------
+const getAllProducts = async (req, res) => {
+  try {
+    const result = await Product.find({}).sort({ title: "ascending" });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const createProduct = async (req, res) => {
+  console.log(req.body);
+  let category = [];
+  const obj = {
+    MainCategory: req.body.MainCategory,
+  };
+  let x = [];
+  for (let i = 0; i < req.body.Subcategories.length; i++) {
+    let y = {
+      Parent_Subcategory: req.body.Subcategories[i].ParentSubcategory,
+      Child_Subcategory: req.body.Subcategories[i].ChildSubcategory,
+    };
+    x.push(y);
+  }
+  console.log(x);
+  const g = {
+    MainCategory: req.body.MainCategory,
+    Subcategories: x,
+  };
+  category.push(g);
+
+  const op = [];
+  for (let i = 0; i < req.body.otherProducts.length; i++) {
+    const obj = {
+      code: req.body.otherProducts[i],
+    };
+    op.push(obj);
+  }
+  try {
+    const query = new Product({
+      imagePath: req.body.imagePath,
+      codprepaid: req.body.codprepaid,
+      title: req.body.title,
+      price: req.body.price,
+      mrpPrice: req.body.mrpPrice,
+      available: req.body.available,
+      productCode: req.body.productCode,
+      description: req.body.description,
+      manufacturer: req.body.manufacturer,
+      specific_type: req.body.specific_type,
+      specific_date: new Date(req.body.specific_date),
+      otherProducts: op,
+      short_description: req.body.short_description,
+      specific_quantity: req.body.specific_quantity,
+      specific_quantity: req.body.specific_quantity,
+      specific_ingredients: "hello",
+      description_use_first: req.body.description_use_first,
+      description_use_second: req.body.description_use_second,
+      description_use_third: req.body.description_use_third,
+      category: category,
+      recommended_quantity: req.body.recommendedProducts,
+      specific_expiry_date: new Date(req.body.specific_expiry_date),
+    });
+    const result = await query.save();
+    console.log(result);
+    res.status(200).json("ok");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+// const updateSubParent = async (req, res) => {
+//   console.log(req.body);
+//   try {
+//     const obj = req.body;
+//     const find = await SubCategoryParent.findByIdAndUpdate(req.body._id, obj, {
+//       new: true,
+//     });
+//     res.status(200).json("ok");
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json(error);
+//   }
+// };
+const getProduct = async (req, res) => {
+  console.log(req.query);
+  try {
+    const result = await Product.findOne({ _id: req.query.id });
+    return res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const deleteproduct = async (req, res) => {
+  console.log(req.query);
+  try {
+    const result = await Product.findByIdAndDelete(req.query.id);
+    res.status(200).json("OK");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const getAllShipping = async (req, res) => {
+  try {
+    const res1 = await Shippingcharge.find({});
+    res.status(200).json(res1);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+const createShipping = async (req, res) => {
+  try {
+    const query = new Shippingcharge({
+      cartsize: req.body.cart,
+      shipping_charge: req.body.charge,
+    });
+    const result = await query.save();
+    return res.status(200).json("ok");
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+const updateShipping = async (req, res) => {
+  console.log(req.body);
+  try {
+    const obj = req.body;
+    const find = await Shippingcharge.findByIdAndUpdate(req.body._id, obj, {
+      new: true,
+    });
+    res.status(200).json("ok");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+const getShipping = async (req, res) => {
+  try {
+    const result = await Shippingcharge.findOne({ _id: req.query.id });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const deleteShipping = async (req, res) => {
+  try {
+    const result = await Shippingcharge.findByIdAndDelete(req.query.id);
+    res.status(200).json("OK");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const getAllHomepage = async (req, res) => {
+  try {
+    const res1 = await Homepage.find({});
+    res.status(200).json(res1);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+const createHomepage = async (req, res) => {
+  console.log(req.body);
+  try {
+    const query = new Homepage({
+      bannerImages: req.body.bannerImages,
+      newArrivals: req.body.newArrivals,
+      youMayLike: req.body.youMayLike,
+      bestInBruh: req.body.bestInBruh,
+      trending: req.body.trending,
+      brands: req.body.brands,
+    });
+    const result = await query.save();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json("failed");
+  }
+};
+const updateHomepage = async (req, res) => {
+  console.log(req.body);
+  try {
+    const obj = req.body;
+    const find = await Homepage.findByIdAndUpdate(req.body._id, obj, {
+      new: true,
+    });
+    res.status(200).json("ok");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+const getHomepage = async (req, res) => {
+  try {
+    const result = await Homepage.findOne({ _id: req.query.id });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const deleteHomepage = async (req, res) => {
+  try {
+    const result = await Homepage.findByIdAndDelete(req.query.id);
+    res.status(200).json("OK");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const getAllOrders = async (req, res) => {
+  try {
+    let box = [];
+    const old = await Order.find({}).populate({ path: "user", User });
+    box.push(...old);
+    const newone = await NewOrder.find({}).populate({ path: "user", User });
+    box.push(...newone);
+    box = _.sortBy(box, [
+      function (o) {
+        return o.createdAt;
+      },
+    ]);
+    res.status(200).json(box);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+const getOrder = async (req, res) => {
+  console.log(req.query);
+  try {
+    const old = await Order.findOne({ _id: req.query.id })
+      .populate({
+        path: "user",
+        User,
+      })
+      .populate({ path: "cart.items.productId", Product });
+    if (old) {
+      return res.status(200).json(old);
+    }
+    const newone = await NewOrder.findOne({ _id: req.query.id })
+      .populate({
+        path: "user",
+        User,
+      })
+      .populate({ path: "items.productId", Product });
+    return res.status(200).json(newone);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 const obj = {
   loginAdmin,
   loginVerify,
@@ -293,5 +586,24 @@ const obj = {
   updateSubParent,
   getSubParent,
   deleteSubParent,
+  getAllCategories,
+  createCategory,
+  deleteCategory,
+  getAllProducts,
+  getProduct,
+  createProduct,
+  getAllShipping,
+  createShipping,
+  updateShipping,
+  getShipping,
+  deleteShipping,
+  getAllHomepage,
+  createHomepage,
+  updateHomepage,
+  getHomepage,
+  deleteHomepage,
+  getAllOrders,
+  getOrder,
+  deleteproduct,
 };
 module.exports = obj;

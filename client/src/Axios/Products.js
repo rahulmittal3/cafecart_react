@@ -7,6 +7,21 @@ const newArrival = async () => {
   });
   return result;
 };
+const trending = async () => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/trending`,
+  });
+  return result;
+};
+
+const best = async () => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/best`,
+  });
+  return result;
+};
 
 const categories = async () => {
   const result = await axios({
@@ -55,4 +70,6 @@ export {
   variety,
   parentVariety,
   singleProduct,
+  trending,
+  best,
 };

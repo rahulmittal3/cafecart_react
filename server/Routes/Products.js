@@ -7,10 +7,14 @@ const {
   categorySlug,
   variety,
   parentVariety,
+  trending,
   singleProduct,
+  best,
 } = require("../Controllers/Products.js");
 
 productRouter.route("/new-arrivals").get(newArrivals);
+productRouter.route("/trending").get(trending);
+productRouter.route("/best").get(best);
 productRouter.route("/categories").get(categories);
 productRouter.route("/category-slug/:slug").get(categorySlug);
 productRouter.route("/category/:id1/:id2/:id3").get(variety);

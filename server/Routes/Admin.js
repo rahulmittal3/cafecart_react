@@ -23,6 +23,25 @@ const {
   updateSubParent,
   getSubParent,
   deleteSubParent,
+  getAllCategories,
+  createCategory,
+  deleteCategory,
+  getAllProducts,
+  getProduct,
+  getAllShipping,
+  createShipping,
+  updateShipping,
+  getShipping,
+  deleteShipping,
+  getAllHomepage,
+  createHomepage,
+  updateHomepage,
+  getHomepage,
+  deleteHomepage,
+  getAllOrders,
+  getOrder,
+  createProduct,
+  deleteproduct,
 } = require("../Controllers/Admin.js");
 const { isAdminValid } = require("../Middlewares/isAdminValid.js");
 AdminRouter.route("/admin/login").post(loginAdmin);
@@ -76,4 +95,48 @@ AdminRouter.route("/admin/delete-sub-parent").delete(
   isAdminValid,
   deleteSubParent
 );
+//----------------------------- FOR CATEGORIES -------------------------------------
+AdminRouter.route("/admin/get-all-categories").get(
+  isAdminValid,
+  getAllCategories
+);
+AdminRouter.route("/admin/create-category").post(isAdminValid, createCategory);
+AdminRouter.route("/admin/delete-category").delete(
+  isAdminValid,
+  deleteCategory
+);
+
+//--------------------for products--------------------
+AdminRouter.route("/admin/get-all-products").get(isAdminValid, getAllProducts);
+AdminRouter.route("/admin/create-product").post(isAdminValid, createProduct);
+AdminRouter.route("/admin/get-product").get(isAdminValid, getProduct);
+// AdminRouter.route("/admin/update-sub-parent").put(
+//   isAdminValid,
+//   updateSubParent
+// );
+AdminRouter.route("/admin/delete-product").delete(isAdminValid, deleteproduct);
+//-----------------------------------------------SHIPPING CHARGE---------------------------------------------------------
+AdminRouter.route("/admin/get-all-shipping").get(isAdminValid, getAllShipping);
+AdminRouter.route("/admin/create-shipping").post(isAdminValid, createShipping);
+AdminRouter.route("/admin/get-shipping").get(isAdminValid, getShipping);
+AdminRouter.route("/admin/update-shipping").put(isAdminValid, updateShipping);
+AdminRouter.route("/admin/delete-shipping").delete(
+  isAdminValid,
+  deleteShipping
+);
+
+//---------------------------------------- HOMEPAGE --------------------------------------------
+AdminRouter.route("/admin/get-all-homepage").get(isAdminValid, getAllHomepage);
+AdminRouter.route("/admin/create-homepage").post(isAdminValid, createHomepage);
+AdminRouter.route("/admin/get-homepage").get(isAdminValid, getHomepage);
+AdminRouter.route("/admin/update-homepage").put(isAdminValid, updateHomepage);
+AdminRouter.route("/admin/delete-homepage").delete(
+  isAdminValid,
+  deleteHomepage
+);
+
+//for orders------------------------------------------------------------------------
+AdminRouter.route("/admin/get-all-orders").get(isAdminValid, getAllOrders);
+AdminRouter.route("/admin/get-order").get(isAdminValid, getOrder);
+
 module.exports = AdminRouter;

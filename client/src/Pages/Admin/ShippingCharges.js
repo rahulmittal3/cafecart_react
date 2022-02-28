@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../AdminStyles/AdminList.module.css";
 import AdminList from "../../Components/Admin/AdminList.js";
 import { Table, Badge, Button } from "antd";
-import { getAllCoupons } from "../../Axios/Admin.js";
+import { getAllShipping } from "../../Axios/Admin.js";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,29 +13,17 @@ const columns = [
     dataIndex: "_id",
     width: 150,
     align: "center",
-    render: (text) => <Link to={`/admin/coupon/${text}`}>{text}</Link>,
+    render: (text) => <Link to={`/admin/shipping-charge/${text}`}>{text}</Link>,
   },
   {
-    title: "Name",
-    dataIndex: "coupon",
+    title: "Cart Size",
+    dataIndex: "cartsize",
     width: 150,
     align: "center",
   },
   {
-    title: "Minimum Cart Amount",
-    dataIndex: "minimumCartAmount",
-    width: 150,
-    align: "center",
-  },
-  {
-    title: "Pricedrop",
-    dataIndex: "pricedrop",
-    width: 150,
-    align: "center",
-  },
-  {
-    title: "Maximum Amount",
-    dataIndex: "maxAmount",
+    title: "Shipping Charge",
+    dataIndex: "shipping_charge",
     width: 150,
     align: "center",
   },
@@ -49,7 +37,7 @@ const Coupons = () => {
     token = JSON.parse(window.localStorage.getItem("jwtAdmin"));
   }
   const getCoupons = () => {
-    getAllCoupons(token)
+    getAllShipping(token)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   };
@@ -70,7 +58,7 @@ const Coupons = () => {
               offset={[20, 10]}
               overflowCount={999}
             >
-              <div className={styles.couponLeft}>Coupons</div>
+              <div className={styles.couponLeft}>Shipping Charges</div>
             </Badge>
 
             <div className={styles.couponRight}>
@@ -78,9 +66,9 @@ const Coupons = () => {
               <Button
                 type="primary"
                 size="large"
-                onClick={(e) => navigate("/admin/coupon/new")}
+                onClick={(e) => navigate("/admin/shipping-charge/new")}
               >
-                Create Coupon
+                Create Shipping Charge
               </Button>
             </div>
           </div>

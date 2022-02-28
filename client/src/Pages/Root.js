@@ -1,8 +1,5 @@
 //importing custom components
-import DisplayPic from "../Components/Header/DisplayPic.js";
-import NewArrival from "../Components/Products/NewArrival.js";
-import Brands from "../Components/Products/Brands.js";
-import SearchBar from "../Components/Utilities/SearchBar.js";
+import Canvas from "../Components/Products/Canvas.js";
 import YouMayLike from "../Components/Products/YouMayLike.js";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,40 +16,7 @@ const Root = () => {
   }, []);
   return (
     <>
-      <SearchBar />
-      {/* <div className="wrap">
-        <div className="back">
-          <div className="back__slide activee">
-            <div className="progress" />
-          </div>
-          <div className="back__slide">
-            <div className="progress" />
-          </div>
-        </div>
-        <div className="card">
-          <div className="card__slide activee">
-          </div>
-          <div className="card__slide">
-            <div className="back-image" />
-          </div>
-          <div className="content">
-            <div className="content__slide activee">
-              
-            </div>
-            <div className="content__slide">
-             
-            </div>
-            <div className="content__ping content__ping--noanimation" />
-          </div>
-        </div>
-      </div> */}
-      <section className="bg0 " style={{ backgroundColor: "#fff" }}>
-        <div className="container">
-          <NewArrival />
-          <Brands />
-          <YouMayLike />
-        </div>
-      </section>
+      <Canvas />
     </>
   );
 };

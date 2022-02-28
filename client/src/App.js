@@ -53,6 +53,26 @@ import SingleSubcategoriesChildren from "./Pages/Admin/SingleSubcategoriesChildr
 import SubcategoriesParent from "./Pages/Admin/SubcategoriesParent.js";
 import CreateSubcategoriesParent from "./Pages/Admin/CreateSubcategoriesParent.js";
 import SingleSubcategoriesParent from "./Pages/Admin/SingleSubcategoriesParent.js";
+import AdminCategory from "./Pages/Admin/Category.js";
+import CreateCategory from "./Pages/Admin/CreateCategory.js";
+
+import AdminProducts from "./Pages/Admin/Products.js";
+import AdminSingleProduct from "./Pages/Admin/SingleProduct";
+import AdminEditProduct from "./Pages/Admin/EditProduct.js";
+import AdminCreateProduct from "./Pages/Admin/CreateProduct.js";
+
+import ShippingCharges from "./Pages/Admin/ShippingCharges.js";
+import CreateShippingCharge from "./Pages/Admin/CreateShippingCharge.js";
+import SingleShippingCharge from "./Pages/Admin/SingleShippingCharge.js";
+import EditShippingCharge from "./Pages/Admin/EditShippingCharge.js";
+
+import Homepage from "./Pages/Admin/Homepage.js";
+import CreateHomepage from "./Pages/Admin/CreateHomepage.js";
+import SingleHomepage from "./Pages/Admin/SingleHomepage.js";
+import EditHomepage from "./Pages/Admin/EditHomepage.js";
+
+import AdminOrders from "./Pages/Admin/Orders.js";
+import SingleAdminOrder from "./Pages/Admin/SingleOrder.js";
 import { useSelector, useDispatch } from "react-redux";
 
 function App() {
@@ -472,6 +492,169 @@ function App() {
             <ProtectRouteAdmin>
               <AdminAppBar />
               <SingleSubcategoriesParent />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/category"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminCategory />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/category/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateCategory />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/products"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminProducts />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/product/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminCreateProduct />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/product/:id"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminSingleProduct />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/product/:id/edit"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminEditProduct />
+            </ProtectRouteAdmin>
+          }
+        />
+        {/*for shipping charges*/}
+        <Route
+          path="/admin/shipping-charges"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <ShippingCharges />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/shipping-charge/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateShippingCharge />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/shipping-charge/:id"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SingleShippingCharge />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/shipping-charge/:id/edit"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <EditShippingCharge />
+            </ProtectRouteAdmin>
+          }
+        />
+        {/*FOR HOMEPAGE */}
+        <Route
+          path="/admin/home-page"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <Homepage />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/home-page/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateHomepage />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/home-page/:id"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SingleHomepage />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/home-page/:id/edit"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <EditHomepage />
+            </ProtectRouteAdmin>
+          }
+        />
+        {/*For Orders*/}
+        <Route
+          path="/admin/orders"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminOrders />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/order/:id"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <SingleAdminOrder />
             </ProtectRouteAdmin>
           }
         />

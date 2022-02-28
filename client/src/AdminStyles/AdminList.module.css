@@ -63,3 +63,49 @@
 .deleteIcon:hover {
   cursor: pointer;
 }
+
+.editinput {
+  font-family: Poppins !important;
+  border: 1px solid grey !important;
+  margin: 10px !important;
+  font-size: 16px !important;
+  border-radius: 5px;
+  padding: 5px;
+}
+.addInput {
+  display: flex;
+  flex-direction: row;
+}
+.addInput button {
+  color: white;
+  background-color: blue;
+  padding: 0px 30px;
+  border-radius: 5px;
+}
+.contentHead {
+  font-weight: bolder;
+  font-size: 20px;
+  font-family: poppins;
+}
+
+.editBtn {
+  margin-top: 20px;
+  border-radius: 5px;
+  background-color: brown;
+  color: white;
+  font-size: 16px;
+  padding: 5px;
+  text-align: center;
+  width: 90%;
+}
+.editBtn:hover {
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 5px;
+  background-color: green;
+  color: white;
+  font-size: 16px;
+  padding: 5px;
+  text-align: center;
+  width: 90%;
+}
