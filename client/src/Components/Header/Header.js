@@ -398,7 +398,7 @@ const Header = () => {
                 </div> */}
                 <div className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
                   <Badge
-                    count={local?.length}
+                    count={cart?.length}
                     color="warning"
                     showZero={false}
                     onClick={(e) => setShow(!show)}
@@ -498,7 +498,7 @@ const Header = () => {
               </div> */}
               <div className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
                 <Badge
-                  count={local?.length}
+                  count={cart?.length}
                   color="warning"
                   showZero={false}
                   onClick={(e) => setShow(!show)}

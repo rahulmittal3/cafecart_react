@@ -2,10 +2,11 @@ const Product = require("../Models/product.js");
 const NewCart = require("../Models/newCart.js");
 const cartDetails = async (req, res) => {
   const cart = req.body;
+  console.log(cart);
   const cartArray = [];
   try {
     for (let i = 0; i < cart.length; i++) {
-      let result = await Product.findOne({ _id: cart[i].productId });
+      let result = await Product.findOne({ _id: cart[i]._id });
       result = { ...result, quantity: cart[i].quantity };
       cartArray.push(result);
     }

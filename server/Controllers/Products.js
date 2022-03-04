@@ -6,6 +6,7 @@ const SubCategoryParent = require("../Models/subcategory.js");
 const Homepage = require("../Models/homepage.js");
 const Product = require("../Models/product.js");
 var shuffle = require("shuffle-array");
+const Review = require("../Models/reviews.js");
 const newArrivals = async (req, res) => {
   //get all the products from the database from Product Model........
   try {
@@ -221,6 +222,85 @@ const singleProduct = async (req, res) => {
     res.status(500).json(error);
   }
 };
+const otherProducts = async (req, res) => {
+  const { name } = req.body;
+  try {
+    if (!name) {
+      throw "Product Not Found!";
+    }
+    console.log(name);
+    const regexp = new RegExp(name.split(" ")[0], "g");
+    const result = await product.find({
+      title: { $regex: regexp },
+    });
+    shuffle(result);
+    const toReturn = result.slice(0, 5);
+    res.status(200).json(toReturn);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+const createReview = async (req, res) => {
+  console.log("FROM REVIEW SECTION");
+  try {
+    //if we are here, it means we are logged in due to isLoggedIn Middlewares
+    //step1  : get the product details from review DB
+    const productReviewed = await Review.findOne({ productId: req.body.id });
+    //what if no review is created for the product
+    if (!productReviewed) {
+      const object = {
+        name: req.user.username,
+        rating: req.body.star,
+        comment: req.body.text,
+        user: req.user._id,
+        productId: req.body.id,
+      };
+
+      const query = new Review(object);
+      const result = await query.save();
+      console.log(result);
+    } else {
+      //if a new user reviews.....
+      const u = await Review.findOne({ user: req.user._id });
+      if (u) {
+        const productReviewed = await Review.findOneAndUpdate(
+          { user: req.user._id },
+          { comment: req.body.text, rating: req.body.star },
+          { new: true }
+        );
+        console.log(productReviewed);
+      } else {
+        const object = {
+          name: req.user.username,
+          rating: req.body.star,
+          comment: req.body.text,
+          user: req.user._id,
+          productId: req.body.id,
+        };
+
+        const query = new Review(object);
+        const result = await query.save();
+        console.log(result);
+      }
+    }
+    res.status(200).json("ok");
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getReviews = async (req, res) => {
+  console.log(req.params);
+  console.log("REVIEWS");
+  try {
+    const reviews = await Review.find({ productId: req.params.id });
+    console.log(reviews);
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
 const object = {
   newArrivals,
   categories,
@@ -230,5 +310,8 @@ const object = {
   singleProduct,
   trending,
   best,
+  otherProducts,
+  createReview,
+  getReviews,
 };
 module.exports = object;

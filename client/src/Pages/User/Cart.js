@@ -14,8 +14,8 @@ const Cart = () => {
   if (window !== "undefined" && window.localStorage.getItem("user"))
     userLS = JSON.parse(window.localStorage.getItem("user"));
   let cartLS = [];
-  if (window !== "undefined" && window.localStorage.getItem("cart"))
-    cartLS = JSON.parse(window.localStorage.getItem("cart"));
+  if (window !== "undefined" && window.localStorage.getItem("cartLS"))
+    cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
   const fixCart = () => {
     console.log(cartLS);
     dispatch({
@@ -116,12 +116,12 @@ const Cart = () => {
   const handleIncrement = (id) => {
     console.log(cartLS);
     for (let i = 0; i < cartLS.length; i++) {
-      if (cartLS[i].productId === id) {
+      if (cartLS[i]._id === id) {
         //match found, increment the quantity.
         let qty = cartLS[i].quantity;
         qty = qty + 1;
         cartLS[i] = { ...cartLS[i], quantity: qty };
-        window.localStorage.setItem("cart", JSON.stringify(cartLS));
+        window.localStorage.setItem("cartLS", JSON.stringify(cartLS));
         dispatch({
           type: "CART",
           payload: cartLS,
@@ -133,13 +133,13 @@ const Cart = () => {
   };
   const handleDecrement = (id) => {
     for (let i = 0; i < cartLS.length; i++) {
-      if (cartLS[i].productId === id) {
+      if (cartLS[i]._id === id) {
         //match found, increment the quantity.
         let qty = cartLS[i].quantity;
         if (qty === 1) {
           //then just remove it frim array
           cartLS.splice(i, 1);
-          window.localStorage.setItem("cart", JSON.stringify(cartLS));
+          window.localStorage.setItem("cartLS", JSON.stringify(cartLS));
           dispatch({
             type: "CART",
             payload: cartLS,
@@ -149,7 +149,7 @@ const Cart = () => {
         } else {
           qty = qty - 1;
           cartLS[i] = { ...cartLS[i], quantity: qty };
-          window.localStorage.setItem("cart", JSON.stringify(cartLS));
+          window.localStorage.setItem("cartLS", JSON.stringify(cartLS));
           dispatch({
             type: "CART",
             payload: cartLS,
@@ -163,9 +163,9 @@ const Cart = () => {
 
   const deleteItemAll = (id) => {
     for (let i = 0; i < cartLS.length; i++) {
-      if (cartLS[i].productId === id) {
+      if (cartLS[i]._id === id) {
         cartLS.splice(i, 1);
-        window.localStorage.setItem("cart", JSON.stringify(cartLS));
+        window.localStorage.setItem("cartLS", JSON.stringify(cartLS));
         dispatch({
           type: "CART",
           payload: cartLS,

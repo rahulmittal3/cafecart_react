@@ -1,24 +1,43 @@
 import React from "react";
 import styles from "./SingleProduct.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
-import { singleProduct } from "../../Axios/Products.js";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { singleProduct, createReview } from "../../Axios/Products.js";
 import { Carousel } from "react-responsive-carousel";
 import ModalImage from "react-modal-image";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Tabs } from "antd";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css"; // requires a loader
+import { otherProducts, getReviews } from "../../Axios/Products.js";
+import styles1 from "../../Components/Products/Canvas.module.css";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import _ from "lodash";
+import StarRatings from "react-star-ratings";
+import moment from "moment";
+import { Progress } from "antd";
 const { TabPane } = Tabs;
+
 const SingleProduct = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [other, setOther] = React.useState([]);
+  const [current, setCurrent] = React.useState({ quantity: 1 });
+  const [star, setStar] = React.useState(1);
+  const [text, setText] = React.useState("");
+  const { user } = useSelector((state) => ({ ...state }));
+  const [rev, setRev] = React.useState([]);
   let WL = [];
   React.useEffect(() => {
-    if (window !== "undefined" && window.localStorage.getItem("wishlist")) {
-      WL = JSON.parse(window.localStorage.getItem("wishlist"));
+    if (window !== "undefined" && window.localStorage.getItem("cartLS")) {
+      WL = JSON.parse(window.localStorage.getItem("cartLS"));
     }
     dispatch({
-      type: "WISHLIST",
+      type: "CART",
       payload: WL,
     });
   }, []);
@@ -39,43 +58,16 @@ const SingleProduct = () => {
     getProduct();
   }, [params.id]);
 
-  const create = (hello) => {
-    return { __html: hello };
+  const getEveryReview = () => {
+    getReviews(params.id)
+      .then((res) => setRev(res.data))
+      .catch((err) => toast.error("Error Fetching the Reviews"));
   };
-  const addtocart = (p) => {
-    //get the cart from the localStorage................................................................
-    let cartFromLS = [];
-    if (window !== "undefined" && window.localStorage.getItem("cart")) {
-      cartFromLS = JSON.parse(window.localStorage.getItem("cart"));
-    }
-    //1) we have the cart item now, find and update the cart with this item
-    const newItem = {
-      productId: p?._id,
-      quantity: 1,
-    };
-    const found = cartFromLS.find(
-      (element) => element.productId === newItem.productId
-    );
-    //what if the item is already added to cart ? , we need to update again @ any cost , for avoiding redundancy
-    if (found) {
-      //update it
-      cartFromLS[found] = newItem;
-    } else {
-      //just push the item there and update
-      cartFromLS.push(newItem);
-    }
-    window.localStorage.setItem("cart", JSON.stringify(cartFromLS));
-    //also, just push it to Redux :
-    dispatch({
-      type: "CART",
-      payload: cartFromLS,
-    });
-    setAddedtoCart(true);
-    toast.success(`${p?.title} has been added to Cart! Happy Shopping! 🛍️`);
-  };
+
   const [pin, setPin] = React.useState("");
-  const [pinMsg, setPinMsg] = React.useState(null);
+  const [pinMsg, setPinMsg] = React.useState(false);
   const handlePin = async (e) => {
+    setPinMsg(true);
     e.preventDefault();
     console.log(pin);
     try {
@@ -85,760 +77,509 @@ const SingleProduct = () => {
       });
       console.log(result.data[0].PostOffice);
       if (result.data[0].PostOffice) {
-        //means avalid post office here, gte the 1st item here
+        //means a valid post office here, gte the 1st item here
         toast.success(
-          `Shipping Available at ${result.data[0].PostOffice[0].Name},${result.data[0].PostOffice[0].District}! There will be a delay in shipping of your order owing to the COVID situation.`
+          `Shipping Available at ${result.data[0].PostOffice[0].Name},${result.data[0].PostOffice[0].District}! Happy Shopping! 🛍️`
         );
-        setPinMsg(
-          `Shipping Available at ${result.data[0].PostOffice[0].Name},${result.data[0].PostOffice[0].District}! There will be a delay in shipping of your order owing to the COVID situation.`
-        );
+        setPinMsg(false);
         setPin("");
       } else {
         //means valid post office not present
         toast.error("Item unavailable for delivery at your doorstep!");
         setPin("");
+        setPinMsg(false);
       }
     } catch (error) {
-      console.log(error);
+      setPinMsg(false);
+      toast.error("Unexpected Error");
     }
   };
-  //add to wishlist
-  const addToWishlist = (e) => {
-    let WL = [];
-    if (window !== "undefined" && window.localStorage.getItem("wishlist")) {
-      WL = JSON.parse(window.localStorage.getItem("wishlist"));
+  //add to cart to
+  const handleCart = (id, name) => {
+    console.log(id, name, current.quantity);
+    //set to the localStorage
+    let cartLS = [];
+    if (window !== "undefined" && window.localStorage.getItem("cartLS")) {
+      cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
     }
-    const indexIfAlreadyExists = WL.indexOf(e);
-    if (indexIfAlreadyExists !== -1) {
-      //not found, then  add to wishlist
-      toast.warning("Item already added in Wishlist! 😀");
+    //1st add it to the starting, so that it can override the other changes in the array
+    const x = cartLS.unshift({
+      _id: id,
+      name: name,
+      quantity: current?.quantity,
+    });
+    //now get the unique
+    cartLS = _.uniqBy(cartLS, "_id");
+    window.localStorage.setItem("cartLS", JSON.stringify(cartLS));
+    dispatch({
+      type: "CART",
+      payload: cartLS,
+    });
+    toast.success(`${name} has been successfully added to Cart`);
+  };
+
+  const createMarkup = () => {
+    return { __html: p?.short_description };
+  };
+  const createMarkup1 = () => {
+    return { __html: p?.description };
+  };
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    autoPlay: true,
+    fade: true,
+  };
+  const getOtherProducts = () => {
+    console.log(p?.title);
+    otherProducts(p?.title)
+      .then((res) => setOther(res.data))
+      .catch((err) => console.log(err));
+  };
+  React.useEffect(() => {
+    getOtherProducts();
+  }, [p]);
+  const handleReview = () => {
+    if (!user) {
+      toast.warning("Please Login to Review");
       return;
     }
-    WL.push(e);
-    window.localStorage.setItem("wishlist", JSON.stringify(WL));
-    dispatch({
-      type: "WISHLIST",
-      payload: WL,
-    });
-    toast.success(
-      "Item Added to Wishlist! Checkout Now to Complete your Shopping! 🛍️"
-    );
+    createReview(user.jwt, p?._id, star, text)
+      .then((res) => {
+        toast.success("Review Added Successfully");
+        getEveryReview();
+      })
+      .catch((err) => console.log(err));
   };
+  React.useEffect(() => {
+    p && getEveryReview();
+  }, [p]);
+  //now get the reviewMarks
+  let one = 0;
+  let two = 0;
+  let three = 0;
+  let four = 0;
+  let five = 0;
+
+  for (let i = 0; i < rev?.length; i++) {
+    const rate = rev[i].rating;
+    if (rate === 1) one++;
+    if (rate === 2) two++;
+    if (rate === 3) three++;
+    if (rate === 4) four++;
+    if (rate === 5) five++;
+  }
+  let avg = 0;
+  if (rev.length === 0) {
+    avg = 0;
+  } else {
+    avg = one * 1 + two * 2 + three * 3 + five * 5 + four * 4;
+    avg = (avg / rev.length).toFixed(1);
+  }
+
   return (
     <React.Fragment>
-      <section className="bg0 ">
-        <div>
-          <div
-            className="categories-thumbs category-stories"
-            style={{ backgroundColor: "#fff", position: "relative" }}
-          >
-            <div className="container">
-              <div className="set-inline">
-                <div className="category-strip">
-                  <div className="bredcrumb">
-                    <div
-                      className="sidebar-links  st-search-bar"
-                      style={{ marginTop: 20 }}
-                    >
-                      <form>
-                        <input
-                          type="text"
-                          name="search"
-                          placeholder="Search for items, brands & inspirations"
-                          autoCapitalize="off"
-                          autoComplete="off"
-                          autoCorrect="off"
-                        />
-                      </form>
-                    </div>
-                    <ul>
-                      <li>
-                        <Link to="/">Home</Link>{" "}
-                        <span className="b-arrow">
-                          <svg
-                            width="7"
-                            height="12"
-                            viewBox="0 0 7 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M0 2.107L4.351 6.4 0 10.693 1.324 12 7 6.4 1.324.8 0 2.107z"
-                              fill="#212121"
-                            ></path>
-                          </svg>
-                        </span>
-                      </li>
-                      <li className="active ">{p?.title}</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className={styles.notif}>
+        Free Shipping over <span className={styles.notifAmount}>₹ 499</span>
+      </div>
+      <div className={styles.topMost}>
+        <div className={styles.carousel}>
+          <Slider {...settings} style={{ height: "auto", width: "90%" }}>
+            {p &&
+              p.imagePath &&
+              p.imagePath.map((curr, index) => {
+                return <img src={curr} alt="Craousel" key={index} />;
+              })}
+          </Slider>
         </div>
-      </section>
-      {/* Part TWO From Here */}
-      <div className="ps-page--product">
-        <div className="ps-container">
-          <div className="ps-page__container">
-            <div className="ps-page__left">
-              <div className="ps-product--detail ps-product--fullwidth">
-                <div className="ps-product__header">
-                  {/* <div className="ps-product__thumbnail" data-vertical="true">
-                    <figure>
-                      <div className="ps-wrapper">
-                        <div className="ps-product__gallery" data-arrow="true">
-                          {p &&
-                            p.imagePath &&
-                            p.imagePath.length > 0 &&
-                            p.imagePath.map((curr, index) => {
-                              return (
-                                <div
-                                  className="item"
-                                  style={{
-                                    width: "100%",
-                                    height: 500,
-                                    maxWidth: 480,
-                                  }}
-                                  key={index}
-                                >
-                                  <a
-                                    href={curr}
-                                    id={`ContentPlaceHolder1_addImganchor${index}`}
-                                  >
-                                    <img
-                                      src={curr}
-                                      style={{
-                                        margin: "auto",
-                                        height: "50vh",
-                                        objectFit: "fill",
-                                      }}
-                                      id={`ContentPlaceHolder1_addImganchor${index}`}
-                                      alt="Images"
-                                    />
-                                  </a>
-                                </div>
-                              );
-                            })}
-                        </div>
-                      </div>
-                    </figure>
-                    <div
-                      className="ps-product__variants"
-                      data-item={4}
-                      data-md={4}
-                      data-sm={4}
-                      data-arrow="false"
-                    >
-                      {p &&
-                        p.imagePath &&
-                        p.imagePath.length > 0 &&
-                        p.imagePath.map((curr, index) => {
+        <div className={styles.info}>
+          {p?.available && <div className={styles.inStock}>In Stock</div>}
+          {p?.available === false && (
+            <div className={styles.inStock} style={{ color: "red" }}>
+              Out of Stock
+            </div>
+          )}
+          <div className={styles.title}>{p?.title}</div>
+          <div className={styles.price}>
+            <span className={styles.price}>₹ {p?.price}</span>
+            <span className={styles.mrpPrice}>₹ {p?.mrpPrice}</span>
+          </div>
+          <div className={styles.variants}>
+            {p &&
+              p.variants &&
+              p.variants.map((curr, index) => {
+                return (
+                  <div key={index}>
+                    <div className={styles.variantTitle}>
+                      {curr.main_varient}
+                    </div>
+
+                    <div className={styles.variantSubs}>
+                      {curr &&
+                        curr.sub_variants &&
+                        curr.sub_variants.map((curr, index) => {
                           return (
-                            <div className="item">
-                              <img
-                                src={curr}
-                                id={`ContentPlaceHolder1_baseImganchor${index}`}
-                                style={{ transform: "scale3d(1,1,1)" }}
-                                alt="here"
-                              />
+                            <div key={index} className={styles.variantItem}>
+                              {curr.quantity_type}
                             </div>
                           );
                         })}
                     </div>
-                  </div> */}
-                  <Carousel
-                    showArrows={true}
-                    autoPlay={true}
-                    interval={2000}
-                    infiniteLoop={true}
-                  >
-                    {p &&
-                      p.imagePath &&
-                      p.imagePath.length > 0 &&
-                      p.imagePath.map((curr, index) => {
-                        return (
-                          <div key={index}>
-                            <img src={curr} alt="1" height="100%" />
-                          </div>
-                        );
-                      })}
-                  </Carousel>
-
-                  <div className="ps-product__info">
-                    <h1
-                      id="ContentPlaceHolder1_productName"
-                      style={{ fontSize: 22, fontWeight: 600 }}
-                    >
-                      {p?.title} &emsp;
-                      <i
-                        className="fa fa-heart-o toggle"
-                        onClick={(e) => addToWishlist(p?._id)}
-                        //onclick="addwishlist(`<%=product._id%>`)"
-                      ></i>
-                    </h1>
-                    <div className="row" style={{ marginLeft: 4 }}>
-                      <h4
-                        id="ContentPlaceHolder1_pro_mainPrice"
-                        className="ps-product__price"
-                      >
-                        {" "}
-                        ₹ &nbsp;{p?.price}
-                      </h4>
-                      &emsp;
-                      <del
-                        id="ContentPlaceHolder1_delprice"
-                        style={{ color: "grey", textAlign: "center" }}
-                      >
-                        <h3
-                          id="ContentPlaceHolder1_pro_delPrice"
-                          className="ps-product__price"
-                          style={{ color: "grey", fontSize: 16, marginTop: 5 }}
-                        >
-                          ₹{p?.mrpPrice}
-                        </h3>
-                      </del>
-                      {p && p.discount && (
-                        <h2
-                          id="ContentPlaceHolder1_pro_mainPrice"
-                          className="ps-product__price"
-                          style={{
-                            color: "#f30",
-                            fontSize: 14,
-                            marginTop: 7,
-                            marginLeft: 5,
-                          }}
-                        >
-                          {p?.discount} OFF
-                        </h2>
-                      )}
-                    </div>
-                    <div className="ps-product__desc">
-                      {p && p.available && (
-                        <p
-                          style={{
-                            marginTop: 5,
-                            color: "green",
-                            fontSize: 22,
-                            fontWeight: 600,
-                          }}
-                        >
-                          In stock
-                        </p>
-                      )}
-
-                      {p && !p.available && (
-                        <p
-                          style={{
-                            marginTop: 5,
-                            color: "red",
-                            fontSize: 22,
-                            fontWeight: 600,
-                          }}
-                        >
-                          Out of stock
-                        </p>
-                      )}
-                    </div>
-                    <div id="ContentPlaceHolder1_shortDesc">
-                      <ul>
-                        <li>{p?.short_description}</li>
-                      </ul>
-                    </div>
-                    <div className={styles.manavesh_1}>
-                      {/* <figure style={{ marginBottom: 5 }}>
-                        <figcaption>Quantity</figcaption>
-                        <p className="form-group--number">
-                          <button
-                            type="button"
-                            className="up"
-                            id="up"
-                            //onclick="increment();"
-                          >
-                            <i
-                              className="fa fa-plus mainbtn"
-                              style={{ border: "none" }}
-                            />
-                          </button>
-                          <button
-                            type="button"
-                            className="down"
-                            id="down"
-                            //onclick="decrement();"
-                          >
-                            <i
-                              className="fa fa-minus mainbtn"
-                              style={{ border: "none" }}
-                            />
-                          </button>
-                          <input
-                            name="qty"
-                            type="text"
-                            id="numitem"
-                            class="form-control mainbtn"
-                            value="1"
-                            placeholder="1"
-                          />
-                        </p>
-                      </figure> */}
-                      <figure style={{ marginBottom: 5 }}>
-                        <center>
-                          <figcaption>Quantity</figcaption>
-                        </center>
-                        <div className={styles.outerDiv}>
-                          <button className={styles.btnPlus}>+</button>
-                          <input disabled value={1} />
-                          <button className={styles.btnMinus}>-</button>
-                        </div>
-
-                        {/* <p className="form-group--number">
-                          <button
-                            type="button"
-                            className="up"
-                            id="up"
-                            onclick="increment();"
-                          >
-                            <i
-                              className="fa fa-plus mainbtn"
-                              style={{ border: "none" }}
-                            />
-                          </button>
-                          <button
-                            type="button"
-                            className="down"
-                            id="down"
-                            onclick="decrement();"
-                          >
-                            <i
-                              className="fa fa-minus mainbtn"
-                              style={{ border: "none" }}
-                            />
-                          </button>
-                          <input
-                            name="qty"
-                            type="text"
-                            id="numitem"
-                            className="form-control mainbtn"
-                            defaultValue={1}
-                            placeholder={1}
-                          />
-                        </p> */}
-                      </figure>
-                      <center>
-                        <p
-                          id="ContentPlaceHolder1_adCart"
-                          className="ps-btn "
-                          onClick={() => addtocart(p)}
-                          //onclick="submitmyform()"
-                          style={{
-                            backgroundColor: "rgb(59, 17, 17)",
-                            color: "white",
-                            border: "solid",
-                            borderWidth: "thin",
-                            marginBottom: 5,
-                            marginTop: "5px",
-                          }}
-                        >
-                          {addedtoCart ? "Added to Cart " : "Add to Cart"}
-                        </p>
-
-                        <p
-                          id="ContentPlaceHolder1_butNow"
-                          className="ps-btn"
-                          //onclick="addwishlist(`<%=product._id%>`)"
-                          style={{
-                            backgroundColor: "#f30",
-                            color: "white",
-                            border: "solid",
-                            borderWidth: "thin",
-                            marginBottom: 5,
-                            marginTop: "5px",
-                          }}
-                        >
-                          Wishlist It!
-                        </p>
-                      </center>
-                    </div>
-                    <hr />
-                    <div>
-                      <div id="ContentPlaceHolder1_updatepanelpincode"></div>
-                      <table
-                        className="table ps-table--product-groupped"
-                        style={{ marginTop: "10px" }}
-                      >
-                        <tbody>
-                          <tr>
-                            <td style={{ width: "60%" }}>
-                              <input
-                                name="ctl00$ContentPlaceHolder1$pincode"
-                                type="text"
-                                id="zip"
-                                className="form-control mainbtn"
-                                placeholder="Enter Pincode For Delivery"
-                                value={pin}
-                                onChange={(e) => setPin(e.target.value)}
-                                minLength="6"
-                                maxLength="6"
-                              />
-                            </td>
-                            <td style={{ width: "40%" }}>
-                              <input
-                                type="submit"
-                                defaultValue="Check"
-                                id="checkPin"
-                                className="ps-btn ps-btn--gray mainbtn"
-                                style={{
-                                  backgroundColor: "rgb(177 174 168)",
-                                  textAlign: "center",
-                                }}
-                                onClick={handlePin}
-                                disabled={pin.length !== 6}
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <ul className="details-bullet">
-                                <li>
-                                  <p id="statusResult1">
-                                    Enter your Pincode to check Delivery Options
-                                    available in your Area.
-                                  </p>
-                                  <p id="statusResult2" />
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div className="ps-product__sharing" />
-                    </div>
-                    {/* <div className="ps-product__content ps-tab-root">
-                      <ul className="ps-tab-list">
-                        <li>
-                          <a href="#tab-1">Description</a>
-                        </li>
-                        <li>
-                          <a href="#tab-2">Specification</a>
-                        </li>
-                        <li>
-                          <a href="#tab-4">
-                            Reviews (
-                            <span id="ContentPlaceHolder1_reviewCount">0</span>)
-                          </a>
-                        </li>
-                      </ul>
-                      <div className="ps-tabs">
-                        <div className="ps-tab" id="tab-1">
-                          <div
-                            id="ContentPlaceHolder1_ProDescription"
-                            className="ps-document"
-                            dangerouslySetInnerHTML={create(p?.description)}
-                          ></div>
-                        </div>
-                        <div className="ps-tab" id="tab-2">
-                          <div className="table-responsive">
-                            <table className="table table-bordered ps-table ps-table--specification">
-                              <tbody>
-                                <div className=" m-lr-auto">
-                                  <ul className="p-lr-5 p-lr-5-sm">
-                                    <li className="flex-w flex-t p-b-7">
-                                      <span className="stext-102 c15 size-205 ">
-                                        Weight
-                                      </span>
-                                      <span className="stext-102 cl6 size-206">
-                                        {p?.specific_quantity}
-                                      </span>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
-                    <Tabs defaultActiveKey="1">
-                      <TabPane tab="Description" key="1">
-                        <div
-                          dangerouslySetInnerHTML={create(p?.description)}
-                        ></div>
-                      </TabPane>
-                      <TabPane tab="Specifications" key="2">
-                        <div className="table-responsive">
-                          <div className=" m-lr-auto">
-                            <ul className="p-lr-5 p-lr-5-sm">
-                              <li className="flex-w flex-t p-b-7">
-                                <span className="stext-102 c15 size-205 ">
-                                  Weight
-                                </span>
-                                <span className="stext-102 cl6 size-206">
-                                  {p?.specific_quantity}
-                                </span>
-                              </li>
-                              <li className="flex-w flex-t p-b-7">
-                                <span className="stext-102 c15 size-205 ">
-                                  Materials
-                                </span>
-                                <span className="stext-102 cl6 size-206">
-                                  {p?.specific_ingredients}
-                                </span>
-                              </li>
-                              <li className="flex-w flex-t p-b-7">
-                                <span className="stext-102 c15 size-205 ">
-                                  Type
-                                </span>
-                                <span className="stext-102 cl6 size-206">
-                                  {p?.specific_type}
-                                </span>
-                              </li>
-                              <li className="flex-w flex-t p-b-7">
-                                <span className="stext-102 c15 size-205 ">
-                                  Manufacturing Date
-                                </span>
-                                <span className="stext-102 cl6 size-206">
-                                  {p?.specific_date}
-                                </span>
-                              </li>
-                              <li className="flex-w flex-t p-b-7">
-                                <span className="stext-102 c15 size-205 ">
-                                  Expiry Date
-                                </span>
-                                <span className="stext-102 cl6 size-206">
-                                  {p?.specific_expiry_date}
-                                </span>
-                              </li>
-                              <li className="flex-w flex-t p-b-7">
-                                <span className="stext-102 c15 size-205 ">
-                                  Manufacturer
-                                </span>
-                                <span className="stext-102 cl6 size-206">
-                                  {p?.manufacturer}
-                                </span>
-                              </li>
-                            </ul>
-                          </div>
-                          <table className="table table-bordered ps-table ps-table--specification">
-                            <tbody></tbody>
-                          </table>
-                        </div>
-                      </TabPane>
-                      <TabPane tab="Reviews" key="3">
-                        <div className="row">
-                          <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 ">
-                            <div className="ps-block--average-rating">
-                              <div className="ps-block__header">
-                                <h3 id="ContentPlaceHolder1_avgstar">0.0</h3>
-                                <select
-                                  className="ps-rating"
-                                  data-read-only="true"
-                                >
-                                  <option
-                                    id="ContentPlaceHolder1_ops1"
-                                    value={2}
-                                  >
-                                    1
-                                  </option>
-                                  <option
-                                    id="ContentPlaceHolder1_ops2"
-                                    value={2}
-                                  >
-                                    2
-                                  </option>
-                                  <option
-                                    id="ContentPlaceHolder1_ops3"
-                                    value={2}
-                                  >
-                                    3
-                                  </option>
-                                  <option
-                                    id="ContentPlaceHolder1_ops4"
-                                    value={2}
-                                  >
-                                    4
-                                  </option>
-                                  <option
-                                    id="ContentPlaceHolder1_ops5"
-                                    value={2}
-                                  >
-                                    5
-                                  </option>
-                                </select>
-                                <span id="ContentPlaceHolder1_totalreview">
-                                  0 Review
-                                </span>
-                              </div>
-                              <div className="ps-block__star">
-                                <span>5 Star</span>
-                                <div
-                                  id="ContentPlaceHolder1_star5"
-                                  className="ps-progress"
-                                  data-value={0}
-                                >
-                                  <span />
-                                </div>
-                                <span id="ContentPlaceHolder1_star51">0</span>
-                              </div>
-                              <div className="ps-block__star">
-                                <span>4 Star</span>
-                                <div
-                                  id="ContentPlaceHolder1_star4"
-                                  className="ps-progress"
-                                  data-value={0}
-                                >
-                                  <span />
-                                </div>
-                                <span id="ContentPlaceHolder1_star41">0</span>
-                              </div>
-                              <div className="ps-block__star">
-                                <span>3 Star</span>
-                                <div
-                                  id="ContentPlaceHolder1_star3"
-                                  className="ps-progress"
-                                  data-value={0}
-                                >
-                                  <span />
-                                </div>
-                                <span id="ContentPlaceHolder1_star31">0</span>
-                              </div>
-                              <div className="ps-block__star">
-                                <span>2 Star</span>
-                                <div
-                                  id="ContentPlaceHolder1_star2"
-                                  className="ps-progress"
-                                  data-value={0}
-                                >
-                                  <span />
-                                </div>
-                                <span id="ContentPlaceHolder1_star21">0</span>
-                              </div>
-                              <div className="ps-block__star">
-                                <span>1 Star</span>
-                                <div
-                                  id="ContentPlaceHolder1_star1"
-                                  className="ps-progress"
-                                  data-value={0}
-                                >
-                                  <span />
-                                </div>
-                                <span id="ContentPlaceHolder1_star11">0</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            id="ContentPlaceHolder1_ratingDiv"
-                            className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12"
-                            style={{}}
-                          >
-                            <div
-                              id="ContentPlaceHolder1_submitDiv"
-                              className="ps-form--review"
-                            >
-                              <div
-                                id="flash-msg"
-                                className="alert alert-danger dis-none"
-                              />
-                              <form className="w-full" id="cmform">
-                                <h5 className="mtext-108 cl2 p-b-7">
-                                  Add a review
-                                </h5>
-                                <p className="stext-102 cl6">
-                                  Your email address will not be published.
-                                  Required fields are marked *
-                                </p>
-                                <div
-                                  className="flex-w p-t-5"
-                                  style={{
-                                    flexDirection: "column",
-                                    justifyContent: "left",
-                                  }}
-                                >
-                                  <span
-                                    className="stext-102 cl3 m-r-16"
-                                    style={{ textAlign: "left" }}
-                                  >
-                                    Your Rating
-                                    <span
-                                      style={{ color: "red", marginTop: 10 }}
-                                    >
-                                      *
-                                    </span>
-                                  </span>
-                                  <span
-                                    className="wrap-rating fs-18 cl11 pointer"
-                                    style={{ textAlign: "left" }}
-                                  >
-                                    <i className="item-rating pointer zmdi zmdi-star-outline" />
-                                    <i className="item-rating pointer zmdi zmdi-star-outline" />
-                                    <i className="item-rating pointer zmdi zmdi-star-outline" />
-                                    <i className="item-rating pointer zmdi zmdi-star-outline" />
-                                    <i className="item-rating pointer zmdi zmdi-star-outline" />
-                                    <input
-                                      className="dis-none"
-                                      type="number"
-                                      id="rating"
-                                      name="rating"
-                                    />
-                                  </span>
-                                </div>
-                                <div className="row ">
-                                  <div className="col-12 p-b-5 p-l-0">
-                                    <label
-                                      className="stext-102 cl3"
-                                      htmlFor="review"
-                                      style={{ textAlign: "left" }}
-                                    >
-                                      Your review{" "}
-                                      <span style={{ color: "red" }}>*</span>
-                                    </label>
-                                    <textarea
-                                      className="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
-                                      id="review"
-                                      name="review"
-                                      defaultValue={""}
-                                    />
-                                  </div>
-                                </div>
-                                <button className="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                  Submit
-                                </button>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </TabPane>
-                    </Tabs>
                   </div>
-                </div>
-              </div>
+                );
+              })}
+          </div>
+          <div className={styles.quantity}>
+            <span
+              className={styles.plus}
+              onClick={(e) => {
+                console.log("PLUS");
+                if (current?.quantity === 5) {
+                  toast.warning("Maximum Quantity per Order is 5");
+                  return;
+                } else {
+                  const x = current.quantity;
+                  setCurrent({ ...current, quantity: x + 1 });
+                }
+              }}
+            >
+              +
+            </span>
+            <input type="text" value={current?.quantity} disabled={true} />
+            <span
+              className={styles.plus}
+              onClick={(e) => {
+                if (current?.quantity === 1) {
+                  toast.warning("Minimum Quantity per Order is 1");
+                  return;
+                } else {
+                  const x = current.quantity;
+                  setCurrent({ ...current, quantity: x - 1 });
+                }
+              }}
+            >
+              -
+            </span>
+          </div>
+          <br />
+          <div className={styles.checkout}>
+            <div className={styles.variantTitle}>Checkout</div>
+            <div className={styles.checkoutBtns}>
+              <button
+                className={styles.addToCart}
+                style={{ cursor: "pointer" }}
+                onClick={(e) => handleCart(p?._id, p?.title)}
+                disabled={p?.available !== true}
+              >
+                {p?.available !== true ? "Out of Stock" : "Add to Cart"}
+              </button>
+              <button
+                className={styles.buyNow}
+                style={{ cursor: "pointer" }}
+                disabled={p?.available !== true}
+              >
+                {p?.available !== true ? "Out of Stock" : "Buy Now"}
+              </button>
             </div>
+          </div>
+          <div className={styles.checkout}>
+            <div className={styles.variantTitle}>Description</div>
+            <div
+              dangerouslySetInnerHTML={createMarkup()}
+              className={styles.description}
+            />
+          </div>
+          <div className={styles.meta}>
+            <img
+              src="https://res.cloudinary.com/techbuy/image/upload/v1646214227/Group_125_s17liq.png"
+              alt="cafecart"
+            />
 
-            <div className="ps-page__right">
-              <aside className="widget widget_product widget_features">
-                <p>
-                  <i className="icon-network" />
-                  Shipping all over India
-                </p>
-                <p>
-                  <i className="icon-3d-rotate" />
-                  Hassle free return
-                </p>
-                <p>
-                  <i className="icon-credit-card" />
-                  Pay online or Cash On Delivery (COD)
-                </p>
-                <p>
-                  <i className="icon-receipt" />
-                  Premium products, Premium Service
-                </p>
-              </aside>
-            </div>
+            <img
+              src="https://res.cloudinary.com/techbuy/image/upload/v1646214228/Group_98_nguqa4.png"
+              alt="cafecart"
+            />
+            <img
+              src="https://res.cloudinary.com/techbuy/image/upload/v1646214228/Group_101_bzenjv.png"
+              alt="cafecart"
+            />
+            <img
+              src="https://res.cloudinary.com/techbuy/image/upload/v1646214227/Group_124_scg5ro.png"
+              alt="cafecart"
+            />
+          </div>
+          <div className={styles.pin}>
+            <span className={styles.pinInput}>
+              <input
+                type="number"
+                onChange={(e) => setPin(e.target.value)}
+                value={pin}
+              />
+            </span>
+            <span className={styles.pinBtn}>
+              <button
+                className={styles.pinBtnClick}
+                onClick={handlePin}
+                disabled={pinMsg}
+              >
+                {pinMsg ? "Verifying.." : "Check Pin"}
+              </button>
+            </span>
+          </div>
+          <div className={styles.pinInfo}>
+            Enter your Pincode to check Delivery Options available in your Area.
           </div>
         </div>
       </div>
+      <div className={styles.tabs}>
+        <Tabs defaultActiveKey="1" centered size="large">
+          <TabPane tab="Description" key="1">
+            <center>
+              <div dangerouslySetInnerHTML={createMarkup1()}></div>
+            </center>
+          </TabPane>
+          <TabPane tab="Specifications" key="2">
+            <center>
+              <div className="table-responsive">
+                <div className=" m-lr-auto">
+                  <ul className="p-lr-5 p-lr-5-sm">
+                    <li className="flex-w flex-t p-b-7">
+                      <span className="stext-102 c15 size-205 ">Weight</span>
+                      <span className="stext-102 cl6 size-206">
+                        {p?.specific_quantity}
+                      </span>
+                    </li>
+                    <li className="flex-w flex-t p-b-7">
+                      <span className="stext-102 c15 size-205 ">Materials</span>
+                      <span className="stext-102 cl6 size-206">
+                        {p?.specific_ingredients}
+                      </span>
+                    </li>
+                    <li className="flex-w flex-t p-b-7">
+                      <span className="stext-102 c15 size-205 ">Type</span>
+                      <span className="stext-102 cl6 size-206">
+                        {p?.specific_type}
+                      </span>
+                    </li>
+                    <li className="flex-w flex-t p-b-7">
+                      <span className="stext-102 c15 size-205 ">
+                        Manufacturing Date
+                      </span>
+                      <span className="stext-102 cl6 size-206">
+                        {p?.specific_date}
+                      </span>
+                    </li>
+                    <li className="flex-w flex-t p-b-7">
+                      <span className="stext-102 c15 size-205 ">
+                        Expiry Date
+                      </span>
+                      <span className="stext-102 cl6 size-206">
+                        {p?.specific_expiry_date}
+                      </span>
+                    </li>
+                    <li className="flex-w flex-t p-b-7">
+                      <span className="stext-102 c15 size-205 ">
+                        Manufacturer
+                      </span>
+                      <span className="stext-102 cl6 size-206">
+                        {p?.manufacturer}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <table className="table table-bordered ps-table ps-table--specification">
+                  <tbody></tbody>
+                </table>
+              </div>
+            </center>
+          </TabPane>
+        </Tabs>
+      </div>
+      <div className={styles1.heading}>Reviews</div>
+      <div className={styles.reviews_stars}>
+        <div className={styles.stars}>
+          <div className={styles.averageStars}>{avg}</div>
+          <div className={styles.starsTotal}>
+            <StarRatings
+              rating={Number(avg)}
+              starRatedColor="#fccc4d"
+              // changeRating={this.changeRating}
+              numberOfStars={5}
+              svgIconPath="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"
+            />
+          </div>
+          <div className={styles.singleStar}>
+            <div className={styles.singleStarItem}>
+              <div className={styles.singleStarItemCount}>1 Star</div>
+              <div className={styles.singleStarItemTable}>
+                <Progress
+                  percent={(one / rev.length) * 100}
+                  strokeColor="#fccc4d"
+                />
+              </div>
+            </div>
+            <div className={styles.singleStarItem}>
+              <div className={styles.singleStarItemCount}>2 Stars</div>
+              <div className={styles.singleStarItemTable}>
+                <Progress
+                  percent={(two / rev.length) * 100}
+                  strokeColor="#fccc4d"
+                />
+              </div>
+            </div>
+            <div className={styles.singleStarItem}>
+              <div className={styles.singleStarItemCount}>3 Stars</div>
+              <div className={styles.singleStarItemTable}>
+                <Progress
+                  percent={(three / rev.length) * 100}
+                  strokeColor="#fccc4d"
+                />
+              </div>
+            </div>
+            <div className={styles.singleStarItem}>
+              <div className={styles.singleStarItemCount}>4 Stars</div>
+              <div className={styles.singleStarItemTable}>
+                <Progress
+                  percent={(four / rev.length) * 100}
+                  strokeColor="#fccc4d"
+                />
+              </div>
+            </div>
+            <div className={styles.singleStarItem}>
+              <div className={styles.singleStarItemCount}>5 Stars</div>
+              <div className={styles.singleStarItemTable}>
+                <Progress
+                  percent={(five / rev.length) * 100}
+                  strokeColor="#fccc4d"
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.reviewBox}>Add Your Review</div>
+          <div className={styles.rateUs}>
+            <div className={styles.starRate}>
+              <StarRatings
+                rating={star}
+                starRatedColor="#fccc4d"
+                // changeRating={this.changeRating}
+                numberOfStars={5}
+                name="rating"
+                svgIconPath="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"
+                starDimension="30px"
+                starHoverColor="#0000ff"
+                isSelectable={true}
+                changeRating={(value) => setStar(value)}
+              />
+            </div>
+            <div className={styles.text}>
+              <input
+                type="text"
+                className={styles.textInput}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Add a Review"
+              />
+            </div>
+            <div className={styles.btnReview}>
+              <button className={styles.addToCart} onClick={handleReview}>
+                POST
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.reviews}>
+          <div className={styles.reviewBox}>Reviews</div>
+          {rev &&
+            rev.length > 0 &&
+            rev.map((curr, index) => {
+              return (
+                <div className={styles.reviewsSection}>
+                  <div className={styles.review}>
+                    <span className={styles.reviewPerson}>{curr?.name}</span>
+                    <span className={styles.date}>
+                      {moment(curr?.createdAt).format("MMMM Do YYYY, h:mm a")}
+                    </span>
+                  </div>
+                  <div className={styles.reviewStars}>
+                    <StarRatings
+                      rating={curr?.rating}
+                      starRatedColor="#fccc4d"
+                      // changeRating={this.changeRating}
+                      numberOfStars={5}
+                      name="rating"
+                      svgIconPath="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"
+                      starDimension="18px"
+                      starSpacing="5px"
+                    />
+                  </div>
+                  <div className={styles.reviewText}>{curr?.comment}</div>
+                </div>
+              );
+            })}
+          {rev && rev.length === 0 && (
+            <p>No Review Yet! Be The First One to Review</p>
+          )}
+        </div>
+      </div>
+      <div className={styles1.heading}>Related Products</div>
+      <div className={styles1.newArrivals}>
+        {other &&
+          other.length > 0 &&
+          other.map((curr, index) => {
+            return (
+              <div
+                className={styles1.newArrivalItem}
+                key={index}
+                onClick={(e) => navigate(`/products/${curr._id}`)}
+              >
+                <div>
+                  <center>
+                    <img
+                      src={curr?.imagePath[0]}
+                      alt="imr"
+                      className={styles1.newArrivalItem__img}
+                    />
+                  </center>
+                </div>
+                <div className={styles1.newArrivalItem__meta}>
+                  <div className={styles1.newArrivalItem__meta__title}>
+                    {curr?.title}
+                  </div>
+                  {/* <div className={styles1.newArrivalItem__meta__description}>
+                    {`${curr?.short_description?.substring(0, 80)}...`}
+                  </div> */}
+                  <div className={styles1.newArrivalItem__meta__actions}>
+                    <div
+                      className={styles1.newArrivalItem__meta__actions__buttons}
+                    >
+                      <FavoriteBorderOutlinedIcon
+                        sx={{ fontSize: 30 }}
+                        className={styles1.icon}
+                      />
+                      <ShoppingCartOutlinedIcon
+                        sx={{ fontSize: 30 }}
+                        className={styles1.icon}
+                      />
+                    </div>
+                    <div
+                      className={styles1.newArrivalItem__meta__actions__price}
+                    >
+                      <p className={styles1.price}>₹{curr?.price}</p>
+                      <p className={styles1.mrpPrice}>
+                        <del>₹{curr?.mrpPrice}</del>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+      {/* {JSON.stringify(p)} */}
     </React.Fragment>
   );
 };

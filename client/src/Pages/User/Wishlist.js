@@ -17,8 +17,8 @@ const Wishlist = () => {
   if (window !== "undefined" && window.localStorage.getItem("wishlist")) {
     WL = JSON.parse(window.localStorage.getItem("wishlist"));
   }
-  if (window !== "undefined" && window.localStorage.getItem("cart")) {
-    cartLS = JSON.parse(window.localStorage.getItem("cart"));
+  if (window !== "undefined" && window.localStorage.getItem("cartLS")) {
+    cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
   }
   React.useEffect(() => {
     dispatch({

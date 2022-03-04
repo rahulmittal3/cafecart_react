@@ -76,18 +76,42 @@ import SingleAdminOrder from "./Pages/Admin/SingleOrder.js";
 import { useSelector, useDispatch } from "react-redux";
 
 function App() {
-  const { user, cart } = useSelector((state) => ({ ...state }));
+  // const { user, cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
-  let userLS = null;
+  let user = null;
   let cartLS = [];
+  if (window !== "undefined" && window.localStorage.getItem("cartLS"))
+    cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
+  console.log("FROM APP.JS", cartLS);
+  dispatch({
+    type: "CART",
+    payload: cartLS,
+  });
+  let wishlist = [];
+  if (window !== "undefined" && window.localStorage.getItem("wishlist"))
+    wishlist = JSON.parse(window.localStorage.getItem("wishlist"));
+  console.log("FROM APP.JS", wishlist);
+  dispatch({
+    type: "WISHLIST",
+    payload: wishlist,
+  });
+  if (window !== "undefined" && window.localStorage.getItem("user"))
+    user = JSON.parse(window.localStorage.getItem("user"));
+  console.log("FROM APP.JS", user);
+  dispatch({
+    type: "USER_CHANGED",
+    payload: user,
+  });
+  // let userLS = null;
+  // let cartLS = [];
 
-  const getDetails = () => {
-    if (window !== "undefined" && window.localStorage.getItem("cart"))
-      cartLS = JSON.parse(window.localStorage.getItem("cart"));
-    if (window !== "undefined" && window.localStorage.getItem("user")) {
-      cartLS = JSON.parse(window.localStorage.getItem(user));
-    }
-  };
+  // const getDetails = () => {
+  //   if (window !== "undefined" && window.localStorage.getItem("cart"))
+  //     cartLS = JSON.parse(window.localStorage.getItem("cart"));
+  //   if (window !== "undefined" && window.localStorage.getItem("user")) {
+  //     cartLS = JSON.parse(window.localStorage.getItem(user));
+  //   }
+  // };
 
   // React.useEffect(() => {
   //   getDetails();

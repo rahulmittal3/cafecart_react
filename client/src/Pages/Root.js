@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const Root = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
@@ -14,6 +15,7 @@ const Root = () => {
       navigate("/home");
     }
   }, []);
+
   return (
     <>
       <Canvas />

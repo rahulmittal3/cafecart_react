@@ -63,6 +63,39 @@ const singleProduct = async (id) => {
   });
   return result;
 };
+const otherProducts = async (name) => {
+  console.log("AXIOS : ", name);
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/product/other-products`,
+    data: {
+      name,
+    },
+  });
+  return result;
+};
+const createReview = async (jwt, id, star, text) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/product/create-review`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    data: {
+      id: id,
+      star: star,
+      text: text,
+    },
+  });
+  return result;
+};
+const getReviews = async (id) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/product/get-reviews/${id}`,
+  });
+  return result;
+};
 export {
   newArrival,
   categories,
@@ -72,4 +105,7 @@ export {
   singleProduct,
   trending,
   best,
+  otherProducts,
+  createReview,
+  getReviews,
 };

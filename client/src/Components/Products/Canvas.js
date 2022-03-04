@@ -1,17 +1,20 @@
 import React from "react";
 import styles from "./Canvas.module.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
 import { Carousel } from "react-responsive-carousel";
 import { newArrival, trending, best } from "../../Axios/Products.js";
-
+import _ from "lodash";
+import { toast } from "react-toastify";
 const Canvas = () => {
   const [newData, setNewData] = React.useState([]);
   const [newTrending, setNewTrending] = React.useState([]);
   const [newBest, setNewbest] = React.useState([]);
+  const dispatch = useDispatch();
 
   const getNewArrivals = () => {
     newArrival()
@@ -60,6 +63,50 @@ const Canvas = () => {
   }, []);
   const navigate = useNavigate();
 
+  //HANDLING CART ITEMS
+  const handleCart = (id, name) => {
+    console.log(id);
+    //first just insert it to the LS;
+    let cartLS = [];
+    if (window !== undefined && window.localStorage.getItem("cartLS")) {
+      cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
+    }
+    //WE WILL INSERT THE PRODUCTS AS {_id,quantity}
+    const object = {
+      _id: id,
+      name: name,
+      quantity: 1,
+    };
+    cartLS.push(object);
+    cartLS = _.uniqBy(cartLS, "_id");
+    //SEND IT TO THE LS
+    window.localStorage.setItem("cartLS", JSON.stringify(cartLS));
+    dispatch({
+      type: "CART",
+      payload: cartLS,
+    });
+    toast.success(`${name} has been added to your cart`);
+  };
+  const handleWishlist = (id, name) => {
+    console.log(id);
+    //first just insert it to the LS;
+    let wishlist = [];
+    if (window !== undefined && window.localStorage.getItem("wishlist")) {
+      wishlist = JSON.parse(window.localStorage.getItem("wishlist"));
+    }
+    //WE WILL INSERT THE PRODUCTS AS {_id,quantity}
+
+    wishlist.push(id);
+    wishlist = _.uniq(wishlist);
+    //SEND IT TO THE LS
+    console.log(wishlist);
+    window.localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    dispatch({
+      type: "WISHLIST",
+      payload: wishlist,
+    });
+    toast.success(`${name} has been added to your wishlist`);
+  };
   return (
     <>
       <div className={styles.canvasWrapper}>
@@ -79,7 +126,7 @@ const Canvas = () => {
             </p>
             <div className={styles.bannerImg}>
               <img
-                src="https://i.picsum.photos/id/403/536/354.jpg?hmac=Cg78SPqGbiGuHfV34a5FcODRJKcDZ6BJu_xkudFYCrE"
+                src="https://res.cloudinary.com/techbuy/image/upload/v1645949093/Group_561_jswj7f.png"
                 alt="pew"
               />
             </div>
@@ -94,7 +141,7 @@ const Canvas = () => {
             </p>
             <div className={styles.bannerImg}>
               <img
-                src="https://i.picsum.photos/id/403/536/354.jpg?hmac=Cg78SPqGbiGuHfV34a5FcODRJKcDZ6BJu_xkudFYCrE"
+                src="https://res.cloudinary.com/techbuy/image/upload/v1645949093/Group_561_jswj7f.png"
                 alt="pew"
               />
             </div>
@@ -109,7 +156,7 @@ const Canvas = () => {
             </p>
             <div className={styles.bannerImg}>
               <img
-                src="https://i.picsum.photos/id/403/536/354.jpg?hmac=Cg78SPqGbiGuHfV34a5FcODRJKcDZ6BJu_xkudFYCrE"
+                src="https://res.cloudinary.com/techbuy/image/upload/v1645949093/Group_561_jswj7f.png"
                 alt="pew"
               />
             </div>
@@ -230,22 +277,22 @@ const Canvas = () => {
           newData.length > 0 &&
           newData.map((curr, index) => {
             return (
-              <div
-                className={styles.newArrivalItem}
-                key={index}
-                onClick={(e) => navigate(`/products/${curr._id}`)}
-              >
+              <div className={styles.newArrivalItem} key={index}>
                 <div>
                   <center>
                     <img
                       src={curr?.imagePath[0]}
                       alt="imr"
                       className={styles.newArrivalItem__img}
+                      onClick={(e) => navigate(`/products/${curr._id}`)}
                     />
                   </center>
                 </div>
                 <div className={styles.newArrivalItem__meta}>
-                  <div className={styles.newArrivalItem__meta__title}>
+                  <div
+                    className={styles.newArrivalItem__meta__title}
+                    onClick={(e) => navigate(`/products/${curr._id}`)}
+                  >
                     {curr?.title}
                   </div>
                   {/* <div className={styles.newArrivalItem__meta__description}>
@@ -258,10 +305,16 @@ const Canvas = () => {
                       <FavoriteBorderOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles.icon}
+                        onClick={(e) => {
+                          handleWishlist(curr?._id, curr?.title);
+                        }}
                       />
                       <ShoppingCartOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles.icon}
+                        onClick={(e) => {
+                          handleCart(curr?._id, curr?.title);
+                        }}
                       />
                     </div>
                     <div
@@ -335,22 +388,22 @@ const Canvas = () => {
           newTrending.length > 0 &&
           newTrending.map((curr, index) => {
             return (
-              <div
-                className={styles.newArrivalItem}
-                key={index}
-                onClick={(e) => navigate(`/products/${curr._id}`)}
-              >
+              <div className={styles.newArrivalItem} key={index}>
                 <div>
                   <center>
                     <img
                       src={curr?.imagePath[0]}
                       alt="imr"
                       className={styles.newArrivalItem__img}
+                      onClick={(e) => navigate(`/products/${curr._id}`)}
                     />
                   </center>
                 </div>
                 <div className={styles.newArrivalItem__meta}>
-                  <div className={styles.newArrivalItem__meta__title}>
+                  <div
+                    className={styles.newArrivalItem__meta__title}
+                    onClick={(e) => navigate(`/products/${curr._id}`)}
+                  >
                     {curr?.title}
                   </div>
                   {/* <div className={styles.newArrivalItem__meta__description}>
@@ -363,10 +416,16 @@ const Canvas = () => {
                       <FavoriteBorderOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles.icon}
+                        onClick={(e) => {
+                          handleWishlist(curr?._id, curr?.title);
+                        }}
                       />
                       <ShoppingCartOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles.icon}
+                        onClick={(e) => {
+                          handleCart(curr?._id, curr?.title);
+                        }}
                       />
                     </div>
                     <div

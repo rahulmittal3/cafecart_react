@@ -6,13 +6,16 @@ import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useSelector, useDispatch } from "react-redux";
 
 const Drawerrr = ({ show, setShow }) => {
   const navigate = useNavigate();
   const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const { cart } = useSelector((state) => ({ ...state }));
   let cartLS = [];
-  if (window !== "undefined" && window.localStorage.getItem("cart"))
-    cartLS = JSON.parse(window.localStorage.getItem("cart"));
+  if (window !== "undefined" && window.localStorage.getItem("cartLS"))
+    cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
   const showDrawer = () => {
     setShow(true);
   };
@@ -22,14 +25,21 @@ const Drawerrr = ({ show, setShow }) => {
   };
 
   const getItems = () => {
+    setLoading(true);
     cartDetails(cartLS)
-      .then((res) => setData(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
   };
 
   React.useEffect(() => {
     getItems();
-  }, []);
+    setShow(true);
+  }, [cart]);
 
   //GET THE REQUIRED ITEMS...
   let cartDisplay = [];
@@ -54,12 +64,14 @@ const Drawerrr = ({ show, setShow }) => {
       closable={true}
     >
       <h3 className={styles.heading}>YOUR CART</h3>
-      {data && data.length === 0 && (
+      {loading && <div className={styles.noItem}>Loading...</div>}
+      {!loading && data && data.length === 0 && (
         <div className={styles.noItem}>
           No Items Found. Add Some Items to your Cart! 🛍️
         </div>
       )}
-      {data &&
+      {!loading &&
+        data &&
         data.length > 0 &&
         cartDisplay.map((curr, index) => {
           return (
@@ -98,21 +110,25 @@ const Drawerrr = ({ show, setShow }) => {
             </>
           );
         })}
-      <div className={styles.total}>
-        Total Amount : ₹{total.toLocaleString()}
-      </div>
-      <div className={styles.btnGroup}>
-        <p
-          className={styles.btns}
-          onClick={(e) => {
-            navigate("/cart");
-            setShow(false);
-          }}
-        >
-          VIEW CART
-        </p>
-        <p className={styles.btns}>CHECKOUT</p>
-      </div>
+      {loading === false && (
+        <>
+          <div className={styles.total}>
+            Total Amount : ₹{total.toLocaleString()}
+          </div>
+          <div className={styles.btnGroup}>
+            <p
+              className={styles.btns}
+              onClick={(e) => {
+                navigate("/cart");
+                setShow(false);
+              }}
+            >
+              VIEW CART
+            </p>
+            <p className={styles.btns}>CHECKOUT</p>
+          </div>
+        </>
+      )}
     </Drawer>
   );
 };
