@@ -1,0 +1,38 @@
+.wrapper {
+  background: #1b1f20;
+  color: #e6dbdb;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 30px;
+}
+.footerItem {
+  display: columna;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px;
+}
+.footerItemHead {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 33px;
+  text-transform: uppercase;
+
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+.footerItemContent {
+  margin: 5px 0px;
+}
+.footerItemContact {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.footerItemMenu {
+  margin: 2px 0px;
+}
