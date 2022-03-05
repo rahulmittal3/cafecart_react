@@ -54,7 +54,7 @@ input {
   text-align: center;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 20px;
   line-height: 30px;
   /* identical to box height */
@@ -119,7 +119,7 @@ input {
   margin: 4px 10px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 21px;
   line-height: 57px;
   /* identical to box height, or 271% */
@@ -131,7 +131,7 @@ input {
 .variantTitle {
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 21px;
   line-height: 31px;
   /* identical to box height */
@@ -174,7 +174,7 @@ input {
   border-radius: 2.49721px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 19.9777px;
   line-height: 47px;
   /* identical to box height, or 237% */
@@ -203,7 +203,7 @@ input {
   border-radius: 1px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 19.977px;
   line-height: 27px;
   border: 2px solid #a0522c;
@@ -219,7 +219,7 @@ input {
   border-radius: 1px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 19.977px;
   line-height: 27px;
   /* identical to box height */
@@ -273,7 +273,7 @@ input {
   padding: 10px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 19.977px;
   width: 100%;
 }
@@ -283,7 +283,7 @@ input {
   border-radius: 1px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 19.977px;
 
   /* border: 2px solid #a0522c; */
@@ -296,7 +296,7 @@ input {
 .pinInfo {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16px;
   line-height: 18px;
   /* or 129% */
@@ -315,7 +315,7 @@ input {
 .heading {
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 30px;
   line-height: 45px;
   /* identical to box height */
@@ -334,7 +334,7 @@ input {
 .reviews_stars {
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 65px;
   line-height: 29px;
   /* identical to box height, or 45% */
@@ -383,7 +383,7 @@ input {
 .singleStarItemCount {
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 17px;
   line-height: 23px;
   /* or 135% */
@@ -393,7 +393,7 @@ input {
 .singleStarItemPercentage {
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 15px;
   line-height: 23px;
   /* identical to box height, or 153% */
@@ -405,7 +405,7 @@ input {
 .reviewBox {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 22px;
   line-height: 33px;
   /* identical to box height */
@@ -418,7 +418,7 @@ input {
 .rateUs {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 18px;
   line-height: 33px;
   /* identical to box height */
@@ -431,7 +431,7 @@ input {
 .reviewPerson {
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 17px;
   line-height: 23px;
   /* identical to box height, or 135% */
@@ -442,7 +442,7 @@ input {
 .date {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 18px;
   line-height: 23px;
   /* identical to box height, or 128% */
@@ -454,7 +454,7 @@ input {
 .reviewText {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 15px;
   line-height: 23px;
   /* or 153% */

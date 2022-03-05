@@ -29,6 +29,7 @@ import EditProfile from "./Pages/User/EditProfile.js";
 import SingleOrder from "./Pages/User/SingleOrder.js";
 //header and footer
 import Header from "./Components/Header/Header.js";
+import NewHeader from "./Components/Header/NewHeader.js";
 import Footer from "./Components/Footer/Footer.js";
 import Variety from "./Pages/Products/Variety.js";
 import NewBlogs from "./Pages/Blogs/newBlogs.js";
@@ -128,6 +129,7 @@ function App() {
   return (
     <>
       <ToastContainer />
+      {/* <NewHeader /> */}
       <Routes>
         <Route
           path="/"
