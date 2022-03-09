@@ -77,66 +77,59 @@ import SingleAdminOrder from "./Pages/Admin/SingleOrder.js";
 import { useSelector, useDispatch } from "react-redux";
 
 function App() {
-  // const { user, cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
-  let user = null;
-  let cartLS = [];
-  if (window !== "undefined" && window.localStorage.getItem("cartLS"))
-    cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
-  console.log("FROM APP.JS", cartLS);
-  dispatch({
-    type: "CART",
-    payload: cartLS,
-  });
-  let wishlist = [];
-  if (window !== "undefined" && window.localStorage.getItem("wishlist"))
-    wishlist = JSON.parse(window.localStorage.getItem("wishlist"));
-  console.log("FROM APP.JS", wishlist);
-  dispatch({
-    type: "WISHLIST",
-    payload: wishlist,
-  });
-  if (window !== "undefined" && window.localStorage.getItem("user"))
-    user = JSON.parse(window.localStorage.getItem("user"));
-  console.log("FROM APP.JS", user);
-  dispatch({
-    type: "USER_CHANGED",
-    payload: user,
-  });
-  // let userLS = null;
-  // let cartLS = [];
+  React.useEffect(() => {
+    let wishlist = [];
+    if (window !== "undefined" && window.localStorage.getItem("wishlist")) {
+      wishlist = JSON.parse(window.localStorage.getItem("wishlist"));
+    }
+    let local = [];
+    if (window !== "undefined" && window.localStorage.getItem("cartLS")) {
+      local = JSON.parse(window.localStorage.getItem("cartLS"));
+    }
+    let user = null;
+    if (window !== "undefined" && window.localStorage.getItem("user")) {
+      user = JSON.parse(window.localStorage.getItem("user"));
+    }
+    let directCheckout = false;
+    if (
+      window !== "undefined" &&
+      window.localStorage.getItem("directCheckout")
+    ) {
+      directCheckout = JSON.parse(
+        window.localStorage.getItem("directCheckout")
+      );
+    }
 
-  // const getDetails = () => {
-  //   if (window !== "undefined" && window.localStorage.getItem("cart"))
-  //     cartLS = JSON.parse(window.localStorage.getItem("cart"));
-  //   if (window !== "undefined" && window.localStorage.getItem("user")) {
-  //     cartLS = JSON.parse(window.localStorage.getItem(user));
-  //   }
-  // };
+    dispatch({
+      type: "CART",
+      payload: local,
+    });
+    dispatch({
+      type: "USER_CHANGED",
+      payload: user,
+    });
+    dispatch({
+      type: "WISHLIST",
+      payload: wishlist,
+    });
+    dispatch({
+      type: "DIRECT_CHECKOUT",
+      payload: directCheckout,
+    });
+  }, []);
 
-  // React.useEffect(() => {
-  //   getDetails();
-  // }, []);
-
-  // dispatch({
-  //   type: "CART",
-  //   payload: cartLS,
-  // });
-  // dispatch({
-  //   type: "USER_CHANGED",
-  //   payload: userLS,
-  // });
   return (
     <>
       <ToastContainer />
-      {/* <NewHeader /> */}
+
       <Routes>
         <Route
           path="/"
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <Root />
               <Footer />
             </>
@@ -147,7 +140,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <AboutUs />
               <Footer />
             </>
@@ -158,7 +151,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <CategorySlug />
               <Footer />
             </>
@@ -169,7 +162,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <Blogs />
               <Footer />
             </>
@@ -180,7 +173,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <NewBlogs />
               <Footer />
             </>
@@ -191,7 +184,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <SingleBlog />
               <Footer />
             </>
@@ -202,7 +195,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <TermsOfUse />
               <Footer />
             </>
@@ -213,7 +206,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <PrivacyPolicy />
               <Footer />
             </>
@@ -224,7 +217,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ShippingPolicy />
               <Footer />
             </>
@@ -236,7 +229,7 @@ function App() {
           element={
             <>
               {" "}
-              <Header />
+              <NewHeader />
               <SingleProduct />
               <Footer />
             </>
@@ -247,7 +240,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ProtectRoute>
                 <Profile />
               </ProtectRoute>
@@ -260,7 +253,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ProtectRoute>
                 <Home />
               </ProtectRoute>
@@ -273,7 +266,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ProtectRoute>
                 <ChangePassword />
               </ProtectRoute>
@@ -286,7 +279,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
 
               <Variety />
               <Footer />
@@ -298,7 +291,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
 
               <Wishlist />
               <Footer />
@@ -310,7 +303,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ParentVariety />
               <Footer />
             </>
@@ -321,7 +314,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <Cart />
               <Footer />
             </>
@@ -332,7 +325,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ProtectRoute>
                 <Checkout />
               </ProtectRoute>
@@ -345,7 +338,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ProtectRoute>
                 <Orders />
               </ProtectRoute>
@@ -358,7 +351,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ProtectRoute>
                 <EditProfile />
               </ProtectRoute>
@@ -371,7 +364,7 @@ function App() {
           exact
           element={
             <>
-              <Header />
+              <NewHeader />
               <ProtectRoute>
                 <SingleOrder />
               </ProtectRoute>

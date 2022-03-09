@@ -1,31 +1,624 @@
-.couponInput {
-  font-size: 14px !important;
-  width: 220px !important;
-  padding: 7px !important;
-  margin-right: 5px !important;
-  vertical-align: top !important;
-  color: #777 !important;
-  border: 1px solid #232323 !important;
-}
+.cartHead {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 42px;
+  /* identical to box height */
 
-.couponBtn {
-  padding: 10px 8px !important;
-  font-size: 12px !important;
-  background: #ffc21d !important;
-  color: #232323 !important;
-  letter-spacing: 2px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
+  color: #000000;
+  text-align: center;
 }
-.finalBtn {
+.cartDivider {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  padding: 20px 100px;
+  align-items: flex-start;
 }
-.alert {
-  background-color: rgb(32, 179, 32);
-  color: white !important;
-  padding: 5px;
-  border: 1px solid rgb(32, 179, 32);
+
+.cartItems {
+  width: 60%;
+}
+.cartCoupons {
+  width: 40%;
+}
+
+.cartItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 20px;
+}
+.cartImageIndividual {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+}
+.cartTitle,
+.cartPrice {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  /* identical to box height */
+
+  color: #000000;
+}
+.btnGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.btnGroup button {
+  background: #000000;
+  border-radius: 2px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  /* identical to box height */
+
+  color: #ffffff;
+  padding: 0px 5px;
+}
+.btnGroup input {
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 2px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  /* identical to box height */
+  text-align: center;
+  width: 8%;
+  color: #000000;
+}
+.link {
+  margin: 0px 20px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  color: #f02f35;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
+.total {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 36px;
+  /* identical to box height */
+
+  color: #000000;
+  text-align: right;
+}
+.PIN {
+  display: flex;
+  flex-direction: row;
+}
+.PINInput {
+  width: 35%;
+  background: #ffffff;
+  box-shadow: -2px 5px 21px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  font-family: Poppins;
+  letter-spacing: 4px;
+  font-weight: 600;
+}
+.PINCheck {
+  width: 15%;
+  background: #000000;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 26px;
+
+  /* identical to box height */
+
+  text-transform: uppercase;
+
+  color: #ffffff;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.PINHead {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 26px;
+  /* identical to box height */
+
+  text-transform: uppercase;
+
+  color: #000000;
+  margin: 10px 0px;
+}
+
+/*CART COUPONS*/
+.couponHead {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height */
+
+  text-transform: uppercase;
+  margin: 0px 0 15px 0;
+  color: #000000;
+}
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px 0px;
+}
+.ask {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 32px;
+  /* identical to box height */
+
+  color: #000000;
+
+  opacity: 0.7;
+}
+.answer {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 32px;
+  /* identical to box height */
+
+  color: #000000;
+}
+.cartCoupons {
+  padding: 20px;
+}
+#yes {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 32px;
+  /* identical to box height */
+
+  color: #000000;
+}
+.noItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 32px;
+}
+
+.checkoutButton {
+  background: #a0522c;
   border-radius: 5px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 26px;
+  /* identical to box height */
+  padding: 10px;
+  text-transform: uppercase;
+  margin-top: 20px;
+  color: #ffffff;
+}
+.infoCart {
+  margin-top: 10px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+
+  color: #000000;
+
+  opacity: 0.6;
+}
+
+@media (max-width: 1100px) {
+  .cartDivider {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+    align-items: flex-start;
+  }
+  .cartItems,
+  .cartCoupons {
+    width: 100%;
+  }
+  .PINInput {
+    width: 60%;
+  }
+  .PINCheck {
+    width: 40%;
+  }
+  .cartCoupons,
+  .cartItem {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  #yes {
+    width: 100%;
+  }
+}
+@media (max-width: 475px) {
+  .cartItem {
+    flex-direction: column;
+  }
+  .btnGroup {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2&family=Telex&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+h3 {
+  text-align: center;
+  font-family: "Baloo 2", cursive;
+  font-size: 32px;
+  margin: 10px 0 10px 0;
+  letter-spacing: 2px;
+  font-weight: bolder;
+}
+.modal_outer {
+  background-color: #fff;
+  width: 50vw;
+  border: solid #fff 2px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 10px;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: grow;
+}
+.btnStyle {
+  font-size: 16px;
+  border: none;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+#btnFacebook {
+  background-color: #4267b2;
+  color: white;
+  border: solid #4267b2 2px;
+}
+#btnGoogle {
+  background-color: #db4437;
+  border: solid #db4437 2px;
+  color: white;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputs {
+  padding: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-family: "Comfortaa", cursive;
+  background-color: #d3d3d3;
+  border: solid #d3d3d3 2px;
+  width: 25vw;
+  border-radius: 5px;
+}
+
+#loginBtn {
+  background-color: rgb(177, 126, 31);
+  color: white;
+  border: solid rgb(177, 126, 31) 2px;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 25vw;
+  font-family: "Baloo 2", cursive;
+  font-size: 20px;
+}
+label {
+  font-family: "Comfortaa", cursive;
+  margin-bottom: 10px;
+  display: block;
+  font-weight: bolder;
+}
+h5 {
+  margin-top: 3px;
+  text-align: center;
+  font-size: 16px;
+  font-family: "Baloo 2", cursive;
+}
+.DHWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.DHLogo {
+  margin: 10px;
+  margin-left: 25px;
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+}
+.logoImg {
+  height: 75px;
+  width: auto;
+  cursor: pointer;
+}
+/*FOR LINKS*-------------*/
+.DHLinks {
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 70%;
+}
+.DHLink {
+  margin-left: 20px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #000000;
+  cursor: pointer;
+}
+
+/*FOR SEARCH*/
+.DHSearch {
+  width: 20%;
+}
+.DHSearchBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: #f0f0f0;
+  border-radius: 10px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  color: #000000;
+  padding: 10px;
+  width: 100%;
+}
+
+.DHButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.loginButton {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 22px;
+  padding: 5px 15px;
+  /* identical to box height */
+
+  color: #0c0c0c;
+  border: 2px solid #0c0c0c;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+/*LOGOUT HANDLER*/
+
+.LOGWrapper {
+  background: #ffffff;
+  box-shadow: -4px 7px 97px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: auto;
+}
+.LOGForm {
+  width: 50vw;
+  padding: 20px;
+}
+.LOGForm_title {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 42px;
+  /* identical to box height */
+
+  color: #000000;
+}
+.LOGForm_Details {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+}
+.LOGForm_Description {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+
+  color: #000000;
+}
+.SIWGDetails {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height */
+  margin-left: 20px;
+  color: #000000;
+}
+.LOGForm_SIWGButton {
+  background: #ffffff;
+  box-shadow: -1px 3px 11px rgba(0, 0, 0, 0.09);
+  border-radius: 9px;
+  padding: 15px;
+  width: 100%;
+  margin-top: 12px;
+}
+.boxes {
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: row;
+}
+.leftBox {
+  width: 30%;
+  height: 0px;
+}
+.centerBox {
+  width: 40%;
+  text-align: center;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  /* identical to box height */
+
+  color: #000000;
+
+  opacity: 0.3;
+}
+.label {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  margin: 10px 0px;
+  /* identical to box height */
+
+  color: #000000;
+}
+.LOGForm_input {
+  background: #fbf8f8;
+  border-radius: 9px;
+  padding: 10px;
+}
+.LOGForm_input::placeholder {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  /* identical to box height */
+
+  color: #aaaaaa;
+}
+.loginBtn {
+  margin-top: 12px;
+  background: #a0522c;
+  border-radius: 9px;
+  font-family: Poppins;
+  font-weight: 600;
+  padding: 16px;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 26px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+.LOGPicture {
+  width: 40vw;
+  background-repeat: repeat-y;
+  background-image: url("https://res.cloudinary.com/techbuy/image/upload/v1646508391/Rectangle_500_kvsw0u.png");
+}
+@media (max-width: 1140px) {
+  .LOGPicture {
+    display: none;
+  }
+  .LOGForm {
+    padding: 15px;
+  }
+}
+
+/* for phone verification*/
+
+.OVmodal {
+  width: 80vw;
+}
+.headerAsk {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 16px;
+  /* identical to box height */
+  margin-left: 20px;
+  color: #000000;
+  margin: 20px;
+  margin-top: 40px;
+  text-align: center;
+}
+.headerInput {
+  border: 2px solid brown;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  letter-spacing: 2px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 16px;
+}
+
+.headerBtn {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 16px;
+  background-color: brown;
+  padding: 10px;
+  color: white;
+  border-radius: 2px;
+  margin: 10px;
 }

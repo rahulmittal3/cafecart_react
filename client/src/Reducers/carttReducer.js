@@ -1,10 +1,10 @@
-const cart = (state = [], action) => {
+const cartt = (state = [], action) => {
   switch (action.type) {
-    case "CART":
+    case "CART_CHANGED":
       return action.payload;
     default:
       return state;
   }
 };
 
-export default cart;
+export default cartt;

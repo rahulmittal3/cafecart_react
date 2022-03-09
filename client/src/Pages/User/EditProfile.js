@@ -16,7 +16,6 @@ const EditProfile = () => {
   const [loading, setLoading] = React.useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const handleFp = (e) => {
-    console.log(user);
     e.preventDefault();
     if (!fp.previous || !fp.current || !fp.currentVerified) {
       toast.error("Please Fill in All the Details Carefully!");

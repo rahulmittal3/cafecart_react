@@ -14,8 +14,6 @@ import { googleAuthProvider } from "../../Firebase/firebase.js";
 import { useDispatch } from "react-redux";
 const LoginForm = () => {
   const responseGoogle = (res) => {
-    console.log(res);
-    console.log(res.profileObj);
     if (!res.profileObj) {
       toast.success("Unexpected Error! Please try again");
       return;

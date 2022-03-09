@@ -52,4 +52,18 @@ const updatePassword = async (jwt, data) => {
   });
   return result;
 };
-export { register, login, currentUser, passwordless, updatePassword };
+const addPhone = async (jwt, userId, phone) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/add-phone`,
+    data: {
+      _id: userId,
+      phone: phone,
+    },
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+  });
+  return result;
+};
+export { register, login, currentUser, passwordless, updatePassword, addPhone };

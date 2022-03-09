@@ -11,7 +11,6 @@ const AboutUs = () => {
   const [data, setData] = React.useState({});
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log(data);
     sendAboutUsMail(data)
       .then((res) => toast.success(res.data))
       .catch((err) => console.log(err.response.data));

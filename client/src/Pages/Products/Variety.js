@@ -20,7 +20,6 @@ const Variety = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   };
@@ -41,7 +40,6 @@ const Variety = () => {
   }, []);
   //HANDLING CART ITEMS
   const handleCart = (id, name) => {
-    console.log(id);
     //first just insert it to the LS;
     let cartLS = [];
     if (window !== undefined && window.localStorage.getItem("cartLS")) {

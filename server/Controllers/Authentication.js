@@ -198,5 +198,36 @@ const changePassword = async (req, res) => {
     res.status(400).json(error);
   }
 };
-const object = { register, login, currentUser, passwordless, changePassword };
+const addPhone = async (req, res) => {
+  console.log("ADD PHONE  : ", req.body);
+  try {
+    const user1 = await user.findByIdAndUpdate(
+      req.body._id,
+      {
+        contact: req.body.phone,
+        contactVerified: true,
+      },
+      { new: true }
+    );
+    console.log(user1);
+    return res.status(201).json({
+      id: user1._id,
+      jwt: req.headers.authorization.split(" ")[1],
+      contactVerified: user1.contactVerified,
+      name: user1.username,
+      email: user1.email,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+const object = {
+  register,
+  login,
+  currentUser,
+  passwordless,
+  changePassword,
+  addPhone,
+};
 module.exports = object;

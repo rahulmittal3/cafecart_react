@@ -32,17 +32,6 @@ const SingleProduct = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const [rev, setRev] = React.useState([]);
   let WL = [];
-  React.useEffect(() => {
-    if (window !== "undefined" && window.localStorage.getItem("cartLS")) {
-      WL = JSON.parse(window.localStorage.getItem("cartLS"));
-    }
-    dispatch({
-      type: "CART",
-      payload: WL,
-    });
-  }, []);
-
-  console.log(WL);
 
   const [value, setValue] = React.useState("one");
   const [addedtoCart, setAddedtoCart] = React.useState(false);
@@ -69,13 +58,13 @@ const SingleProduct = () => {
   const handlePin = async (e) => {
     setPinMsg(true);
     e.preventDefault();
-    console.log(pin);
+
     try {
       const result = await axios({
         method: "GET",
         url: `https://api.postalpincode.in/pincode/${pin}`,
       });
-      console.log(result.data[0].PostOffice);
+
       if (result.data[0].PostOffice) {
         //means a valid post office here, gte the 1st item here
         toast.success(
@@ -96,7 +85,6 @@ const SingleProduct = () => {
   };
   //add to cart to
   const handleCart = (id, name) => {
-    console.log(id, name, current.quantity);
     //set to the localStorage
     let cartLS = [];
     if (window !== "undefined" && window.localStorage.getItem("cartLS")) {
@@ -117,7 +105,24 @@ const SingleProduct = () => {
     });
     toast.success(`${name} has been successfully added to Cart`);
   };
+  const handleWishlist = (id) => {
+    console.log(id);
+    let wishlist = [];
+    if (window !== "undefined" && window.localStorage.getItem("wishlist")) {
+      wishlist = JSON.parse(window.localStorage.getItem("wishlist"));
+    }
+    //1st add it to the starting, so that it can override the other changes in the array
+    wishlist.push(id);
+    wishlist = _.uniq(wishlist);
 
+    //now get the unique
+    window.localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    dispatch({
+      type: "WISHLIST",
+      payload: wishlist,
+    });
+    toast.success(`Item has been successfully added to Wishlist`);
+  };
   const createMarkup = () => {
     return { __html: p?.short_description };
   };
@@ -135,7 +140,6 @@ const SingleProduct = () => {
     fade: true,
   };
   const getOtherProducts = () => {
-    console.log(p?.title);
     otherProducts(p?.title)
       .then((res) => setOther(res.data))
       .catch((err) => console.log(err));
@@ -180,7 +184,24 @@ const SingleProduct = () => {
     avg = one * 1 + two * 2 + three * 3 + five * 5 + four * 4;
     avg = (avg / rev.length).toFixed(1);
   }
+  const buyNowHandler = (p) => {
+    //id is in params.id
+    //add to cart, and dispatch to redux
+    let cart = [];
 
+    const createObj = {
+      _id: p?._id,
+      name: p?.title,
+      quantity: current?.quantity,
+    };
+    cart.push(createObj);
+    window.localStorage.setItem("cartLS", JSON.stringify(cart));
+    dispatch({
+      type: "CART",
+      payload: cart,
+    });
+    navigate("/cart");
+  };
   return (
     <React.Fragment>
       <div className={styles.notif}>
@@ -197,12 +218,27 @@ const SingleProduct = () => {
           </Slider>
         </div>
         <div className={styles.info}>
-          {p?.available && <div className={styles.inStock}>In Stock</div>}
-          {p?.available === false && (
-            <div className={styles.inStock} style={{ color: "red" }}>
-              Out of Stock
-            </div>
-          )}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            {p?.available && <div className={styles.inStock}>In Stock</div>}
+            {p?.available === false && (
+              <div className={styles.inStock} style={{ color: "red" }}>
+                Out of Stock
+              </div>
+            )}
+            <FavoriteBorderOutlinedIcon
+              sx={{ fontSize: 40 }}
+              style={{ cursor: "pointer" }}
+              onClick={(e) => handleWishlist(params?.id)}
+            />
+          </div>
+
           <div className={styles.title}>{p?.title}</div>
           <div className={styles.price}>
             <span className={styles.price}>₹ {p?.price}</span>
@@ -237,7 +273,6 @@ const SingleProduct = () => {
             <span
               className={styles.plus}
               onClick={(e) => {
-                console.log("PLUS");
                 if (current?.quantity === 5) {
                   toast.warning("Maximum Quantity per Order is 5");
                   return;
@@ -281,6 +316,7 @@ const SingleProduct = () => {
                 className={styles.buyNow}
                 style={{ cursor: "pointer" }}
                 disabled={p?.available !== true}
+                onClick={(e) => buyNowHandler(p)}
               >
                 {p?.available !== true ? "Out of Stock" : "Buy Now"}
               </button>
@@ -563,6 +599,7 @@ const SingleProduct = () => {
                       <ShoppingCartOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles1.icon}
+                        onClick={(e) => handleCart(curr?._id, curr?.title)}
                       />
                     </div>
                     <div

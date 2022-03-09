@@ -18,7 +18,7 @@ const RegisterForm = () => {
     messagingSenderId: "745716393557",
     appId: "1:745716393557:web:5260928b87fb388987d6dc",
   };
-  console.log(firebaseConfig);
+
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   } else {
@@ -40,7 +40,6 @@ const RegisterForm = () => {
         // ...
       })
       .catch((error) => {
-        console.log("HII");
         console.log(error);
         // Error; SMS not sent
         // ...

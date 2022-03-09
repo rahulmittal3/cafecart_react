@@ -9,7 +9,6 @@ const Orders = () => {
   const getData = () => {
     getMyOrders(user?.id)
       .then((res) => {
-        console.log(res.data);
         setOrders(res?.data);
       })
       .catch((err) => console.log(err));

@@ -25,10 +25,10 @@ const Wishlist = () => {
       type: "WISHLIST",
       payload: WL,
     });
-    dispatch({
-      type: "CART",
-      payload: cartLS,
-    });
+    // dispatch({
+    //   type: "CART",
+    //   payload: cartLS,
+    // });
   }, []);
   const { wishlist } = useSelector((state) => ({ ...state }));
   const getData = () => {
@@ -45,7 +45,6 @@ const Wishlist = () => {
   }, [wishlist]);
 
   const deleteFromWL = (id) => {
-    console.log("DLEETE FROM WL: ", id);
     const arr = wishlist;
     const index = arr.indexOf(id);
     //it has to be >=0

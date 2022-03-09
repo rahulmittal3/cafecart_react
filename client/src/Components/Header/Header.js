@@ -84,7 +84,6 @@ const Header = () => {
   };
   const [show, setShow] = useState(false);
   const handleFp = (e) => {
-    console.log(user);
     e.preventDefault();
     if (!fp.previous || !fp.current || !fp.currentVerified) {
       toast.error("Please Fill in All the Details Carefully!");

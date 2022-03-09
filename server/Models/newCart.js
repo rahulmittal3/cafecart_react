@@ -94,6 +94,12 @@ const cartSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    shipping: {
+      type: Number,
+      default: 0,
+    },
+
+    coupon: String,
   },
   { timestamps: true }
 );

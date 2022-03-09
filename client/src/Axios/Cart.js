@@ -10,6 +10,7 @@ const cartDetails = async (items) => {
 };
 const addToCartDB = async (data) => {
   // console.log(data);
+
   const result = await axios({
     method: "POST",
     url: `${process.env.REACT_APP_BACKEND_URL}/checkout-now`,
@@ -37,4 +38,14 @@ const completeWishlist = async (data) => {
   });
   return result;
 };
-export { cartDetails, addToCartDB, getFromCart, completeWishlist };
+const getShipping = async (cartSize) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/get-shipping`,
+    params: {
+      cartSize: cartSize,
+    },
+  });
+  return result;
+};
+export { cartDetails, addToCartDB, getFromCart, completeWishlist, getShipping };

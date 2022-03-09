@@ -16,12 +16,45 @@ const Canvas = () => {
   const [newBest, setNewbest] = React.useState([]);
   const dispatch = useDispatch();
 
+  const setUser = () => {
+    let userr = null;
+    let cartLS = [];
+    if (window !== "undefined" && window.localStorage.getItem("cartLS"))
+      cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
+
+    dispatch({
+      type: "CART",
+      payload: cartLS,
+    });
+    let wishlist = [];
+    if (window !== "undefined" && window.localStorage.getItem("wishlist"))
+      wishlist = JSON.parse(window.localStorage.getItem("wishlist"));
+
+    dispatch({
+      type: "WISHLIST",
+      payload: wishlist,
+    });
+    if (window !== "undefined" && window.localStorage.getItem("user"))
+      userr = JSON.parse(window.localStorage.getItem("user"));
+
+    dispatch({
+      type: "USER_CHANGED",
+      payload: userr,
+    });
+  };
+
+  React.useEffect(() => {
+    setUser();
+  }, []);
+
+  const { user } = useSelector((state) => ({ ...state }));
+
   const getNewArrivals = () => {
     newArrival()
       .then((res) => {
         const arr = res.data;
         var width = document.documentElement.clientWidth;
-        console.log(width);
+
         const x = arr.slice(0, 5);
         if (width < 562) {
           setNewData(x);
@@ -34,7 +67,7 @@ const Canvas = () => {
       .then((res) => {
         const arr = res.data;
         var width = document.documentElement.clientWidth;
-        console.log(width);
+
         const x = arr.slice(0, 5);
         if (width < 562) {
           setNewTrending(x);
@@ -47,7 +80,7 @@ const Canvas = () => {
       .then((res) => {
         const arr = res.data;
         var width = document.documentElement.clientWidth;
-        console.log(width);
+
         const x = arr.slice(0, 4);
         if (width < 562) {
           setNewbest(x);
@@ -65,12 +98,12 @@ const Canvas = () => {
 
   //HANDLING CART ITEMS
   const handleCart = (id, name) => {
-    console.log(id);
     //first just insert it to the LS;
     let cartLS = [];
     if (window !== undefined && window.localStorage.getItem("cartLS")) {
       cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
     }
+
     //WE WILL INSERT THE PRODUCTS AS {_id,quantity}
     const object = {
       _id: id,
@@ -88,7 +121,6 @@ const Canvas = () => {
     toast.success(`${name} has been added to your cart`);
   };
   const handleWishlist = (id, name) => {
-    console.log(id);
     //first just insert it to the LS;
     let wishlist = [];
     if (window !== undefined && window.localStorage.getItem("wishlist")) {
@@ -99,7 +131,6 @@ const Canvas = () => {
     wishlist.push(id);
     wishlist = _.uniq(wishlist);
     //SEND IT TO THE LS
-    console.log(wishlist);
     window.localStorage.setItem("wishlist", JSON.stringify(wishlist));
     dispatch({
       type: "WISHLIST",

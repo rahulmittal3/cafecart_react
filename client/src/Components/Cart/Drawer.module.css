@@ -204,9 +204,9 @@
   }
 }
 @media (min-width: 1141px) {
-  .bringFront {
+  /* .bringFront {
     margin-top: 35px;
-  }
+  } */
 }
 .crossFlex {
   display: flex;

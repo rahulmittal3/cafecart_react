@@ -15,10 +15,12 @@ const Drawerrr = ({ show, setShow }) => {
   const dispatch = useDispatch();
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-  const { cart } = useSelector((state) => ({ ...state }));
-  let cartLS = [];
-  if (window !== "undefined" && window.localStorage.getItem("cartLS"))
-    cartLS = JSON.parse(window.localStorage.getItem("cartLS"));
+
+  const { cart, user, wishlist } = useSelector((state) => ({ ...state }));
+  const cartLS = cart;
+
+  //get from LS
+
   const showDrawer = () => {
     setShow(true);
   };
@@ -49,7 +51,7 @@ const Drawerrr = ({ show, setShow }) => {
   let total = 0;
   for (let j = 0; j < data.length; j++) {
     let p = data[j];
-    console.log(p);
+
     let obj = {
       title: p._doc.title,
       price: p._doc.price,
@@ -63,10 +65,10 @@ const Drawerrr = ({ show, setShow }) => {
   const handleIncrement = (_id) => {
     //cart is the original item
     //bring change in the cart itself
-    console.log(cartLS);
+
     for (let i = 0; i < cartLS.length; i++) {
       if (cartLS[i]._id === _id) {
-        console.log(cartLS[i]);
+        // console.log(cartLS[i]);
         //match found, increment the quantity.
         let qty = cartLS[i].quantity;
         if (qty === 5) {
@@ -75,13 +77,13 @@ const Drawerrr = ({ show, setShow }) => {
         }
         qty = qty + 1;
         cartLS[i] = { ...cartLS[i], quantity: qty };
-        console.log(cartLS);
+        // console.log(cartLS);
         window.localStorage.setItem("cartLS", JSON.stringify(cartLS));
         dispatch({
           type: "CART",
           payload: cartLS,
         });
-        // getItems();
+        getItems();
         return;
       }
     }
@@ -90,10 +92,10 @@ const Drawerrr = ({ show, setShow }) => {
   const handleDecrement = (_id) => {
     //cart is the original item
     //bring change in the cart itself
-    console.log(cartLS);
+    // console.log(cartLS);
     for (let i = 0; i < cartLS.length; i++) {
       if (cartLS[i]._id === _id) {
-        console.log(cartLS[i]);
+        // console.log(cartLS[i]);
         //match found, increment the quantity.
         let qty = cartLS[i].quantity;
         if (qty === 1) {
@@ -104,13 +106,13 @@ const Drawerrr = ({ show, setShow }) => {
         }
         qty = qty - 1;
         cartLS[i] = { ...cartLS[i], quantity: qty };
-        console.log(cartLS);
+        // console.log(cartLS);
         window.localStorage.setItem("cartLS", JSON.stringify(cartLS));
         dispatch({
           type: "CART",
           payload: cartLS,
         });
-        // getItems();
+        getItems();
         return;
       }
     }
@@ -124,10 +126,15 @@ const Drawerrr = ({ show, setShow }) => {
           type: "CART",
           payload: cartLS,
         });
-        //  getItems();
+        getItems();
         return;
       }
     }
+  };
+
+  const checkoutHandler = () => {
+    dispatch({ type: "DIRECT_CHECKOUT", payload: true });
+    window.localStorage.setItem("directCheckout", true);
   };
   return (
     <Drawer
@@ -138,13 +145,6 @@ const Drawerrr = ({ show, setShow }) => {
       width={410}
       className={styles.drawerWidth}
     >
-      {/* <h3 className={styles.heading}>YOUR CART</h3>
-      {loading && <div className={styles.noItem}>Loading...</div>}
-      {!loading && data && data.length === 0 && (
-        <div className={styles.noItem}>
-          No Items Found. Add Some Items to your Cart! 🛍️
-        </div>
-      )} */}
       <div className={styles.bringFront}>
         <div className={styles.crossFlex}>
           <div
@@ -226,8 +226,19 @@ const Drawerrr = ({ show, setShow }) => {
                 Total : ₹{total.toLocaleString("en-IN")}
               </div>
               <div className={styles.btns}>
-                <button className={styles.cart}>View Cart</button>
-                <button className={styles.buyNow}>Check Out</button>
+                <button
+                  className={styles.cart}
+                  onClick={(e) => {
+                    dispatch({ type: "DIRECT_CHECKOUT", payload: false });
+                    window.localStorage.setItem("directCheckout", false);
+                    navigate("/cart");
+                  }}
+                >
+                  View Cart
+                </button>
+                <button className={styles.buyNow} onClick={checkoutHandler}>
+                  Check Out
+                </button>
               </div>
             </div>
           </div>
