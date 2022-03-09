@@ -52,6 +52,13 @@ const Orders = () => {
       render: (text) => (text ? text : "Not Available"),
     },
     {
+      title: "Coupon Applied",
+      dataIndex: "couponName",
+      width: 150,
+      align: "center",
+      render: (text) => (text ? text : "Not Available"),
+    },
+    {
       title: "Order Date",
       dataIndex: "createdAt",
       width: 150,

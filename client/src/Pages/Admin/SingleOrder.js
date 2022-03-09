@@ -75,7 +75,7 @@ const SingleOrder = () => {
   const initialValue = 0;
   const sumWithInitial = x?.reduce(
     (previousValue, currentValue) =>
-      previousValue + currentValue.productId.price,
+      previousValue + currentValue.productId.price * currentValue.quantity,
     initialValue
   );
   return (
@@ -126,7 +126,7 @@ const SingleOrder = () => {
               </div>
             </div>
             <div className={style.q}>
-              <div className={style.ask}>Discount Available</div>
+              <div className={style.ask}>Discount Availed</div>
               <div className={style.answer}>
                 {(
                   ((sumWithInitial -
@@ -135,8 +135,14 @@ const SingleOrder = () => {
                       : data?.cart?.totalCost)) /
                     sumWithInitial) *
                   100
-                ).toFixed(2)}
+                ).toFixed(0)}
                 %
+              </div>
+            </div>
+            <div className={style.q}>
+              <div className={style.ask}>Coupon Applied</div>
+              <div className={style.answer}>
+                {data?.couponName ? data?.couponName : "NOT APPLIED"}
               </div>
             </div>
             <center>

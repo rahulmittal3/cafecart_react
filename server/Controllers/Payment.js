@@ -8,6 +8,8 @@ const Product = require("../Models/product.js");
 const NewOrder = require("../Models/newOrder.js");
 const uniqid = require("uniqid");
 const generateUniqueId = require("generate-unique-id");
+const orderUserMail = require("../Utilities/Templates/OrderUserMail.js");
+const sendMail = require("../Utilities/Mailer.js");
 var bodyParser = require("body-parser");
 async function genTxnid() {
   const d = new Date();
@@ -18,8 +20,8 @@ async function genTxnid() {
 }
 const createPayment = async (req, res) => {
   //   console.log(req.body);
-  const findUser = await User.findOne({ email: req.body.email });
-  const cart = await NewCart.findOne({ user: findUser._id });
+  const findUser = await User.findOne({ email: req.body.email }); //okay
+  const cart = await NewCart.findOne({ user: findUser._id }); //okay
   const productInfo = `You are purchasing ${cart.items.length} different Items worth ${cart.finalAmount} INR`;
   try {
     const txnId = await genTxnid();
@@ -29,23 +31,23 @@ const createPayment = async (req, res) => {
       "|" +
       txnId +
       "|" +
-      cart.finalAmount +
+      (cart.finalAmount + cart.shipping) +
       "|" +
       productInfo +
       "|" +
-      req.body.fName +
+      req.body.fname +
       "|" +
       req.body.email +
       "|" +
-      req.body.add1 +
+      req.body.address +
       "|" +
-      req.body.add2 +
+      req.body.address2 +
       "|" +
       req.body.pin +
       "|" +
       req.body.city +
       "|" +
-      `${req.body.district} ${req.body.state}` +
+      `${req.body.state}` +
       "|" +
       "|||||" +
       process.env.PAYU_SALT;
@@ -55,14 +57,14 @@ const createPayment = async (req, res) => {
     const pay = {
       key: process.env.PAYU_MERCHANT_KEY,
       txnid: txnId,
-      amount: cart.finalAmount,
+      amount: cart.finalAmount + cart.shipping,
       productInfo: productInfo,
-      firstname: req.body.fName,
+      firstname: req.body.fname,
       email: req.body.email,
-      phone: req.body.contact,
-      lastname: req.body.lName,
-      address1: req.body.add1,
-      address2: req.body.add2,
+      phone: req.body.phone,
+      lastname: req.body.lname,
+      address1: req.body.address,
+      address2: req.body.address2,
       city: req.body.city,
       state: req.body.state,
       country: "India",
@@ -70,11 +72,11 @@ const createPayment = async (req, res) => {
       //   surl:null,
       // furl:null,
       hash: hash,
-      udf1: req.body.add1,
-      udf2: req.body.add2,
+      udf1: req.body.address,
+      udf2: req.body.address2,
       udf3: req.body.pin,
       udf4: req.body.city,
-      udf5: `${req.body.district} ${req.body.state}`,
+      udf5: `${req.body.state}`,
     };
     await axios({
       method: "POST",
@@ -142,7 +144,7 @@ const codsuccess = async (req, res) => {
     shipping_phone: req.body.phone,
     order_items: orderItems,
     payment_method: "COD",
-    shipping_charges: 0,
+    shipping_charges: cart.shipping,
     giftwrap_charges: 0,
     transaction_charges: 0,
     total_discount: cart.discountApplied,
@@ -153,13 +155,15 @@ const codsuccess = async (req, res) => {
     weight: 2.5,
   };
   const originalCart = await NewCart.findOne({ user: findUser._id });
+  console.log(order);
   order = JSON.stringify(order);
   //create an link with shiprocket..
   const datatoken = JSON.stringify({
     email: process.env.SHIPROCKET_AUTH_EMAIL,
     password: process.env.SHIPROCKET_AUTH_PASSWORD,
   });
-  //place order on shiprocket..
+
+  // place order on shiprocket..
   var authtoken = null;
   try {
     const result1 = await axios({
@@ -170,9 +174,7 @@ const codsuccess = async (req, res) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("LOGIN TO SR : ", result1);
     authtoken = result1.data.token;
-    console.log(authtoken);
     // we are here it means login ho gaya
     const result2 = await axios({
       method: "post",
@@ -192,6 +194,7 @@ const codsuccess = async (req, res) => {
         cartDetails: originalCart,
         shiprocket: result2.data,
         orderDetails: req.body,
+        populatedCart: cart,
       },
     });
     return res.status(200).json("ok");
@@ -202,43 +205,115 @@ const codsuccess = async (req, res) => {
 };
 
 const finaliseCOD = async (req, res) => {
-  console.log("from last fx");
-  const currObj = req.body;
   try {
-    const newOrder = new NewOrder({
-      user: currObj.userAssociated._id,
-      customerName: `${currObj.orderDetails.firstname} ${currObj.orderDetails.lastname}`,
-      customerContact: currObj.orderDetails.phone,
-      customerPin: currObj.orderDetails.zipcode,
-      customerAddress: `${currObj.orderDetails.udf1} ${currObj.orderDetails.udf2}`,
-      customerCity: currObj.orderDetails.city,
-      customerState: currObj.orderDetails.state,
+    console.log(req.body);
+    const query = new NewOrder({
+      user: req.body.userAssociated._id,
+      customerName:
+        req.body.orderDetails.firstname + " " + req.body.orderDetails.lastname,
+      customerContact: req.body.orderDetails.phone,
+      customerPin: req.body.orderDetails.zipcode,
+      customerAddress: `${req.body.orderDetails.address1} ${req.body.orderDetails.address2}`,
+      customerCity: req.body.orderDetails.city,
+      customerState: req.body.orderDetails.state,
       orderType: "COD",
-      items: currObj.cartDetails.items,
-      SRID: currObj.shiprocket.order_id,
-      SRShipmentId: currObj.shiprocket.shipment_id,
-      totalAmount: currObj.cartDetails.total,
-      discountApplied: currObj.cartDetails.discountApplied,
-      netAmount: currObj.cartDetails.finalAmount,
+      items: req.body.cartDetails.items,
+      SRID: req.body.shiprocket.order_id,
+      SRShipmentId: req.body.shiprocket.shipment_id,
+      totalAmount: req.body.cartDetails.total,
+      discountApplied: req.body.cartDetails.discountApplied,
+      netAmount:
+        req.body.cartDetails.finalAmount + req.body.cartDetails.shipping,
       paymentId: "",
+      couponName: req.body.cartDetails.coupon,
     });
-    const x = await newOrder.save();
-    console.log(x);
 
-    //2)now, just clear the cart..
+    const x = await query.save();
+
+    // //2)now, just clear the cart..
     const deleteCart = await NewCart.deleteOne({
-      user: currObj.userAssociated._id,
+      user: req.body.userAssociated._id,
     });
-    console.log(deleteCart);
+    // console.log(deleteCart);
 
-    //3)send back the response back
+    // //3)send back the response back
+
+    //send the mail here..
+    //1) Create a shallow copy of mail here..
+    let shallow = orderUserMail;
+
+    const orderId = x._id;
+    const date = String(
+      new Intl.DateTimeFormat("en-GB", {
+        dateStyle: "full",
+        timeStyle: "long",
+      }).format(Date.now())
+    );
+    shallow = shallow.replace("ORDER_ID_INFO", orderId);
+    shallow = shallow.replace("ORDER_DATE_INFO", date);
+    shallow = shallow.replace("SHIPPING_INFO", req.body.cartDetails.shipping);
+    shallow = shallow.replace(
+      "COUPON_INFO",
+      req.body.cartDetails.coupon ? req.body.cartDetails.coupon : "NOT APPLIED"
+    );
+    shallow = shallow.replace(
+      "DISCOUNT_INFO",
+      req.body.cartDetails.discountApplied
+    );
+    shallow = shallow.replace(
+      "AMOUNT_INFO",
+      req.body.cartDetails.finalAmount + req.body.cartDetails.shipping
+    );
+
+    //FOR CUSTOMERS DETAILS
+    shallow = shallow.replace(
+      "CUSTOMER_NAME",
+      req.body.orderDetails.firstname + " " + req.body.orderDetails.lastname
+    );
+    shallow = shallow.replace("CUSTOMER_NAME", req.body.orderDetails.phone);
+    shallow = shallow.replace(
+      "CUSTOMER_ADDRESS",
+      `${req.body.orderDetails.address1} ${req.body.orderDetails.address2}`
+    );
+    shallow = shallow.replace("CUSTOMER_PIN", req.body.orderDetails.zipcode);
+    shallow = shallow.replace("CUSTOMER_STATE", req.body.orderDetails.state);
+    shallow = shallow.replace("PAYMENT_INFO", "Cash On Delivery");
+    shallow = shallow.replace("PAYMENT_ID", "COD Order (Not Generated)");
+    //generate items for order details
+    let order = "";
+    console.log(req.body);
+    for (let i = 0; i < req.body.populatedCart.items.length; i++) {
+      let curr = `<div class="item">
+                                               
+                                              <div class="format">${
+                                                req.body.populatedCart.items[i]
+                                                  .productId.title
+                                              } --- ₹ ${
+        req.body.populatedCart.items[i].productId.price
+      } (each) --- ${req.body.populatedCart.items[i].quantity} pc --- ₹ ${
+        req.body.populatedCart.items[i].productId.price *
+        req.body.populatedCart.items[i].quantity
+      }  </div></div>
+                                              
+                                              
+                                              `;
+      order = order + curr;
+    }
+    shallow = shallow.replace("ORDER_ITEMS", order);
+    await sendMail(
+      req.body.orderDetails.email,
+      "Order Confirmation Mail",
+      shallow
+    );
+    await sendMail(
+      "business.cafecart@gmail.com",
+      "Order Confirmation Mail",
+      shallow
+    );
     return res.status(201).json("Created");
   } catch (error) {
-    console.log("231", error);
-    res.status(400).json(error);
+    res.status(500).json(error);
   }
-  //here, we need to place the order for user, and then clear the cart and then redirect the user (in frontend), back to some page
-  // 1) CREATE AN ORDER FOR THE USER AND
 };
 //for prepaid orders, we need to
 var urlencodedParser = bodyParser.urlencoded({ extended: false });

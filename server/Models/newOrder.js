@@ -76,6 +76,7 @@ const orderSchema = Schema(
       type: Boolean,
       default: false,
     },
+    couponName: String,
   },
   { timestamps: true }
 );

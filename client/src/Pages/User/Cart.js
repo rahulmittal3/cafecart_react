@@ -389,7 +389,6 @@ const Cart = () => {
             setOpenVerif(false);
             setotp("");
             setPhone("");
-            
           })
           .catch((err) => console.log(err))
       )
@@ -523,7 +522,7 @@ const Cart = () => {
               >
                 {loading ? "Logging In..." : "Login"}
               </button>
-              <div className={styles.label} style={{ textAlign: "center" }}>
+              {/* <div className={styles.label} style={{ textAlign: "center" }}>
                 Don't have an account?{" "}
                 <span
                   style={{ color: "#a0522c", cursor: "pointer" }}
@@ -534,7 +533,7 @@ const Cart = () => {
                 >
                   Sign Up
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className={styles.LOGPicture}>

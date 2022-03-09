@@ -622,3 +622,8 @@ h5 {
   border-radius: 2px;
   margin: 10px;
 }
+@media (max-width: 500px) {
+  .LOGForm {
+    width: 80vw;
+  }
+}

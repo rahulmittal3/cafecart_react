@@ -4,7 +4,12 @@ import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { Radio } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getFromCart } from "../../Axios/Cart.js";
+import { createPayment } from "../../Axios/Payment.js";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const Checkout = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user, wishlist, cart, directCheckout } = useSelector((state) => ({
     ...state,
   }));
@@ -16,9 +21,10 @@ const Checkout = () => {
   const [address2, setAddress2] = React.useState("");
   const [pin, setPin] = React.useState("");
   const [phone, setPhone] = React.useState("");
-  const [state, setState] = React.useState("");
+  const [state, setState] = React.useState("Bihar");
   const [method, setMethod] = React.useState("cod");
   const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   const getData = () => {
     getFromCart(user?.id, user?.token)
@@ -28,6 +34,38 @@ const Checkout = () => {
   React.useEffect(() => {
     getData();
   }, []);
+  const orderHandler = () => {
+    setLoading(true);
+    const object = {
+      email: email,
+      fname: fname,
+      lname: lname,
+      city: city,
+      address: address,
+      address2: address2,
+      pin: pin,
+      phone: phone,
+      state: state,
+      method: method,
+      user: user?.id,
+    };
+    createPayment(object)
+      .then((res) => {
+        toast.success("Order has been placed successfuly");
+        //clear all the cluttering
+        window.localStorage.setItem("cartLS", JSON.stringify([]));
+        dispatch({
+          type: "CART",
+          payload: [],
+        });
+        navigate("/user/orders");
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        toast.error(err);
+      });
+  };
   return (
     <div className={styles.checkoutWrapper}>
       <div className={styles.checkoutAddress}>
@@ -96,6 +134,7 @@ const Checkout = () => {
         </div>
         <div className={styles.checkout_names}>
           <select
+            value={state}
             className={styles.checkout_names}
             onChange={(e) => setState(e.target.value)}
           >
@@ -232,7 +271,26 @@ const Checkout = () => {
           </div>
         </div>
         <div className={styles.btn}>
-          <button className={styles.answerFinal}>Place Order</button>
+          <button
+            className={styles.answerFinal}
+            onClick={orderHandler}
+            disabled={
+              !address ||
+              !address2 ||
+              !city ||
+              !email ||
+              !fname ||
+              !method ||
+              !phone ||
+              phone.length !== 10 ||
+              !pin ||
+              !state ||
+              !user ||
+              loading
+            }
+          >
+            {loading ? "Please Wait...." : "Place Order"}
+          </button>
         </div>
       </div>
     </div>

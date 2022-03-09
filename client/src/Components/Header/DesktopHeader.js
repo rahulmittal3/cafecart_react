@@ -20,37 +20,103 @@ import {
 } from "@ant-design/icons";
 import Drawerrr from "../Cart/Drawer.js";
 import { passwordless, login } from "../../Axios/Authentication.js";
-import Avatar from "@mui/material/Avatar";
-import { Menu, Badge } from "antd";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Navigation from "react-sticky-nav";
-import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
-import Dropdown from "react-dropdown";
-import "react-dropdown/style.css";
 
-// import { HamburgerMenu, Logo } from "./components";
+import { Menu, Badge } from "antd";
+
+import SearchIcon from "@mui/icons-material/Search";
+
+import "react-dropdown/style.css";
+import { register } from "../../Axios/Authentication.js";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 const { SubMenu } = Menu;
 
 const DesktopHeader = ({ cart, user, wishlist, headers }) => {
+  const firebaseConfig = {
+    apiKey: "AIzaSyBzguredb4wBzgIaHHBIezG2Dbfl2uqSJw",
+    authDomain: "cafecart-bace8.firebaseapp.com",
+    projectId: "cafecart-bace8",
+    storageBucket: "cafecart-bace8.appspot.com",
+    messagingSenderId: "745716393557",
+    appId: "1:745716393557:web:5260928b87fb388987d6dc",
+  };
   const [current, setCurrent] = React.useState("mail");
   const [fp, setfp] = React.useState({});
   const [on, setOn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
+  const [formData, setFormData] = React.useState({});
+  const [showForm, setShowForm] = React.useState(true);
+  const [otp, setOtp] = React.useState(null);
   const handleClick = (e) => {
     setCurrent(setCurrent(e.key));
   };
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  } else {
+    firebase.app(); // if already initialized, use that one
+  }
+  const auth = firebase.auth();
+  const submitHandler = (e) => {
+    e.preventDefault();
+    configureCaptcha();
+    const contact = "+91" + formData.phone;
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, contact, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+        toast.success("📲 OTP has been Sent to your Phone Number!");
+        setShowForm(false);
+        // ...
+      })
+      .catch((error) => {
+        console.log(error);
+        // Error; SMS not sent
+        // ...
+      });
+  };
+  const configureCaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "registerBtn",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          submitHandler();
+          console.log(response);
+        },
+      },
+      auth
+    );
+  };
+  const validateOTP = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    window.confirmationResult
+      .confirm(otp)
+      .then((res) =>
+        register(formData)
+          .then((res) => {
+            //first dispatch to the local storage and redux...
+            toast.success("Registration Success");
+
+            setLoading(false);
+            setSignUpOpen(false);
+            setShowForm(true);
+            setFormData({});
+            setOtp("");
+          })
+          .catch((err) => {
+            toast.error(err.response.data);
+            setLoading(false);
+          })
+      )
+      .catch((err) => toast.error("OTP Invalid"));
+  };
+
   const dispatch = useDispatch();
   console.log(headers);
   const navigate = useNavigate();
@@ -290,74 +356,120 @@ const DesktopHeader = ({ cart, user, wishlist, headers }) => {
       >
         <div className={styles.LOGWrapper}>
           <div className={styles.LOGForm}>
-            <div className={styles.LOGForm_title}>Register</div>
-            <div className={styles.LOGForm_Description}>
-              {" "}
-              lorem ipsum dolor sit amet, consectetur adipiscing
-            </div>
-            <div className={styles.LOGForm_Details}>
-              {/* form details here */}
-              <div className={styles.label}>Full Name</div>
-              <input
-                type="text"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                className={styles.LOGForm_input}
-                placeholder="Enter your Full Name"
-              />
-              <div className={styles.label}>Email</div>
-              <input
-                type="text"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                className={styles.LOGForm_input}
-                placeholder="Enter your Email Address"
-              />
-              <div className={styles.label}>Contact Number</div>
-              <input
-                type="number"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                className={styles.LOGForm_input}
-                placeholder="Enter your Contact Number"
-              />
-              <div className={styles.label}>Password</div>
-              <input
-                type="password"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                className={styles.LOGForm_input}
-                placeholder="Enter your Password"
-              />
-              <div className={styles.label}>Confirm Password</div>
-              <input
-                type="password"
-                className={styles.LOGForm_input}
-                placeholder="Confirm your Password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              />
+            {showForm && (
+              <>
+                <div className={styles.LOGForm_title}>Register</div>
+                <div className={styles.LOGForm_Description}>
+                  {" "}
+                  lorem ipsum dolor sit amet, consectetur adipiscing
+                </div>
+                <div className={styles.LOGForm_Details}>
+                  {/* form details here */}
+                  <div className={styles.label}>Full Name</div>
+                  <input
+                    type="text"
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    value={formData.name}
+                    className={styles.LOGForm_input}
+                    placeholder="Enter your Full Name"
+                  />
+                  <div className={styles.label}>Email</div>
+                  <input
+                    type="text"
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    value={formData.email}
+                    className={styles.LOGForm_input}
+                    placeholder="Enter your Email Address"
+                  />
+                  <div className={styles.label}>Contact Number</div>
+                  <input
+                    type="number"
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
+                    value={formData.phone}
+                    className={styles.LOGForm_input}
+                    placeholder="Enter your Contact Number"
+                  />
+                  <div className={styles.label}>Password</div>
+                  <input
+                    type="password"
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
+                    value={formData.password}
+                    className={styles.LOGForm_input}
+                    placeholder="Enter your Password"
+                  />
+                  <div className={styles.label}>Confirm Password</div>
+                  <input
+                    type="password"
+                    className={styles.LOGForm_input}
+                    placeholder="Confirm your Password"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
+                    value={formData.confirmPassword}
+                  />
 
-              <button
-                className={styles.loginBtn}
-                disabled={!email || !password || loading}
-                onClick={normalLogin}
-              >
-                {loading ? "Singing Up..." : "Sign Up"}
-              </button>
-              <div className={styles.label} style={{ textAlign: "center" }}>
-                Have an Account?&nbsp;
-                <span
-                  style={{ color: "#a0522c", cursor: "pointer" }}
-                  onClick={(e) => {
-                    setSignUpOpen(false);
-                    setLoginOpen(true);
-                  }}
-                >
-                  Login
-                </span>
-              </div>
-            </div>
+                  <button
+                    className={styles.loginBtn}
+                    disabled={
+                      !formData.name ||
+                      !formData.email ||
+                      !formData.phone ||
+                      !formData.password ||
+                      !formData.confirmPassword
+                    }
+                    onClick={submitHandler}
+                    id="registerBtn"
+                  >
+                    {loading ? "Signing Up..." : "Sign Up"}
+                  </button>
+                  <div className={styles.label} style={{ textAlign: "center" }}>
+                    Have an Account?&nbsp;
+                    <span
+                      style={{ color: "#a0522c", cursor: "pointer" }}
+                      onClick={(e) => {
+                        setSignUpOpen(false);
+                        setLoginOpen(true);
+                      }}
+                    >
+                      Login
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
+            {!showForm && (
+              <>
+                <div className={styles.LOGForm_title}>Validate OTP</div>
+                <div className={styles.LOGForm_Details}>
+                  <div className={styles.label}>Enter OTP</div>
+                  <input
+                    type="number"
+                    className={styles.LOGForm_input}
+                    placeholder="Enter OTP"
+                    onChange={(e) => setOtp(e.target.value)}
+                    value={otp}
+                  />
+                  <button
+                    className={styles.loginBtn}
+                    disabled={!otp || otp.length !== 6}
+                    onClick={validateOTP}
+                  >
+                    {loading ? "Validating..." : "Validate"}
+                  </button>
+                </div>
+              </>
+            )}
           </div>
           <div className={styles.LOGPicture}>
             {/* <img
@@ -445,7 +557,7 @@ const DesktopHeader = ({ cart, user, wishlist, headers }) => {
           </Menu>
           <div
             className={styles.DHLink}
-            onClick={(e) => navigate("pages/about-us")}
+            onClick={(e) => navigate("/pages/about-us")}
           >
             About Us
           </div>

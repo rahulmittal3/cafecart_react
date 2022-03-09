@@ -234,12 +234,9 @@
   font-size: 20px;
   line-height: 30px;
   /* identical to box height */
-
+  text-align: center;
   color: #000000;
 }
 
 @media (max-width: 1140px) {
-  .crossFlex {
-    display: none;
-  }
 }

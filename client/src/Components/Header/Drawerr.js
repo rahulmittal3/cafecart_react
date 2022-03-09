@@ -37,14 +37,14 @@ const Drawerr = ({
           user ? (
             `Welcome Back, ${user?.name?.split(" ")[0]}`
           ) : (
-            <h4 onClick={openModal}>LOGIN / SIGNUP</h4>
+            <h4 onClick={openModal}>Login to Continue</h4>
           )
         }
         placement={"left"}
         closable={true}
         onClose={onClose}
         visible={visible}
-        key={"coffee"}
+        key={"x1w"}
       >
         <Menu
           onClick={handleClick}
@@ -63,18 +63,18 @@ const Drawerr = ({
           {headers &&
             headers.map((curr, index) => {
               return (
-                <SubMenu key={index} title={curr.title}>
+                <SubMenu key={curr?.slug} title={curr.title}>
                   {curr.Subcategories &&
                     curr.Subcategories.map((second, index) => {
                       return (
                         <SubMenu
-                          key={index}
+                          key={Math.random()}
                           title={second.Parent_Subcategory.title}
                         >
                           {second.Child_Subcategory.length > 0 &&
                             second.Child_Subcategory.map((third, index) => {
                               return (
-                                <Menu.Item key={index}>
+                                <Menu.Item key={Math.random()}>
                                   <Link
                                     to={`/products/category/${curr.slug}/${second.Parent_Subcategory.slug}/${third.slug}`}
                                   >
@@ -93,7 +93,7 @@ const Drawerr = ({
             <Link to="/blog">Blogs</Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/about-us">About Us</Link>
+            <Link to="/pages/about-us">About Us</Link>
           </Menu.Item>
           {user && <Menu.Item onClick={logoutHandler}>Logout</Menu.Item>}
         </Menu>
