@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { variety } from "../../Axios/Products.js";
 import styles from "./CategorySlug.module.css";
 import CircleInfinite from "../../Components/Utilities/CircleInfinite.js";
@@ -7,9 +7,14 @@ import { useDispatch } from "react-redux";
 import { createName } from "../../Components/Utilities/createNameBreadcrumbs.js";
 import { toast } from "react-toastify";
 import _ from "lodash";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { Breadcrumb } from "antd";
+import { Dots } from "react-preloaders2";
 const Variety = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const params = useParams();
   const [ans, setAns] = useState(null);
   const getData = () => {
@@ -59,271 +64,153 @@ const Variety = () => {
       type: "CART",
       payload: cartLS,
     });
+    dispatch({
+      type: "DRAWER_VISIBLE",
+      payload: true,
+    });
     toast.success(`${name} has been added to your cart`);
   };
+  const handleWishlist = (id, name) => {
+    //first just insert it to the LS;
+    let wishlist = [];
+    if (window !== undefined && window.localStorage.getItem("wishlist")) {
+      wishlist = JSON.parse(window.localStorage.getItem("wishlist"));
+    }
+    //WE WILL INSERT THE PRODUCTS AS {_id,quantity}
+
+    wishlist.push(id);
+    wishlist = _.uniq(wishlist);
+    //SEND IT TO THE LS
+    window.localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    dispatch({
+      type: "WISHLIST",
+      payload: wishlist,
+    });
+    toast.success(`${name} has been added to your wishlist`);
+  };
+  const buyNowHandler = (p) => {
+    //id is in params.id
+    //add to cart, and dispatch to redux
+    let cart = [];
+
+    const createObj = {
+      _id: p?._id,
+      name: p?.title,
+      quantity: 1,
+    };
+    cart.push(createObj);
+    window.localStorage.setItem("cartLS", JSON.stringify(cart));
+    dispatch({
+      type: "CART",
+      payload: cart,
+    });
+    navigate("/cart");
+  };
   return (
-    <section className="bg0 p-b-0">
-      <div>
-        <div
-          className="categories-thumbs category-stories"
-          style={{ backgroundColor: "#fff", position: "relative" }}
-        >
-          <div className="container">
-            <div className="set-inline">
-              <div className="category-strip">
-                <div className="bredcrumb">
-                  <div
-                    className="sidebar-links  st-search-bar"
-                    style={{ marginTop: 20 }}
-                  >
-                    <form>
-                      <input
-                        style={{}}
-                        type="text"
-                        name="search"
-                        placeholder="Search for items, brands & inspirations"
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                      />
-                    </form>
-                  </div>
-                  <ul>
-                    <li>
-                      <Link to="/">Home</Link>
-                      <span class="b-arrow">
-                        <svg
-                          width="7"
-                          height="12"
-                          viewBox="0 0 7 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0 2.107L4.351 6.4 0 10.693 1.324 12 7 6.4 1.324.8 0 2.107z"
-                            fill="#212121"
-                          ></path>
-                        </svg>
-                      </span>
-                    </li>
-                    <li>
-                      <Link to={`/products/category/${params.id1}`}>
-                        {createName(params.id1)}
-                      </Link>{" "}
-                      <span class="b-arrow">
-                        <svg
-                          width="7"
-                          height="12"
-                          viewBox="0 0 7 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0 2.107L4.351 6.4 0 10.693 1.324 12 7 6.4 1.324.8 0 2.107z"
-                            fill="#212121"
-                          ></path>
-                        </svg>
-                      </span>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/products/category/${params.id1}/${params.id2}/${params.id3}`}
-                      >
-                        {createName(params.id2)}
-                      </Link>{" "}
-                      <span class="b-arrow">
-                        <svg
-                          width="7"
-                          height="12"
-                          viewBox="0 0 7 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0 2.107L4.351 6.4 0 10.693 1.324 12 7 6.4 1.324.8 0 2.107z"
-                            fill="#212121"
-                          ></path>
-                        </svg>
-                      </span>
-                    </li>
-                    <li>
-                      {/* <Link
-                        to={`/products/category/${params.id1}/${params.id2}/${params.id3}`}
-                      > */}
-                      {createName(params.id3)}
-                      {/* </Link>{" "} */}
-                      <span class="b-arrow">
-                        <svg
-                          width="7"
-                          height="12"
-                          viewBox="0 0 7 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0 2.107L4.351 6.4 0 10.693 1.324 12 7 6.4 1.324.8 0 2.107z"
-                            fill="#212121"
-                          ></path>
-                        </svg>
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+    <>
+      <Breadcrumb
+        separator=">"
+        style={{ marginLeft: "30px", marginBottom: "30px" }}
+      >
+        <Breadcrumb.Item>
+          <Link to="/">Home</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="">
+          <Link to={`/products/category/${params.id1}`}>
+            {createName(params.id1)}
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="">
+          <Link
+            to={`/products/category/${params.id1}/${params.id2}/${params.id3}`}
+          >
+            {createName(params.id2)}
+          </Link>{" "}
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <div className={styles.newArrivals}>
+        {!ans | (ans && ans.length === 0) && (
+          <div className={styles.noItem}>
+            <div>No Items Found</div>
           </div>
-        </div>
-      </div>
-
-      {loading === true ? (
-        <CircleInfinite loading={loading} />
-      ) : (
-        <div className="container p-t-30 p-b-30 m-t-50">
-          <div id="grid">
-            {(!ans || ans.length === 0) && (
-              <div
-                style={{
-                  height: "73vh !important",
-                  position: "relative",
-                  width: "92vw",
-                }}
-                className="p-t-220"
-              >
-                <h1
-                  style={{
-                    color: "#333",
-                    fontSize: 20,
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%,-50%)",
-                  }}
-                >
-                  No Data found !
-                </h1>
-              </div>
-            )}
-            {ans &&
-              ans.map((curr, index) => {
-                return (
+        )}
+        {ans &&
+          ans.length > 0 &&
+          ans.map((curr, index) => {
+            return (
+              <div className={styles.newArrivalItem} key={index}>
+                <div className={styles.top}>
+                  <div>
+                    <center>
+                      <img
+                        src={curr?.imagePath[0]}
+                        alt="imr"
+                        className={styles.newArrivalItem__img}
+                        onClick={(e) => navigate(`/products/${curr._id}`)}
+                      />
+                    </center>
+                  </div>
+                  <div>
+                    <FavoriteBorderOutlinedIcon
+                      sx={{ fontSize: 30 }}
+                      className={styles.icon}
+                      onClick={(e) => {
+                        handleWishlist(curr?._id, curr?.title);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className={styles.newArrivalItem__meta}>
                   <div
-                    className={`product ${styles.product__manavesh1}`}
-                    style={{ zIndex: 1, margin: "0 auto", marginBottom: 20 }}
-                    key={index}
+                    className={styles.newArrivalItem__meta__title}
+                    onClick={(e) => navigate(`/products/${curr._id}`)}
                   >
+                    {curr?.title}
+                  </div>
+                  {/* <div className={styles.newArrivalItem__meta__description}>
+                    {`${curr?.short_description?.substring(0, 80)}...`}
+                  </div> */}
+                  <div className={styles.newArrivalItem__meta__actions}>
                     <div
-                      className="make3D"
-                      style={{ transition: "all 100ms ease-out 0s" }}
+                      className={styles.newArrivalItem__meta__actions__buttons}
                     >
-                      <div
-                        className="product-front"
-                        style={{ display: "block" }}
+                      {/* <FavoriteBorderOutlinedIcon
+                        sx={{ fontSize: 30 }}
+                        className={styles.icon}
+                        onClick={(e) => {
+                          handleWishlist(curr?._id, curr?.title);
+                        }}
+                      /> */}
+                      <ShoppingCartOutlinedIcon
+                        sx={{ fontSize: 30 }}
+                        className={styles.icon}
+                        onClick={(e) => {
+                          handleCart(curr?._id, curr?.title);
+                        }}
+                      />
+                      <button
+                        className={styles.buyNowButton}
+                        onClick={(e) => buyNowHandler(curr)}
                       >
-                        <div>
-                          <p role="button" className="favourite-icon">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 576 512"
-                              onClick={(e) => {
-                                handleCart(curr?._id, curr?.title);
-                              }}
-                            >
-                              <path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" />
-                            </svg>
-                          </p>
-                        </div>
-
-                        <Link
-                          to={`/products/${curr._id}`}
-                          style={{ color: "#fff" }}
-                        >
-                          <div
-                            style={{ width: 200, height: 200, marginTop: 5 }}
-                            className="image_wrapper"
-                          >
-                            <img
-                              style={{
-                                height: "100%",
-                                objectFit: "cover",
-                                margin: "0 auto",
-                              }}
-                              src={curr.imagePath[0]}
-                              alt="hello"
-                            />
-                          </div>
-                          <div
-                            className={styles.add_to_cart}
-                            style={{ opacity: 1 }}
-                          >
-                            <i
-                              className="fa fa-shopping-cart"
-                              style={{ opacity: 1 }}
-                            />
-                          </div>
-                          <div className={styles.view_gallery}>
-                            <i className="fa fa-eye" style={{ opacity: 1 }} />
-                          </div>
-                        </Link>
-                        <div className="stats">
-                          <div className="stats-container">
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "flex-start",
-                              }}
-                            >
-                              <span class="product_price">₹{curr.price}</span>
-                              <span
-                                className="product_price mrp"
-                                style={{
-                                  color: "#666",
-                                  fontSize: 12,
-                                  marginTop: 2,
-                                  textAlign: "center",
-                                  marginLeft: 10,
-                                }}
-                              >
-                                <del>₹{curr.mrpPrice}</del>
-                              </span>
-
-                              {curr.discount && (
-                                <span
-                                  className="product_price "
-                                  style={{
-                                    color: "#f30",
-                                    marginLeft: 10,
-                                    fontSize: 12,
-                                    marginTop: 2,
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {curr.discount}
-                                </span>
-                              )}
-                            </div>
-                            <div className="elipse">
-                              <span className="product_name">{curr.title}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                        Buy
+                      </button>
+                    </div>
+                    <div
+                      className={styles.newArrivalItem__meta__actions__price}
+                    >
+                      <p className={styles.price}>₹{curr?.price}</p>
+                      <p className={styles.mrpPrice}>
+                        <del>₹{curr?.mrpPrice}</del>
+                      </p>
                     </div>
                   </div>
-                );
-              })}
-          </div>
-        </div>
-      )}
-    </section>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+      {loading && <Dots customLoading={true} />}
+    </>
   );
 };
 

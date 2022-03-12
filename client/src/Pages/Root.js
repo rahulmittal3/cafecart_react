@@ -4,7 +4,7 @@ import YouMayLike from "../Components/Products/YouMayLike.js";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const Root = () => {
+const Root = ({ show, setShow }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
@@ -18,7 +18,7 @@ const Root = () => {
 
   return (
     <>
-      <Canvas />
+      <Canvas show={show} setShow={setShow} />
     </>
   );
 };

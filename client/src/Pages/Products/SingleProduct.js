@@ -103,6 +103,10 @@ const SingleProduct = () => {
       type: "CART",
       payload: cartLS,
     });
+    dispatch({
+      type: "DRAWER_VISIBLE",
+      payload: true,
+    });
     toast.success(`${name} has been successfully added to Cart`);
   };
   const handleWishlist = (id) => {

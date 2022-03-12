@@ -76,6 +76,8 @@ import AdminOrders from "./Pages/Admin/Orders.js";
 import SingleAdminOrder from "./Pages/Admin/SingleOrder.js";
 import { useSelector, useDispatch } from "react-redux";
 
+import { cartDetails } from "./Axios/Cart.js";
+
 function App() {
   const dispatch = useDispatch();
   React.useEffect(() => {

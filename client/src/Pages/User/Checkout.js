@@ -7,6 +7,7 @@ import { getFromCart } from "../../Axios/Cart.js";
 import { createPayment } from "../../Axios/Payment.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { checkoutCoupon } from "../../Axios/Coupon.js";
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Checkout = () => {
   const [pin, setPin] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [state, setState] = React.useState("Bihar");
+  const [coupon, setCoupon] = React.useState("");
   const [method, setMethod] = React.useState("cod");
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -31,9 +33,11 @@ const Checkout = () => {
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   };
+
   React.useEffect(() => {
     getData();
-  }, []);
+  }, [cart]);
+
   const orderHandler = () => {
     setLoading(true);
     const object = {
@@ -64,6 +68,20 @@ const Checkout = () => {
       .catch((err) => {
         setLoading(false);
         toast.error(err);
+      });
+  };
+  const checkCouponOk = () => {
+    console.log(coupon);
+    setLoading(true);
+    checkoutCoupon(user?.jwt, coupon, user?.id)
+      .then((res) => {
+        getData();
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+        setCoupon("");
+        setLoading(false);
       });
   };
   return (
@@ -245,8 +263,13 @@ const Checkout = () => {
           <>
             <div className={styles.coupon}>Check Coupon</div>
             <div className={styles.couponInput}>
-              <input type="text" className={styles.couponInpt} />
-              <button>Check</button>
+              <input
+                type="text"
+                className={styles.couponInpt}
+                calue={coupon}
+                onChange={(e) => setCoupon(e.target.value)}
+              />
+              <button onClick={checkCouponOk}>Check</button>
             </div>
           </>
         )}

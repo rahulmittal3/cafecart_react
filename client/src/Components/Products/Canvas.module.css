@@ -88,6 +88,7 @@
 }
 .bestOnesItem:hover {
   cursor: pointer;
+  flex-grow: 1;
 }
 .newArrivalItem__meta__title {
   font-family: Poppins;
@@ -104,6 +105,7 @@
 }
 .newArrivalItem {
   width: 280px;
+  margin-bottom: 20px;
 }
 .newArrivalItem:hover {
   cursor: pointer;
@@ -340,15 +342,15 @@
   z-index: 100;
 }
 .special__img {
-  height: 102px;
-  width: 102px;
+  height: 80px;
+  width: 80px;
   object-fit: contain;
 }
 .bestOnesMetaLeftTitle {
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 23px;
   margin: 5px 0;
 
@@ -507,7 +509,7 @@
     margin-right: -50px;
   }
   .special__img {
-    height: 103.33px;
+    height: 90px;
     width: 66.67;
   }
 }
@@ -782,4 +784,80 @@
   .bestOnesMetaRight {
     padding-left: 2px;
   }
+}
+.buyNowButton {
+  background: #a0522d;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 18px;
+  color: white;
+  padding: 5px 15px;
+}
+
+.buyNowButton:hover {
+  background: brown;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: row;
+}
+
+/*best items again*/
+.bWrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+
+  flex-wrap: wrap;
+}
+.bItem {
+  flex-basis: 49%;
+  border: 2px solid #9d9696;
+  padding: 5px 5px;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+
+  margin: 10px 5px;
+  flex-grow: 1 !important;
+}
+.bImage {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+.bMeta {
+  color: #171717;
+  font-family: Poppins;
+  flex-direction: row;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between !important;
+  width: 100%;
+}
+.bTitle {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 23px;
+  flex-wrap: wrap;
+  /* or 128% */
+  word-wrap: break-word;
+  letter-spacing: -0.022em;
+
+  color: #171717;
+  /* width: 80%; */
+  word-wrap: break-word;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.bPrices {
+  border-left: solid 1px brown;
 }

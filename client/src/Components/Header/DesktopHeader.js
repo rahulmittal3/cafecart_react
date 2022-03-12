@@ -18,7 +18,7 @@ import {
   LogoutOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import Drawerrr from "../Cart/Drawer.js";
+import CartDrawer from "./CartDrawer.js";
 import { passwordless, login } from "../../Axios/Authentication.js";
 
 import { Menu, Badge } from "antd";
@@ -30,9 +30,10 @@ import { register } from "../../Axios/Authentication.js";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import { cartDetails } from "../../Axios/Cart.js";
 const { SubMenu } = Menu;
 
-const DesktopHeader = ({ cart, user, wishlist, headers }) => {
+const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
   const firebaseConfig = {
     apiKey: "AIzaSyBzguredb4wBzgIaHHBIezG2Dbfl2uqSJw",
     authDomain: "cafecart-bace8.firebaseapp.com",
@@ -45,10 +46,11 @@ const DesktopHeader = ({ cart, user, wishlist, headers }) => {
   const [fp, setfp] = React.useState({});
   const [on, setOn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [show, setShow] = React.useState(false);
+
   const [formData, setFormData] = React.useState({});
   const [showForm, setShowForm] = React.useState(true);
   const [otp, setOtp] = React.useState(null);
+  // const [data, setData] = React.useState([]);
   const handleClick = (e) => {
     setCurrent(setCurrent(e.key));
   };
@@ -213,7 +215,7 @@ const DesktopHeader = ({ cart, user, wishlist, headers }) => {
   const [signUpOpen, setSignUpOpen] = React.useState(false);
   return (
     <>
-      <Drawerrr show={show} setShow={setShow} />
+      <CartDrawer />
       <All.Modal open={on} onClose={(e) => setOn(false)} center>
         <div className={fancy.FPBackground}>
           <h2 className={fancy.FPHead}>Change Password</h2>
@@ -561,7 +563,11 @@ const DesktopHeader = ({ cart, user, wishlist, headers }) => {
           >
             About Us
           </div>
-          <div className={styles.DHLink} onClick={(e) => navigate("/blog")}>
+          <div
+            className={styles.DHLink}
+            style={{ marginLeft: "20px" }}
+            onClick={(e) => navigate("/blog")}
+          >
             Coffee Talks
           </div>
         </div>
@@ -590,11 +596,18 @@ const DesktopHeader = ({ cart, user, wishlist, headers }) => {
             style={{ width: "280px" }}
           >
             <Menu.Item
-              onClick={(e) => setShow(!show)}
               key="mail"
               icon={
                 <Badge count={cart.length}>
-                  <ShoppingCartOutlined style={{ fontSize: "25px" }} />
+                  <ShoppingCartOutlined
+                    style={{ fontSize: "25px" }}
+                    onClick={(e) => {
+                      dispatch({
+                        type: "DRAWER_VISIBLE",
+                        payload: true,
+                      });
+                    }}
+                  />
                 </Badge>
               }
             ></Menu.Item>

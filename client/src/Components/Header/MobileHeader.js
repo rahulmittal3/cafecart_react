@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./MobileHeader.module.css";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
+import { Badge } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import * as All from "react-responsive-modal";
 import { GoogleLogin } from "react-google-login";
@@ -438,15 +439,24 @@ const MobileHeader = ({ cart, user, wishlist }) => {
             <SearchIcon sx={{ fontSize: 25 }} />
           </button>
         </div> */}
-          <div>
+          {/* <div>
             {" "}
             <SearchIcon
               sx={{ fontSize: 25, marginRight: "20px", cursor: "pointer" }}
               onClick={handleClick}
             />
-          </div>
+          </div> */}
 
-          {user && <AccountCircleOutlinedIcon sx={{ fontSize: 30 }} />}
+          {user && (
+            <Badge count={cart.length}>
+              <ShoppingCartOutlined
+                sx={{ fontSize: 30 }}
+                onClick={(e) =>
+                  dispatch({ type: "DRAWER_VISIBLE", payload: true })
+                }
+              />
+            </Badge>
+          )}
           {!user && (
             <button
               className={styles.loginButton}

@@ -10,7 +10,7 @@ import { Carousel } from "react-responsive-carousel";
 import { newArrival, trending, best } from "../../Axios/Products.js";
 import _ from "lodash";
 import { toast } from "react-toastify";
-const Canvas = () => {
+const Canvas = ({ data, setData, getItems, show, setShow, showDrawer }) => {
   const [newData, setNewData] = React.useState([]);
   const [newTrending, setNewTrending] = React.useState([]);
   const [newBest, setNewbest] = React.useState([]);
@@ -119,6 +119,11 @@ const Canvas = () => {
       payload: cartLS,
     });
     toast.success(`${name} has been added to your cart`);
+
+    dispatch({
+      type: "DRAWER_VISIBLE",
+      payload: true,
+    });
   };
   const handleWishlist = (id, name) => {
     //first just insert it to the LS;
@@ -136,6 +141,7 @@ const Canvas = () => {
       type: "WISHLIST",
       payload: wishlist,
     });
+
     toast.success(`${name} has been added to your wishlist`);
   };
   return (
@@ -309,16 +315,28 @@ const Canvas = () => {
           newData.map((curr, index) => {
             return (
               <div className={styles.newArrivalItem} key={index}>
-                <div>
-                  <center>
-                    <img
-                      src={curr?.imagePath[0]}
-                      alt="imr"
-                      className={styles.newArrivalItem__img}
-                      onClick={(e) => navigate(`/products/${curr._id}`)}
+                <div className={styles.top}>
+                  <div>
+                    <center>
+                      <img
+                        src={curr?.imagePath[0]}
+                        alt="imr"
+                        className={styles.newArrivalItem__img}
+                        onClick={(e) => navigate(`/products/${curr._id}`)}
+                      />
+                    </center>
+                  </div>
+                  <div>
+                    <FavoriteBorderOutlinedIcon
+                      sx={{ fontSize: 30 }}
+                      className={styles.icon}
+                      onClick={(e) => {
+                        handleWishlist(curr?._id, curr?.title);
+                      }}
                     />
-                  </center>
+                  </div>
                 </div>
+
                 <div className={styles.newArrivalItem__meta}>
                   <div
                     className={styles.newArrivalItem__meta__title}
@@ -333,20 +351,25 @@ const Canvas = () => {
                     <div
                       className={styles.newArrivalItem__meta__actions__buttons}
                     >
-                      <FavoriteBorderOutlinedIcon
+                      {/* <FavoriteBorderOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles.icon}
                         onClick={(e) => {
                           handleWishlist(curr?._id, curr?.title);
                         }}
-                      />
+                      /> */}
                       <ShoppingCartOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles.icon}
                         onClick={(e) => {
                           handleCart(curr?._id, curr?.title);
+                          dispatch({
+                            type: "DRAWER_VISIBLE",
+                            payload: true,
+                          });
                         }}
                       />
+                      <button className={styles.buyNowButton}>Buy</button>
                     </div>
                     <div
                       className={styles.newArrivalItem__meta__actions__price}
@@ -371,40 +394,36 @@ const Canvas = () => {
       </div>
       <div className={styles.bestOnes}>
         <div className={styles.bestOnesHead}>Best In Cafecart</div>
-        <div className={styles.bestOnesItems}>
+
+        <div className={styles.bWrap}>
           {newBest &&
-            newBest.length > 0 &&
             newBest.map((curr, index) => {
               return (
                 <div
-                  className={styles.bestOnesItem}
                   key={index}
-                  onClick={(e) => navigate(`/products/${curr._id}`)}
+                  className={styles.bItem}
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => navigate(`/products/${curr?._id}`)}
                 >
-                  <div className={styles.bestOnesOuter}>
-                    <div className={styles.bestOnesImg}>
-                      <img
-                        src={curr?.imagePath[0]}
-                        alt="imr"
-                        className={styles.special__img}
-                      />
-                    </div>
-                    <div className={styles.bestOnesMeta}>
-                      <div className={styles.bestOnesMetaLeft}>
-                        <div className={styles.bestOnesMetaLeftTitle}>
-                          {curr?.title}
-                        </div>
-                        {/* <div className={styles.bestOnesMetaLeftDescription}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      </div> */}
+                  <img
+                    src={curr?.imagePath[0]}
+                    alt="product"
+                    className={styles.bImage}
+                  />
+                  <div className={styles.bMeta}>
+                    <div className={styles.bTitle}>{curr?.title}</div>
+                    <div className={styles.bPrices}>
+                      <div
+                        className={styles.price}
+                        style={{ fontSize: "120%", padding: "2px 2px" }}
+                      >
+                        {curr?.price}
                       </div>
-                      <div className={styles.bestOnesMetaRight}>
-                        <div className={styles.bestOnesMetaRightPrice}>
-                          ₹{curr?.price}
-                        </div>
-                        <div className={styles.bestOnesMetaRightMRP}>
-                          <del>₹{curr.mrpPrice}</del>
-                        </div>
+                      <div
+                        className={styles.price}
+                        style={{ fontSize: "100%", padding: "2px 2px" }}
+                      >
+                        <del> {curr?.mrpPrice}</del>
                       </div>
                     </div>
                   </div>
@@ -420,15 +439,27 @@ const Canvas = () => {
           newTrending.map((curr, index) => {
             return (
               <div className={styles.newArrivalItem} key={index}>
-                <div>
-                  <center>
-                    <img
-                      src={curr?.imagePath[0]}
-                      alt="imr"
-                      className={styles.newArrivalItem__img}
-                      onClick={(e) => navigate(`/products/${curr._id}`)}
+                <div className={styles.top}>
+                  <div>
+                    <center>
+                      <img
+                        src={curr?.imagePath[0]}
+                        alt="imr"
+                        className={styles.newArrivalItem__img}
+                        onClick={(e) => navigate(`/products/${curr._id}`)}
+                      />
+                    </center>
+                  </div>
+                  <div>
+                    <FavoriteBorderOutlinedIcon
+                      sx={{ fontSize: 30 }}
+                      className={styles.icon}
+                      onClick={(e) => {
+                        handleWishlist(curr?._id, curr?.title);
+                        setShow(true);
+                      }}
                     />
-                  </center>
+                  </div>
                 </div>
                 <div className={styles.newArrivalItem__meta}>
                   <div
@@ -444,20 +475,25 @@ const Canvas = () => {
                     <div
                       className={styles.newArrivalItem__meta__actions__buttons}
                     >
-                      <FavoriteBorderOutlinedIcon
+                      {/* <FavoriteBorderOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles.icon}
                         onClick={(e) => {
                           handleWishlist(curr?._id, curr?.title);
                         }}
-                      />
+                      /> */}
                       <ShoppingCartOutlinedIcon
                         sx={{ fontSize: 30 }}
                         className={styles.icon}
                         onClick={(e) => {
                           handleCart(curr?._id, curr?.title);
+                          dispatch({
+                            type: "DRAWER_VISIBLE",
+                            payload: true,
+                          });
                         }}
                       />
+                      <button className={styles.buyNowButton}>Buy</button>
                     </div>
                     <div
                       className={styles.newArrivalItem__meta__actions__price}

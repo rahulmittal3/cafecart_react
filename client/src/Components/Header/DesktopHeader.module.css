@@ -23,10 +23,10 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 70%;
+  width: 80%;
 }
 .DHLink {
-  margin-left: 20px;
+  margin-left: 0px;
   font-family: Poppins;
   font-style: normal;
   font-weight: 600;

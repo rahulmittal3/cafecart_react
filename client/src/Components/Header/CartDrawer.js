@@ -1,19 +1,20 @@
+import styles from "../Cart/Drawer.module.css";
 import React from "react";
-import styles from "./Drawer.module.css";
 import { Drawer } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { cartDetails } from "../../Axios/Cart.js";
 import { useNavigate } from "react-router-dom";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-
-const Drawerrr = ({ data, setData, show, setShow }) => {
+import { addToCartDB } from "../../Axios/Cart.js";
+const CartDrawer = () => {
   const navigate = useNavigate();
+  const { drawer, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
   const { cart } = useSelector((state) => ({ ...state }));
+  const [data, setData] = React.useState([]);
   const cartLS = cart;
-
   const lavda = () => {
     setLoading(true);
     cartDetails(cartLS)
@@ -27,9 +28,14 @@ const Drawerrr = ({ data, setData, show, setShow }) => {
   };
   React.useEffect(() => {
     lavda();
-  }, []);
-
-  //GET THE REQUIRED ITEMS...
+  }, [drawer]);
+  const onClose = () => {
+    //directly dispatch to redux
+    dispatch({
+      type: "DRAWER_VISIBLE",
+      payload: false,
+    });
+  };
   let cartDisplay = [];
   let total = 0;
   for (let j = 0; j < data?.length; j++) {
@@ -66,7 +72,7 @@ const Drawerrr = ({ data, setData, show, setShow }) => {
           type: "CART",
           payload: cartLS,
         });
-
+        lavda();
         return;
       }
     }
@@ -95,7 +101,7 @@ const Drawerrr = ({ data, setData, show, setShow }) => {
           type: "CART",
           payload: cartLS,
         });
-
+        lavda();
         return;
       }
     }
@@ -109,6 +115,7 @@ const Drawerrr = ({ data, setData, show, setShow }) => {
           type: "CART",
           payload: cartLS,
         });
+        lavda();
         return;
       }
     }
@@ -117,29 +124,64 @@ const Drawerrr = ({ data, setData, show, setShow }) => {
   const checkoutHandler = () => {
     dispatch({ type: "DIRECT_CHECKOUT", payload: true });
     window.localStorage.setItem("directCheckout", true);
-    console.log(cartDisplay);
+    //check whwther, anyout of stock item is there and
+    let result = 1;
+    for (let i = 0; i < data.length; i++) {
+      const curr = data[i];
+      if (curr?._doc?.available === false) {
+        result = result & 0;
+      }
+    }
+    if (result === 0) {
+      //means out of stock item is there and
+      toast.error(
+        "Please remove Out of Stock items from the Cart to Checkout!"
+      );
+      return;
+    }
+    if (!user) {
+      toast.success("Please Login to Continue to Checkout");
+
+      return;
+    }
+    if (!user.contactVerified) {
+      toast.success(
+        "Please Verify your Contact Number, before placing your Order"
+      );
+      //   setOpenVerif(true);
+      return;
+    }
+    //CREATE A CHECKOUT OBJECT :
+
+    //create the products array from
+    let arr = [];
+    for (let i = 0; i < cart.length; i++) {
+      const obj = {
+        productId: cart[i]?._id,
+        quantity: cart[i]?.quantity,
+      };
+      arr.push(obj);
+    }
+    console.log(arr);
+    const createObject = {
+      user: user?.id,
+      priceBeforeDiscount: total,
+      discount: 0,
+      shipping: total < 500 ? 50 : 0,
+      couponApplied: "",
+      items: arr,
+    };
+    console.log(createObject);
+    addToCartDB(createObject)
+      .then((res) => {
+        navigate("/checkout");
+      })
+      .catch((err) => toast.error("Please Try Again!"));
   };
-  const closeHandler = () => setShow(false);
 
   return (
-    <Drawer
-      placement="right"
-      onClose={closeHandler}
-      visible={show}
-      closable={true}
-      width={410}
-      className={styles.drawerWidth}
-    >
+    <Drawer placement="right" onClose={onClose} visible={drawer}>
       <div className={styles.bringFront}>
-        <div className={styles.crossFlex}>
-          <div
-            className={styles.cross}
-            style={{ cursor: "pointer" }}
-            onClick={(e) => setShow(false)}
-          >
-            +
-          </div>
-        </div>
         <div className={styles.title}>Your Cart</div>
         {cart && cart.length <= 0 && (
           <div>
@@ -233,4 +275,4 @@ const Drawerrr = ({ data, setData, show, setShow }) => {
   );
 };
 
-export default Drawerrr;
+export default CartDrawer;

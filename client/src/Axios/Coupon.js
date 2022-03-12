@@ -9,4 +9,17 @@ const checkCoupon = async (name) => {
   });
   return result;
 };
-export { checkCoupon };
+const checkoutCoupon = async (jwt, name, _id) => {
+  console.log(name);
+
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/checkout-coupon`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    params: { name: name, _id: _id },
+  });
+  return result;
+};
+export { checkCoupon, checkoutCoupon };

@@ -134,6 +134,7 @@
 .cart,
 .buyNow {
   padding: 10px 15px;
+  margin-bottom: 20px;
 }
 @media (max-width: 599px) {
   .drawerWidth {

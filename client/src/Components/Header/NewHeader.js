@@ -2,16 +2,20 @@ import React from "react";
 import styles from "./NewHeader.module.css";
 import DesktopHeader from "./DesktopHeader.js";
 import MobileHeader from "./MobileHeader.js";
+import { useParams } from "react-router-dom";
 import { categories } from "../../Axios/Products.js";
 import { useSelector, useDispatch } from "react-redux";
-const NewHeader = () => {
+const NewHeader = ({ show, setShow }) => {
+  const params = useParams();
   const dispatch = useDispatch();
   let x = [];
   if (window !== undefined && window.localStorage.getItem("cartLS"))
     x = JSON.parse(window.localStorage.getItem("cartLS"));
   console.log(x);
 
-  const { cart, user, wishlist } = useSelector((state) => ({ ...state }));
+  const { cart, user, wishlist, drawer } = useSelector((state) => ({
+    ...state,
+  }));
   const [headers, setHeaders] = React.useState([]);
   const getHeaders = () => {
     categories()
@@ -20,7 +24,7 @@ const NewHeader = () => {
   };
   React.useEffect(() => {
     getHeaders();
-  }, []);
+  }, [params, user, cart, wishlist, drawer]);
 
   return (
     <div className={styles.outer}>
