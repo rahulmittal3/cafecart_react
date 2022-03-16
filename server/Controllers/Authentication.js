@@ -96,6 +96,7 @@ const currentUser = async (req, res) => {
       contactVerified: user1.contactVerified,
       name: user1.username,
       email: user1.email,
+      contact: user1?.contact ? user1.contact : "",
     });
   } catch (error) {
     return res.status(500).json(error);

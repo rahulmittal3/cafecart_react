@@ -59,7 +59,7 @@
 .singleDate {
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 12.1978px;
   line-height: 18px;
   margin-top: 10px;
@@ -77,7 +77,7 @@
 .singleDescription {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 13px;
   line-height: 19px;
   margin-top: 10px;
@@ -85,22 +85,22 @@
   color: #7d7979;
 }
 .singleBtn {
-  border: 2px solid #eec373;
+  border: 2px solid #a0522d;
   box-sizing: border-box;
   border-radius: 10px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   line-height: 21px;
   /* identical to box height */
   margin-top: 10px;
-  color: #eec373;
+  color: #a0522d;
   padding: 10px 15px;
 }
 .singleBtn:hover {
   color: white;
-  background-color: #eec373;
+  background-color: #a0522d;
 }
 .search {
   width: 40%;
@@ -120,7 +120,7 @@
   width: 100%;
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 18px;
   line-height: 27px;
   background-color: #f4efef;
@@ -134,8 +134,8 @@
 }
 .searchBtn {
   width: 15%;
-  background-color: #eec373;
-  border: 1px solid #eec373;
+  background-color: #a0522d;
+  border: 1px solid #a0522d;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -157,7 +157,7 @@
   margin-top: 20px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 23px;
   line-height: 34px;
   /* identical to box height */
@@ -167,7 +167,7 @@
   margin-top: 30px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 15px;
   line-height: 27px;
   /* or 180% */
@@ -178,8 +178,8 @@
 }
 .aboutUsBtn {
   margin-top: 30px;
-  background-color: #eec373;
-  border: 1px solid #eec373;
+  background-color: #a0522d;
+  border: 1px solid #a0522d;
   color: white;
   padding: 10px 15px;
   border-radius: 5px;
@@ -207,7 +207,7 @@
 .categories_heading {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 21px;
   line-height: 31px;
   /* identical to box height */
@@ -225,7 +225,7 @@
   margin-top: 15px;
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16px;
   line-height: 24px;
   /* identical to box height */
@@ -277,14 +277,14 @@
 
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   line-height: 16px;
   /* identical to box height, or 100% */
 
   text-decoration-line: underline;
 
-  color: #eec373;
+  color: #a0522d;
 }
 .link:hover {
   cursor: pointer;
@@ -298,7 +298,7 @@
 .tag {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16px;
   line-height: 24px;
 
@@ -384,11 +384,11 @@
   color: #ffffff;
 }
 .magic {
-  background-color: #eec373;
+  background-color: #a0522d;
   color: white;
   font-size: 20px;
   padding: 20px 20px;
-  border: 1px solid #eec373;
+  border: 1px solid #a0522d;
   border-radius: 7.5px;
   line-height: 1;
 }
@@ -478,7 +478,7 @@
   .magic {
     font-size: 15px;
     padding: 12px 12px;
-    border: 1px solid #eec373;
+    border: 1px solid #a0522d;
     border-radius: 7.5px;
     line-height: 1;
   }
@@ -487,7 +487,7 @@
   .magic {
     font-size: 12px;
     padding: 8px 8px;
-    border: 1px solid #eec373;
+    border: 1px solid #a0522d;
     border-radius: 7.5px;
     line-height: 1;
   }

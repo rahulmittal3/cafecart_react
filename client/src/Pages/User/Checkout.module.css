@@ -252,3 +252,23 @@
     padding: 0px 40px;
   }
 }
+
+.radioBtns {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  /* identical to box height */
+
+  color: #000000;
+}
+
+.radio {
+  background: #ffffff;
+  box-shadow: -1px 4px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  padding: 15px;
+  width: 100%;
+  margin: 15px;
+}

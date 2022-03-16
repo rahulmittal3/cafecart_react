@@ -2,7 +2,7 @@
 .overview {
   width: 100%;
   height: 500px;
-  background: #e02e23;
+  background: #a0522d;
 }
 .title {
   position: absolute;
@@ -28,7 +28,7 @@
   transform: translateX(-50%);
   font-family: "Poppins", sans-serif;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16.6006px;
   line-height: 30px;
   /* or 180% */
@@ -65,7 +65,7 @@
 .titleAboutUs {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 21px;
   line-height: 27px;
   /* identical to box height, or 129% */
@@ -80,7 +80,7 @@
   font-size: 18px;
   line-height: 27px;
   /* or 150% */
-
+  font-weight: 600;
   text-align: center;
 
   color: #000000;
@@ -136,8 +136,8 @@
   flex-direction: row;
   justify-content: space-evenly;
   margin-bottom: 50px;
-  margin-left: 10px;
-  margin-right: 10px;
+  /* margin-left: 10px;
+  margin-right: 10px; */
   /* flex-wrap: wrap; */
 }
 .card {
@@ -162,7 +162,7 @@
 .card_desc {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 18px;
   line-height: 29px;
   /* or 161% */
@@ -184,7 +184,7 @@
 }
 .block {
   width: 40%;
-  background: #e02e23;
+  background: #a0522d;
   border-radius: 10px 0px 0px 10px;
   padding: 80px;
   margin-bottom: 50px;
@@ -204,7 +204,7 @@
 .block_desc {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 18px;
   line-height: 23px;
   margin-bottom: 20px;
@@ -238,6 +238,9 @@
   flex-direction: column;
   justify-content: space-evenly;
 }
+.infoDesc {
+  font-weight: 600;
+}
 .names,
 .regContact {
   display: flex;
@@ -248,7 +251,7 @@
 .nameAsk {
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16px;
   line-height: 23px;
   /* identical to box height, or 144% */
@@ -265,7 +268,7 @@
   margin-top: 20px;
 }
 .button {
-  background: #e02e23;
+  background: #a0522d;
   border-radius: 6.125px;
   color: #ffffff;
   padding: 10px;
@@ -279,7 +282,7 @@
   border-right: none;
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16px;
   line-height: 23px;
   /* identical to box height, or 144% */
@@ -293,7 +296,7 @@
   margin: 10px 0;
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16px;
   line-height: 23px;
   /* identical to box height, or 144% */
@@ -310,7 +313,7 @@
     height: 450px;
     left: 0px;
     top: 20px;
-    background: #e02e23;
+    background: #a0522d;
   }
   .title {
     font-family: Poppins;
@@ -361,5 +364,19 @@
   .names,
   .regContact {
     flex-direction: column;
+  }
+}
+@media (max-width: 499px) {
+  .card {
+    padding: 10px;
+    margin: 10px 10px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+  .lower {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 50px;
   }
 }

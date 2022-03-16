@@ -144,6 +144,24 @@ const Canvas = ({ data, setData, getItems, show, setShow, showDrawer }) => {
 
     toast.success(`${name} has been added to your wishlist`);
   };
+  const buyNowHandler = (p) => {
+    //id is in params.id
+    //add to cart, and dispatch to redux
+    let cart = [];
+
+    const createObj = {
+      _id: p?._id,
+      name: p?.title,
+      quantity: 1,
+    };
+    cart.push(createObj);
+    window.localStorage.setItem("cartLS", JSON.stringify(cart));
+    dispatch({
+      type: "CART",
+      payload: cart,
+    });
+    navigate("/cart");
+  };
   return (
     <>
       <div className={styles.canvasWrapper}>
@@ -369,7 +387,12 @@ const Canvas = ({ data, setData, getItems, show, setShow, showDrawer }) => {
                           });
                         }}
                       />
-                      <button className={styles.buyNowButton}>Buy</button>
+                      <button
+                        className={styles.buyNowButton}
+                        onClick={(e) => buyNowHandler(curr)}
+                      >
+                        Buy
+                      </button>
                     </div>
                     <div
                       className={styles.newArrivalItem__meta__actions__price}
@@ -493,7 +516,12 @@ const Canvas = ({ data, setData, getItems, show, setShow, showDrawer }) => {
                           });
                         }}
                       />
-                      <button className={styles.buyNowButton}>Buy</button>
+                      <button
+                        className={styles.buyNowButton}
+                        onClick={(e) => buyNowHandler(curr)}
+                      >
+                        Buy
+                      </button>
                     </div>
                     <div
                       className={styles.newArrivalItem__meta__actions__price}

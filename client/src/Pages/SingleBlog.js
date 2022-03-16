@@ -142,7 +142,7 @@ const SingleBlog = () => {
               <div className={styles.categories__points}>
                 <div className={styles.category}>
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/a4c8/2eba/549803903bae51cc7b09094b73b92774?Expires=1646611200&Signature=ghvO0paHHMltSs8dPAQxIV0KmiL9oTBOs6LHvy8Y6S~0Tw0bGksl8ZJgXEOZQFW7LMfdSRqghaVHB0jWPUXsbnhIIyo~AoF2I7hqfHSmoBmam-ynXmRSR5EvaAR1gHc19rbs-cCNvS1HgUFpkOgCMFx1uUz2fvj7-eddeF1IA3cunp7CPUcrfHToZ9~phUDlT1WIYCq-5Rzj61GkdblXSWMxNMRfn1lPwknsds3yhwPMkiI4D7E1Yjvn7fnrltmtc1-hw0cheQ4lwNCQq6qDRTsbmfu57WAqsHTuaOL0Tj2lvgb8YD7YsL87ATQkmFiIBNhorFfsC8iIRBtnACDjxw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432770/mortarboard_lo36z1.svg"
                     alt="hello"
                     className={styles.category_img}
                   />
@@ -150,7 +150,7 @@ const SingleBlog = () => {
                 </div>
                 <div className={styles.category}>
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/01df/8096/b1eed8fdf43c410fbbe31512fa08357e?Expires=1646611200&Signature=XzwyZD2UFV~K0kqdFyr7-5eKwgJkmph5o5ciYD00HEWJ2bIbWKsWXkmRl0tVo0HdNCa5Ay0pAHFP3wc7MnEw77AfcR8e2XiZ9LHUCHFhrUVztktc4-HImlwawvSMLr8q-Nf38qErPJcTsD9HxXrUgxDeTPdy78WaGHK~P1Y79qYTTRnBOaquPApdR8SHx4GsF8UNGUQVsPPh0tu2L0aDxri4mrVv1~vuHvhhTQHra~3P82v37UU8nwPawZZKKw2YsyCj2LkbR-1Sq82w6dEaZHvn-vscha~FZGylGtQ7FzXHtxGxdyDBuOFE7BMcyMkxEVzeMJ9kHQMaYatn2smqIg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432816/coffee-machine_jzehlk.svg"
                     alt="hello"
                     className={styles.category_img}
                   />
@@ -158,7 +158,7 @@ const SingleBlog = () => {
                 </div>
                 <div className={styles.category}>
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/925e/4969/1322c953fa0e0d954f1b08a11aa7fc45?Expires=1646611200&Signature=PKWIE0JOF7vDsA3-NaNweIWhKNyp2Z7WSdsiWw91g07WWq1CkGdIRAslfce4ARwSU38nF8kK6ivVv~uFtCXBddch-gcWWGT5lSNvnbA3ad1SJjOkhVIcrBpiuZlEAgpIzYw3Q7xyazDOr0O9ExOUNOVFSuSH06SQYj0~J3eB5RGPzTa5nv3Fhz-8EvmJTcMRx5nwS4TDyavFpBspvKbZPcnkoMZQj9~4YMfN-73RnuzORvz5~lVI-ee5pjMThPpzp2sj6DqOovRcfya0ShBdQ8wIlKZPz9NbC16cd8GaNoxibZE17EFEv8hxRHBpR1~kTejos22C0ii2kJ3bvnUuag__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432856/recipe-book_jqzbip.svg"
                     alt="hello"
                     className={styles.category_img}
                   />
@@ -166,7 +166,7 @@ const SingleBlog = () => {
                 </div>
                 <div className={styles.category}>
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/efb4/de67/e542b3b358343738ee095c5dc1c5ce0a?Expires=1646611200&Signature=T1oDn6DSOLpYnCegyBdgiBEE2xsitt2-61RWPqVHGGu4CNaMl2aRtnrdrFg3t54xtmnFtj3CrMQnVI1YB88ChuTlKhPm3kUaVofNbI1TctMkLFD4fTR8dqJai61Rw2kqZiSrTFssnnl1IHnlQ~0VmhVBbbjREfvYOIBMj5UqMhqwPI9XKMeY-8-Of5zj2kICQCfMaj3mUnhIwM1x1imeWAnvpS614Fl84fQtbmx-aC4NtUsCt20m3p6LiQ4WrTBbO6UeEsZohnqDujo8ESfeSY8RK9HFzHV8mpPUxKtQ-GwTD5HGVU8SntwUOXPRGBDj8z1jhFfXxqSPTioofprCPA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432892/pot_fjjdpr.svg"
                     alt="hello"
                     className={styles.category_img}
                   />
@@ -174,7 +174,7 @@ const SingleBlog = () => {
                 </div>
                 <div className={styles.category}>
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/7a23/a3a0/9d4d6d4d5d370c94ec6cb4069a461219?Expires=1646611200&Signature=e1uqutFIUtCOwtr2PJRTDvAHUaW-W5XhYQbvuDnv-iCt5GuiDi0WW2ssTFT-lViGE7XngpcsrIjOQ-Di~~cGuAJzTJjvQbNklsHD1twvsS49scWkkWva38GGSRbhTrWwzHPPzVSgfxngUlo2F9MM-Qwp320pXxMaSbJBoqJAe2uNiTRPY2-n6OTHAH86pp39zgr3iYhwwsf4veEaF1IFdE8~fHAM4QGVWsmFvdNSbIch7QdCiQFFufc~bh-~~aw4OdDX-axyZf2v8i8eZ~SgrZzlb9C5vrzPhuVaED67d9pkRZCTqRoUPTzOf4hRQ~lbYpHwdyqAoLLMd3HrS9AZhg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432930/beans_dbi7h5.svg"
                     alt="hello"
                     className={styles.category_img}
                   />
@@ -182,7 +182,7 @@ const SingleBlog = () => {
                 </div>
                 <div className={styles.category}>
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/dd20/6658/623d3e763844eba4f7d61249694807d3?Expires=1646611200&Signature=SOOQO0Pnzm49vco0kB4zytJDBhvhXBSCJHKrloF1gCuAU9el9aLvjFYyvXhtj-QINwHbCwHBO3Jn3SSs-IMZxgKteWlAou-y6HCHBIYhv5G4CkaN66Jd-Vr292E-ziiKGSKlF-enQqnmNdhmOaJQAZU3fa7UF1jUSCOPH0UGUOU0iErxdbOJo96tg9D5CHljaRyIujNrUbuyixXr8e6bVptUax9ZTfJoJZjIEuD-GCwRkCx3Db78HRckQ4eHjjU4C2g749lDQoxGIYdiBAnYa7Eirp6aCVsO9-~6dosv4~-LREXNo18p2s3b6vsS4DD2iiYV5v~f7aXkflyLjAggVg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432930/beans_dbi7h5.svg"
                     alt="hello"
                     className={styles.category_img}
                   />
@@ -190,7 +190,7 @@ const SingleBlog = () => {
                 </div>
                 <div className={styles.category}>
                   <img
-                    src="https://s3-alpha-sig.figma.com/img/0441/3219/e996ec5be4ee9490e49807156f491cae?Expires=1646611200&Signature=VsIAa42DXIV3s6ZZWR3JYEUzCQqYcCCANtRDNfDeQwFHlh6WzniA86-bDW1-vr7tgBUINZtkyWCq8HAIDs~05yrVJ1JB4OrqqcVWDTJep0RuFOVptK893uxi8X3tnxI5HjD0zuJivd7p66XLhXbSB4pKvZwKCA4dbRm93MaufxuHE6nFtXTQYK-mp7x9BE2LFGD199t7vqE77f3FPXexNvLtQChTNCzTPHOaiJDAZmu1rNFfFKnw2vTE6fBEgJ8kRdOKrIcOm7Rk9L4DxMuApgAXDun~KMY947dsKJtdc2e4OpyNKDNsNGW1uB6g0i8PS6n4mcJt9pZlQsOWvxjzrQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    src="https://res.cloudinary.com/techbuy/image/upload/v1647433019/search-worldwide_hx77zn.svg"
                     alt="hello"
                     className={styles.category_img}
                   />

@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./Checkout.module.css";
-import { RadioGroup, RadioButton } from "react-radio-buttons";
-import { Radio } from "antd";
+// import { RadioGroup, RadioButton } from "react-radio-buttons";
+import { Radio, Tooltip, Badge } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getFromCart } from "../../Axios/Cart.js";
 import { createPayment } from "../../Axios/Payment.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { checkoutCoupon } from "../../Axios/Coupon.js";
+import axios from "axios";
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,8 +22,8 @@ const Checkout = () => {
   const [address, setAddress] = React.useState("");
   const [address2, setAddress2] = React.useState("");
   const [pin, setPin] = React.useState("");
-  const [phone, setPhone] = React.useState("");
-  const [state, setState] = React.useState("Bihar");
+  const [phone, setPhone] = React.useState(user?.contact);
+  const [state, setState] = React.useState("");
   const [coupon, setCoupon] = React.useState("");
   const [method, setMethod] = React.useState("cod");
   const [data, setData] = React.useState([]);
@@ -38,6 +39,40 @@ const Checkout = () => {
     getData();
   }, [cart]);
 
+  //handlePIN
+  const getPINDetails = async (pin) => {
+    console.log(pin);
+    if (pin.length === 6) {
+      try {
+        const result = await axios({
+          url: `https://api.postalpincode.in/pincode/${pin}`,
+          method: "GET",
+        });
+        console.log(result);
+        if (result.data[0]?.Status === "Success") {
+          //get the first pin codec
+          const area = result?.data[0]?.PostOffice[0];
+          console.log(area);
+          setState(area.State);
+          setCity(area.Block === "NA" ? area.Name : area.Block);
+        } else {
+          toast.warning("PIN Code Not Valid!");
+          setState("");
+          setCity("");
+          setPin("");
+        }
+      } catch (error) {
+        toast.warning("PIN Code Not Valid!");
+        setState("");
+        setCity("");
+        setPin("");
+      }
+    } else {
+      setState("");
+      setCity("");
+      setPin("");
+    }
+  };
   const orderHandler = () => {
     setLoading(true);
     const object = {
@@ -53,6 +88,41 @@ const Checkout = () => {
       method: method,
       user: user?.id,
     };
+    if (!object.email) {
+      toast.warning("Enter Email Id Before Placing Order");
+      setLoading(false);
+      return;
+    }
+    if (!object.fname) {
+      toast.warning("Enter First Name Before Placing Order");
+      setLoading(false);
+      return;
+    }
+    if (!object.address) {
+      toast.warning("Enter Address Before Placing Order");
+      setLoading(false);
+      return;
+    }
+    if (!object.city) {
+      toast.warning("Enter City Before Placing Order");
+      setLoading(false);
+      return;
+    }
+    if (!object.state) {
+      toast.warning("Choose State Before Placing Order");
+      setLoading(false);
+      return;
+    }
+    if (!object.pin) {
+      toast.warning("Enter PIN Before Placing Order");
+      setLoading(false);
+      return;
+    }
+    if (!object.phone) {
+      toast.warning("Enter Contact Number Before Placing Order");
+      setLoading(false);
+      return;
+    }
     createPayment(object)
       .then((res) => {
         toast.success("Order has been placed successfuly");
@@ -156,6 +226,7 @@ const Checkout = () => {
             className={styles.checkout_names}
             onChange={(e) => setState(e.target.value)}
           >
+            <option value="">Choose State</option>
             <option value="Andhra Pradesh">Andhra Pradesh</option>
             <option value="Andaman and Nicobar Islands">
               Andaman and Nicobar Islands
@@ -204,7 +275,10 @@ const Checkout = () => {
             placeholder="PIN Code"
             style={{ margin: "0" }}
             value={pin}
-            onChange={(e) => setPin(e.target.value)}
+            onChange={(e) => {
+              getPINDetails(e.target.value);
+              setPin(e.target.value);
+            }}
             name="x-field-1"
             autocomplete="new-field-1"
           />
@@ -227,7 +301,7 @@ const Checkout = () => {
             autocomplete="new-field-1"
           />
         </div>
-        <div className={styles.options}>
+        {/* <div className={styles.options}>
           <Radio.Group
             value={method}
             defaultValue={method}
@@ -236,8 +310,34 @@ const Checkout = () => {
           >
             <Radio.Button value="cod">Pay On Delivery</Radio.Button>
             <Radio.Button value="pay" disabled={true}>
-              UPI / Debit card / Credit card
+              UPI / Debit Card / Credit Card
             </Radio.Button>
+          </Radio.Group>
+        </div> */}
+
+        <div>
+          <Radio.Group
+            onChange={(e) => setMethod(e.target.value)}
+            value={method}
+            defaultValue={method}
+          >
+            <div className={styles.radio}>
+              <Radio value="cod">
+                <span className={styles.radioBtns}>Pay On Delivery</span>
+              </Radio>
+            </div>
+            <div className={styles.radio}>
+              <Tooltip
+                title="We are Currently undergoing Maintenance for our Prepaid Mode. Please Continue with Pay On Delivery Method"
+                placement="right"
+              >
+                <Radio value="pay" disabled={true}>
+                  <span className={styles.radioBtns}>
+                    UPI / Debit Card / Credit Card
+                  </span>
+                </Radio>
+              </Tooltip>
+            </div>
           </Radio.Group>
         </div>
       </div>
@@ -247,10 +347,13 @@ const Checkout = () => {
           data?.items?.length > 0 &&
           data?.items.map((curr, index) => {
             return (
-              <div className={styles.item} key={index}>
+              <div className={styles.item}>
                 <div className={styles.imgLogo}>
-                  <img src={curr?.productId?.imagePath[0]} alt="imae" />
+                  <Badge count={curr?.quantity}>
+                    <img src={curr?.productId?.imagePath[0]} alt="imae" />
+                  </Badge>
                 </div>
+
                 <div className={styles.meta}>
                   <div className={styles.title}>{curr?.productId?.title}</div>
                   <div className={styles.price}>₹{curr?.productId?.price}</div>
@@ -297,20 +400,7 @@ const Checkout = () => {
           <button
             className={styles.answerFinal}
             onClick={orderHandler}
-            disabled={
-              !address ||
-              !address2 ||
-              !city ||
-              !email ||
-              !fname ||
-              !method ||
-              !phone ||
-              phone.length !== 10 ||
-              !pin ||
-              !state ||
-              !user ||
-              loading
-            }
+            disabled={loading}
           >
             {loading ? "Please Wait...." : "Place Order"}
           </button>
