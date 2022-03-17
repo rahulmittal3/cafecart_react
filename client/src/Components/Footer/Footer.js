@@ -65,7 +65,7 @@ const Footer = () => {
               className={styles.footerItemContent}
               style={{ cursor: "pointer" }}
               onClick={(e) => {
-                navigate("#");
+                navigate("/pages/shipping-policy");
               }}
             >
               Shipping
