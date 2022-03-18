@@ -1,16 +1,35 @@
 const NewOrder = require("../Models/newOrder.js");
 const Product = require("../Models/product.js");
 const axios = require("axios");
+const _ = require("lodash");
+const Order = require("../Models/order.js");
 const getMyOrder = async (req, res) => {
   //get the orders from there
   try {
+    let box = [];
+
     const orders = await NewOrder.find({ user: req.query.id })
       .populate({
         path: "items.productId",
         Product,
       })
       .sort("-createdAt");
-    res.status(200).json(orders);
+    box.push(...orders);
+    const oldOrders = await Order.find({ user: req.query.id })
+      .populate({
+        path: "cart.items.productId",
+        Product,
+      })
+      .sort("-createdAt");
+    box.push(...oldOrders);
+    box = _.sortBy(box, [
+      function (o) {
+        return o.createdAt;
+      },
+    ]);
+    // console.log(oldOrders);
+    // res.status(200).json(orders);
+    res.status(200).json(box);
   } catch (error) {
     res.status(400).json(error);
   }
@@ -22,8 +41,19 @@ const getSingleOrder = async (req, res) => {
       path: "items.productId",
       Product,
     });
-    if (!orders) throw "No Order Found";
-    res.status(200).json(orders);
+    if (orders) {
+      return res.status(200).json(orders);
+    }
+    //check for older orderSchema
+    const oldOrder = await Order.findOne({ _id: req.query.orderId }).populate({
+      path: "cart.items.productId",
+      Product,
+    });
+    if (oldOrder) {
+      return res.status(200).json(oldOrder);
+    } else {
+      throw "No Order Found";
+    }
   } catch (error) {
     res.status(400).json(error);
   }
@@ -58,6 +88,7 @@ const trackOrder = async (req, res) => {
         Authorization: `Bearer ${authtoken}`,
       },
     });
+    console.log(result2.data);
     res.status(200).json(result2.data);
   } catch (error) {
     res.status(400).json(error);

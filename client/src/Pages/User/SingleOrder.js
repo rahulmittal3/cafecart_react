@@ -8,9 +8,13 @@ import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import OrderDetail from "../../Components/User/OrderDetail.js";
 import { trackOrder } from "../../Axios/Order.js";
+
 const moment = require("moment");
 
 const SingleOrder = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const [order, setOrder] = React.useState(null);
   const [track, setTrack] = React.useState(null);
   const getTrack = () => {
@@ -32,14 +36,16 @@ const SingleOrder = () => {
     getData();
   }, []);
   React.useEffect(() => {
-    getTrack();
-  }, []);
+    order?.SRShipmentId && getTrack();
+  }, [order]);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <div className={styles.heading}>My Order</div>
         <div className={styles.email}>{user.email}</div>
       </div>
+
       <div className={styles.info}>
         <div className={styles.zone1}>
           <div className={styles.zoneHead}>Order Details</div>
@@ -58,13 +64,18 @@ const SingleOrder = () => {
           <div className={styles.amount}>
             <span className={styles.q}>Total Amount : </span>
             <span className={styles.a}>
-              ₹{order?.netAmount.toLocaleString("en-IN")}
+              ₹
+              {order?.netAmount
+                ? order?.netAmount.toLocaleString("en-IN")
+                : order?.cart?.totalCost.toLocaleString("en-IN")}
             </span>
           </div>
           <div className={styles.amount}>
             <span className={styles.q}>Order Status : </span>
             <span className={styles.a}>
-              {JSON.stringify(track?.tracking_data?.error)}
+              {JSON.stringify(track?.tracking_data?.error)
+                ? JSON.stringify(track?.tracking_data?.error)
+                : "Please Check Your Mail for Order Status"}
             </span>
           </div>
           <hr />
@@ -77,7 +88,13 @@ const SingleOrder = () => {
             <span className={styles.q}>
               <CallIcon /> &emsp; &emsp;
             </span>
-            <span className={styles.a}>8252589906</span>
+            <span className={styles.a}>
+              {order?.customerContact
+                ? order?.customerContact
+                : user?.contact
+                ? user.contact
+                : "Not Available"}
+            </span>
           </div>
           {/*  */}
           <div className={styles.orderNumber}>
@@ -85,7 +102,9 @@ const SingleOrder = () => {
               <MarkEmailReadIcon />
               &emsp; &emsp;
             </span>
-            <span className={styles.a}>{user?.email}</span>
+            <span className={styles.a}>
+              {order?.customerEmail ? order?.customerEmail : user?.email}
+            </span>
           </div>
           {/*  */}
           <div className={styles.amount}>
@@ -102,7 +121,9 @@ const SingleOrder = () => {
               <MapsHomeWorkIcon />
               &emsp; &emsp;
             </span>
-            <span className={styles.a}>{order?.customerName}</span>
+            <span className={styles.a}>
+              {order?.customerName ? order?.customerName : order?.address}
+            </span>
           </div>
           {/*  */}
           <div className={styles.orderNumber}>
@@ -116,10 +137,12 @@ const SingleOrder = () => {
               {order?.customerCity} {order?.customerState}
             </span>
           </div>
-          <div className={styles.pin}>
-            <span className={styles.q}>PIN : </span>
-            <span className={styles.a}> {order?.customerPin}</span>
-          </div>
+          {order?.customerPin && (
+            <div className={styles.pin}>
+              <span className={styles.q}>PIN : </span>
+              <span className={styles.a}> {order?.customerPin}</span>
+            </div>
+          )}
           <hr />
           <br />
         </div>
@@ -127,8 +150,15 @@ const SingleOrder = () => {
         <div className={styles.zone4}>
           <div className={styles.zoneHead}>Items in the Order</div>
           {order &&
+            order.items &&
             order.items.length > 0 &&
             order.items.map((curr, index) => {
+              return <OrderDetail key={index} product={curr} />;
+            })}
+          {order &&
+            order.cart &&
+            order.cart.items.length > 0 &&
+            order.cart.items.map((curr, index) => {
               return <OrderDetail key={index} product={curr} />;
             })}
           <hr />

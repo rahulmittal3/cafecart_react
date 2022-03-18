@@ -20,6 +20,7 @@ const orderSchema = Schema(
       type: Number,
       required: true,
     },
+    customerEmail: String,
     customerAddress: { type: String, required: true },
     customerCity: {
       type: String,

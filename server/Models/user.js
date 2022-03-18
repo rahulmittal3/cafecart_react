@@ -22,6 +22,12 @@ const userSchema = Schema(
       type: Boolean,
       default: false,
     },
+    otpGenerated: {
+      type: String,
+    },
+    otpValidUpto: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

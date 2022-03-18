@@ -1,73 +1,295 @@
-.boxOuter {
-  padding-left: 50px;
-  padding-right: 50px;
-  margin-top: 20px;
+@import url("https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200&display=swap");
+.profileWrapper {
+  padding: 30px 100px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 100px;
 }
 
-.outer {
-  padding-left: 50px;
-  padding-right: 50px;
-  margin-bottom: 20px;
+.profileLeft {
+  width: 70%;
 }
-.over1 {
-  margin-top: 30px;
-  padding-left: 50px;
-  padding-right: 50px;
-  flex-direction: row;
+
+/*FOR TOPMOST PROFILE DETAILS*/
+.profile {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
-  align-items: center;
 }
-.over1_1 {
-  width: 50%;
+.profileImage {
+  margin-right: 20px;
 }
-.over1_2 {
-  width: 50%;
+.profileMeta {
+  margin-left: 20px;
 }
-.over1_2_1 {
+.profileId {
+  font-family: "Overpass", sans-serif;
+  font-style: normal;
+  font-weight: 400;
   font-size: 20px;
+  line-height: 30px;
+  /* identical to box height */
+
+  letter-spacing: -0.002em;
+
+  color: #000000;
+
+  opacity: 0.5;
+}
+.profileName {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+  /* identical to box height */
+
+  letter-spacing: -0.002em;
+
+  color: #000000;
+}
+.profileExtra {
+  margin: 5px 0px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+
+  letter-spacing: -0.002em;
+
+  color: #332f2f;
 }
 
-.box {
-  padding: 25px 10px;
-  border: 1px #eaeaec solid;
-  width: 25%;
-  margin: 20px 20px;
-  /* padding-top */
+.profileButtons {
+  display: flex;
+
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 }
-.box:hover {
-  cursor: pointer;
-  background: #e3e3e3;
-}
-.description {
-  text-align: center;
-  font-size: 12px;
-  color: #94969f;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.title {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 15px;
-  color: #282c3f;
+.btn {
+  font-style: normal;
   font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  /* identical to box height */
+
+  letter-spacing: -0.002em;
+  /* font-family: "Overpass", sans-serif;*/
+  font-family: "Poppins";
+
+  color: #a0522d;
+  border: 1px solid #a0522d;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 5px 10px;
 }
-@media (max-width: 940px) {
-  .boxOuter {
+.head {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 23px;
+  line-height: 34px;
+  /* identical to box height */
+
+  color: #000000;
+}
+.list {
+  padding: 20px 30px;
+}
+.order {
+  border: 1.39262px solid #8b8383;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 30px;
+  margin: 20px 0px;
+}
+
+/*Regarding Particular Order*/
+.order {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.order_left {
+  width: 50%;
+  border-right: 2px solid #cbcbcb;
+  /*Contains Column Wise Thimgs*/
+  display: flex;
+  flex-direction: column;
+  padding-right: 50px;
+}
+.order_right {
+  padding-left: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.details_title {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 20px;
+  /* identical to box height */
+  margin-bottom: 10px;
+  color: #000000;
+}
+.details_text_content {
+  font-style: normal;
+
+  font-size: 14px;
+  line-height: 13px;
+  margin: 5px 0px;
+  font-family: "Overpass", sans-serif;
+  font-weight: 500;
+  /* identical to box height */
+
+  color: #8b8383;
+}
+.orderFootprint {
+  margin-bottom: 30px;
+}
+.orderId {
+  font-style: normal;
+
+  font-size: 14px;
+  line-height: 13px;
+  margin: 5px 0px;
+  font-family: "Overpass", sans-serif;
+  font-weight: 500;
+  /* identical to box height */
+
+  color: #8b8383;
+}
+.orderFirstItem {
+  display: flex;
+  flex-direction: column;
+}
+.orderFirstItemDetail_title {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 19.4967px;
+  line-height: 23px;
+  /* identical to box height */
+  margin: 10px 0px;
+  color: #000000;
+}
+.imageProduct {
+  height: 150px;
+  width: auto;
+  object-fit: contain;
+}
+.statusButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.btn {
+  margin: 5px 5px;
+}
+/*FOR RIGHT SIDE CONTAING WISHLIST ITEMS*/
+.profileRight {
+  width: 30%;
+  padding: 20px;
+}
+@media (max-width: 1199px) {
+  .profileWrapper {
+    padding: 30px 100px;
+    display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+  }
+  .profileLeft {
+    width: 100%;
+  }
+  .profileRight {
+    width: 100%;
+  }
+}
+@media (max-width: 999px) {
+  .profileWrapper {
+    padding: 30px 30px;
+  }
+  .order_left {
+    padding-right: 10px;
+    width: 100%;
+    border: none;
+  }
+  .order_right {
+    padding-left: 10px;
+    width: 100%;
+  }
+  .profileImage,
+  .profileMeta {
+    width: 100%;
+  }
+  .profile {
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
-  .box {
-    width: 75%;
+}
+@media (max-width: 700px) {
+  .profileWrapper {
+    padding: 30px 10px;
   }
-  .over1_2_1 {
-    font-size: 13px;
+  .order_left {
+    padding-right: 10px;
+  }
+  .order_right {
+    padding-left: 10px;
+  }
+  .list {
+    padding: 20px 10px;
+  }
+}
+
+@media (max-width: 650px) {
+  .profileWrapper {
+    padding: 30px 10px;
+  }
+  .order_left {
+    padding-right: 10px;
+  }
+  .order_right {
+    padding-left: 10px;
+  }
+  .list {
+    padding: 20px 10px;
+  }
+  .order_left {
+    width: 100%;
+    border: none;
+  }
+  .statusButtons,
+  .order {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .profileId {
+    font-size: 16px;
+    text-align: center;
+  }
+  .profileName {
+    font-size: 16px;
+    text-align: center;
+  }
+  .profileExtra {
+    font-size: 13.5px;
+    text-align: center;
+  }
+  .profileButtons {
+    justify-content: center;
   }
 }

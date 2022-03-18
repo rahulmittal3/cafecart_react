@@ -23,6 +23,9 @@ import { Progress } from "antd";
 const { TabPane } = Tabs;
 
 const SingleProduct = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [other, setOther] = React.useState([]);

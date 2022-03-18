@@ -71,6 +71,8 @@ const completeWishlist = async (req, res) => {
           _id: 1,
           title: 1,
           imagePath: 1,
+          price: 1,
+          mrpPrice: 1,
         }
       );
       ret.push(product);

@@ -840,6 +840,7 @@
   align-items: center;
   justify-content: space-between !important;
   width: 100%;
+  /* flex-wrap: wrap; */
 }
 .bTitle {
   font-family: Inter;
@@ -857,7 +858,13 @@
   word-wrap: break-word;
   flex-grow: 1;
   flex-shrink: 1;
+  width: 70%;
 }
 .bPrices {
   border-left: solid 1px brown;
+}
+@media (max-width: 330px) {
+  .bTitle {
+    width: 65%;
+  }
 }

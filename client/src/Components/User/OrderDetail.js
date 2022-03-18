@@ -14,7 +14,9 @@ const OrderDetail = ({ product }) => {
       <div className={styles.right}>
         <div className={styles.name}>{product?.productId?.title}</div>
 
-        <div className={styles.items}>Qty : {product?.quantity}</div>
+        <div className={styles.items}>
+          Qty : {product?.quantity ? product.quantity : product.qty}
+        </div>
         <div className={styles.price}>₹&nbsp;{product?.productId?.price}</div>
       </div>
     </div>

@@ -132,7 +132,7 @@ const Checkout = () => {
           type: "CART",
           payload: [],
         });
-        navigate("/user/orders");
+        navigate("/user/profile");
         setLoading(false);
       })
       .catch((err) => {

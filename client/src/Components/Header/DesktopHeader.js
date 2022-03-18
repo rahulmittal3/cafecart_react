@@ -19,7 +19,13 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import CartDrawer from "./CartDrawer.js";
-import { passwordless, login } from "../../Axios/Authentication.js";
+import {
+  passwordless,
+  login,
+  generateOTP,
+  verifyOTP,
+  setPassForgot,
+} from "../../Axios/Authentication.js";
 
 import { Menu, Badge } from "antd";
 
@@ -30,6 +36,7 @@ import { register } from "../../Axios/Authentication.js";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import CircularProgress from "@mui/material/CircularProgress";
 import { cartDetails } from "../../Axios/Cart.js";
 const { SubMenu } = Menu;
 
@@ -213,9 +220,140 @@ const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
   };
   //FOR Signup PURPOSES//
   const [signUpOpen, setSignUpOpen] = React.useState(false);
+  //for forgot password hereby
+  const [fgpwd, setfgpwd] = React.useState(false);
+  const [fgemail, setfgemail] = React.useState("");
+  const [stage, setStage] = React.useState(0);
+  const [fgotp, setfgotp] = React.useState("");
+  const [pass, setPass] = React.useState("");
+  const [x, setX] = React.useState(false);
+  const handlefg = (e) => {
+    e.preventDefault();
+    setX(true);
+    console.log(fgemail);
+    generateOTP(fgemail)
+      .then((res) => {
+        toast.success(
+          "OTP has been succesfully been sent to your email address"
+        );
+        setStage(1);
+        setX(false);
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+        setX(false);
+      });
+  };
+  const passwordOTP = (e) => {
+    e.preventDefault();
+    setX(true);
+    console.log(fgotp);
+    verifyOTP(fgemail, fgotp)
+      .then((res) => {
+        toast.success(
+          "OTP Validation Successfull! Please Change Your Password"
+        );
+        setStage(2);
+        setX(false);
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+        setX(false);
+      });
+  };
+  const setPasswordForgot = (e) => {
+    e.preventDefault();
+    setX(true);
+    console.log(pass);
+    setPassForgot(fgemail, pass)
+      .then((res) => {
+        toast.success("Password Changed Successfully! Login to Continue");
+        setfgpwd(false);
+        setLoginOpen(true);
+        setX(false);
+      })
+      .catch((err) => setX(false));
+  };
   return (
     <>
       <CartDrawer />
+      {/* FORGOT PASSWORD AND SEND OTP HERE */}
+      <All.Modal open={fgpwd} onClose={(e) => setfgpwd(false)} center>
+        <div className={fancy.FPBackground}>
+          {stage === 0 && (
+            <>
+              <h2 className={fancy.FPHead}>Forgot Password ? </h2>
+              <form onSubmit={handlefg}>
+                <input
+                  type="email"
+                  className={fancy.FPInput}
+                  placeholder="Enter Account Email"
+                  onChange={(e) => setfgemail(e.target.value)}
+                  value={fgemail}
+                  style={{ textAlign: "center" }}
+                />
+                <center>
+                  <input
+                    type="submit"
+                    className={fancy.FPSubmit}
+                    value={x ? "Please Wait..." : "Send OTP"}
+                    disabled={x}
+                  />
+                </center>
+              </form>
+            </>
+          )}
+          {stage === 1 && (
+            <>
+              <h2 className={fancy.FPHead}>Enter OTP</h2>
+              <form onSubmit={passwordOTP}>
+                <input
+                  type="number"
+                  className={fancy.FPInput}
+                  placeholder="Enter OTP"
+                  onChange={(e) => setfgotp(e.target.value)}
+                  value={fgotp}
+                  style={{ textAlign: "center" }}
+                  minLength={6}
+                  maxLength={6}
+                />
+                <center>
+                  <input
+                    type="submit"
+                    className={fancy.FPSubmit}
+                    value={x ? "Please Wait..." : "Confirm OTP"}
+                    disabled={x}
+                  />
+                </center>
+              </form>
+            </>
+          )}
+          {stage === 2 && (
+            <>
+              <h2 className={fancy.FPHead}>Change Password</h2>
+              <form onSubmit={setPasswordForgot}>
+                <input
+                  type="password"
+                  className={fancy.FPInput}
+                  placeholder="Enter Password"
+                  onChange={(e) => setPass(e.target.value)}
+                  value={pass}
+                  style={{ textAlign: "center" }}
+                />
+                <center>
+                  <input
+                    type="submit"
+                    className={fancy.FPSubmit}
+                    value={x ? "Please Wait..." : "Finish"}
+                    disabled={x}
+                  />
+                </center>
+              </form>
+            </>
+          )}
+        </div>
+      </All.Modal>
+      {/* forgot password ends here */}
       <All.Modal open={on} onClose={(e) => setOn(false)} center>
         <div className={fancy.FPBackground}>
           <h2 className={fancy.FPHead}>Change Password</h2>
@@ -316,7 +454,18 @@ const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
-              <div className={styles.label} style={{ textAlign: "right" }}>
+              <div
+                className={styles.label}
+                style={{ textAlign: "right", cursor: "pointer" }}
+                onClick={(e) => {
+                  setLoginOpen(false);
+                  setfgpwd(true);
+                  setStage(0);
+                  setfgemail("");
+                  setfgotp("");
+                  setPass("");
+                }}
+              >
                 Forgot Password?
               </div>
               <button

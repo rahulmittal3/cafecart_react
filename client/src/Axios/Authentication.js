@@ -66,4 +66,38 @@ const addPhone = async (jwt, userId, phone) => {
   });
   return result;
 };
-export { register, login, currentUser, passwordless, updatePassword, addPhone };
+const generateOTP = async (email) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/forgot-password/generate-otp`,
+    data: { email: email },
+  });
+  return result;
+};
+const verifyOTP = async (email, otp) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/forgot-password/verify-otp`,
+    data: { otp: otp, email: email },
+  });
+  return result;
+};
+const setPassForgot = async (email, pass) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/forgot-password/set-pass`,
+    data: { email: email, pass: pass },
+  });
+  return result;
+};
+export {
+  register,
+  login,
+  currentUser,
+  passwordless,
+  updatePassword,
+  addPhone,
+  generateOTP,
+  verifyOTP,
+  setPassForgot,
+};
