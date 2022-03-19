@@ -12,6 +12,9 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Breadcrumb } from "antd";
 import { Dots } from "react-preloaders2";
 const Variety = () => {
+  useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

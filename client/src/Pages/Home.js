@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
+  useEffect(() => {
     if (window.localStorage.getItem("user") === null) {
       //user exists, redirect to /home
       navigate("/");

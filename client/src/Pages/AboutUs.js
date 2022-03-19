@@ -8,6 +8,9 @@ import { toast } from "react-toastify";
 import { sendAboutUsMail } from "../Axios/Mailer.js";
 
 const AboutUs = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const [data, setData] = React.useState({});
   const sendMessage = (e) => {
     e.preventDefault();
@@ -150,7 +153,9 @@ const AboutUs = () => {
                 />
               </center>
             </div>
-            <div className={styles.card_title}>Pay on Delivery</div>
+            <div className={styles.card_title} id="contact_info">
+              Pay on Delivery
+            </div>
             <div className={styles.card_desc}>
               We provide a premium range of different types of exotic coffees
               out there with the lowest prices.

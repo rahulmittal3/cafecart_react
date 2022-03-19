@@ -6,6 +6,8 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { HashLink } from "react-router-hash-link";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 const Footer = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
@@ -55,11 +57,12 @@ const Footer = () => {
             <div
               className={styles.footerItemContent}
               style={{ cursor: "pointer" }}
-              onClick={(e) => {
-                navigate("#");
-              }}
+              // onClick={(e) => {
+              //   navigate("/pages/about-us/#contact_info");
+              // }}
             >
               Returns
+              {/* <Link to="/pages/about-us/#contact_info">Returns</Link> */}
             </div>
             <div
               className={styles.footerItemContent}
@@ -130,6 +133,14 @@ const Footer = () => {
                     style={{ cursor: "pointer", color: "white" }}
                   />
                 </a>
+              </span>
+              <span className={styles.footerItemMenu}>
+                <HashLink to="/pages/about-us/#contact_info">
+                  <AlternateEmailIcon
+                    sx={{ fontSize: 30 }}
+                    style={{ cursor: "pointer", color: "white" }}
+                  />
+                </HashLink>
               </span>
             </div>
           </div>

@@ -16,6 +16,9 @@ import { Pagination } from "antd";
 import moment from "moment";
 
 const SingleBlog = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const params = useParams();
   const navigate = useNavigate();
   const [blogs, setBlogs] = React.useState(null);

@@ -12,6 +12,9 @@ import { toast } from "react-toastify";
 import { Breadcrumb } from "antd";
 import { Lines } from "react-preloaders2";
 const CategorySlug = () => {
+  useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const params = useParams();

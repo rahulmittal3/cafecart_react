@@ -11,6 +11,9 @@ import { newArrival, trending, best } from "../../Axios/Products.js";
 import _ from "lodash";
 import { toast } from "react-toastify";
 const Canvas = ({ data, setData, getItems, show, setShow, showDrawer }) => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const [newData, setNewData] = React.useState([]);
   const [newTrending, setNewTrending] = React.useState([]);
   const [newBest, setNewbest] = React.useState([]);

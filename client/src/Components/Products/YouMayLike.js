@@ -6,6 +6,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { newArrival } from "../../Axios/Products.js";
 
 const YouMayLike = () => {
+  useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const [newArrivals, setNewArrivals] = useState([]);
   const function1 = () => {
     newArrival()

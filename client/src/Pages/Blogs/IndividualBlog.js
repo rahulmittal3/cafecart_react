@@ -20,6 +20,9 @@ const { Search } = Input;
 const { Meta } = Card;
 
 const IndividualBlog = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const [blogs, setBlogs] = React.useState(null);
   const params = useParams();
   const getBlog = () => {

@@ -18,6 +18,9 @@ const { Search } = Input;
 const { Meta } = Card;
 
 const NewBlogs = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const getColor = () => {
     const [r, g, b] = [
       Math.floor(Math.random() * (255 - 0 + 1)) + 0,

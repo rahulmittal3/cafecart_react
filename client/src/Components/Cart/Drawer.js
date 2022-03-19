@@ -8,6 +8,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const Drawerrr = ({ data, setData, show, setShow }) => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);

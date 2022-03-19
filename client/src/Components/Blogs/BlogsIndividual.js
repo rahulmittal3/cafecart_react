@@ -1,6 +1,9 @@
 import React from "react";
 
 const BlogsIndividual = ({ curr }) => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   console.log(curr);
   return (
     <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.0s">

@@ -12,6 +12,9 @@ import { toast } from "react-toastify";
 import { Breadcrumb } from "antd";
 import { Sugar } from "react-preloaders2";
 const ParentVariety = () => {
+  useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const params = useParams();

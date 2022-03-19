@@ -5,6 +5,9 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const Root = ({ show, setShow }) => {
+  useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
