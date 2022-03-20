@@ -595,3 +595,8 @@ input {
     line-height: 32px;
   }
 }
+
+.variant_selected {
+  background-color: #000;
+  color: white;
+}

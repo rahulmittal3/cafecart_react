@@ -1,20 +1,21 @@
 .DHWrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
+  padding: 10px;
 }
 
 .DHLogo {
-  margin: 10px;
+  margin: 5px;
   margin-left: 25px;
   flex-direction: row;
   display: flex;
   justify-content: center;
 }
 .logoImg {
-  height: 75px;
-  width: auto;
+  width: 90px !important;
+  height: auto;
   cursor: pointer;
 }
 /*FOR LINKS*-------------*/
@@ -23,7 +24,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 80%;
+  width: 60%;
 }
 .DHLink {
   margin-left: 0px;
@@ -209,4 +210,45 @@
   .LOGForm {
     padding: 15px;
   }
+}
+
+/*header now*/
+.hWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.hLeft {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.hRight {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.hSearch {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+.hSearchInput {
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  font-family: "Poppins";
+  color: #0c0c0c;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+.hSearchBtn {
+  background-color: #f0f0f0;
+  padding: 5px;
 }

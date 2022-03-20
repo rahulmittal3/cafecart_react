@@ -4,13 +4,13 @@
   background-color: white;
   z-index: 1000;
 }
-@media (max-width: 1140px) {
+@media (max-width: 1050px) {
   .desktopHeader {
     display: none;
   }
 }
 
-@media (min-width: 1141px) {
+@media (min-width: 1050px) {
   .mobileHeader {
     display: none;
   }

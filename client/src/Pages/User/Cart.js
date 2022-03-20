@@ -18,6 +18,9 @@ import axios from "axios";
 import firebase from "firebase/compat/app";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 const Cart = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const navigate = useNavigate();
   const { cart, wishlist, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();

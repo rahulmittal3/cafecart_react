@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { checkoutCoupon } from "../../Axios/Coupon.js";
 import axios from "axios";
 const Checkout = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, wishlist, cart, directCheckout } = useSelector((state) => ({

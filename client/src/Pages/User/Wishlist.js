@@ -9,6 +9,9 @@ import { Card } from "antd";
 
 const { Meta } = Card;
 const Wishlist = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const [loading, setLoading] = React.useState(true);
   const dispatch = useDispatch();
   const [wish, setWish] = React.useState(null);

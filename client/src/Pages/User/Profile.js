@@ -19,6 +19,9 @@ import * as All from "react-responsive-modal";
 import { updatePassword } from "../../Axios/Authentication.js";
 import fancy1 from "../../Components/Header/Header.module.css";
 const Profile = () => {
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, []);
   const { user, wishlist } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const navigate = useNavigate();

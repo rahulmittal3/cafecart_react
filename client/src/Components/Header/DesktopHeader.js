@@ -644,81 +644,692 @@ const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
         <div className={styles.DHLinks}>
           <Menu
             onClick={handleClick}
-            style={{ width: "auto" }}
+            style={{ width: "max-content" }}
             mode="horizontal"
+            disabledOverflow={true}
           >
-            {headers &&
-              headers.length > 0 &&
-              headers.map((curr, index) => {
-                return (
-                  <SubMenu
-                    key={curr.slug}
-                    title={
-                      <div
-                        className={styles.DHLink}
-                        onClick={(e) =>
-                          navigate(`/products/category/${curr.slug}`)
-                        }
-                      >
-                        {curr.title}
-                      </div>
+            <SubMenu
+              key={"coffee"}
+              title={
+                <div
+                  className={styles.DHLink}
+                  onClick={(e) => navigate(`/products/category/coffee`)}
+                >
+                  {/* {curr.title} */}
+                  Coffee
+                </div>
+              }
+            >
+              <SubMenu
+                key={"coffee-brands"}
+                title={
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-brands`)
                     }
                   >
-                    {curr.Subcategories.length > 0 &&
-                      curr.Subcategories.map((sub, index) => {
-                        return (
-                          <SubMenu
-                            key={sub.slug}
-                            title={
-                              <div
-                                className={styles.DHLink}
-                                onClick={(e) =>
-                                  navigate(
-                                    `/products/category/${curr.slug}/${sub.Parent_Subcategory.slug}`
-                                  )
-                                }
-                              >
-                                {sub.Parent_Subcategory.title}
-                              </div>
-                            }
-                          >
-                            {sub.Child_Subcategory.length > 0 &&
-                              sub.Child_Subcategory.map((last, index) => {
-                                return (
-                                  <Menu.Item key={last.slug}>
-                                    <div
-                                      className={styles.DHLink}
-                                      onClick={(e) =>
-                                        navigate(
-                                          `/products/category/${curr.slug}/${sub.Parent_Subcategory.slug}/${last.slug}`
-                                        )
-                                      }
-                                    >
-                                      {last.title}
-                                    </div>
-                                  </Menu.Item>
-                                );
-                              })}
-                          </SubMenu>
-                        );
-                      })}
-                  </SubMenu>
-                );
-              })}
+                    Coffee Brands
+                  </div>
+                }
+              >
+                <Menu.Item key="nescafe">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/nescafe`
+                      )
+                    }
+                  >
+                    Nescafe
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="starbucks">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/starbucks`
+                      )
+                    }
+                  >
+                    Starbucks
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="davidoff">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/davidoff`
+                      )
+                    }
+                  >
+                    Davidoff
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="illy">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-brands/illy`)
+                    }
+                  >
+                    Illy
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="rage-pcxjL3-F5">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/rage-pcxjL3-F5`
+                      )
+                    }
+                  >
+                    Rage
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="country-bean-6eQ_Fq7vY">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/country-bean-6eQ_Fq7vY`
+                      )
+                    }
+                  >
+                    Country Bean
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="jacobs-QHzLMjpsi">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/jacobs-QHzLMjpsi`
+                      )
+                    }
+                  >
+                    Jacobs
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="douwe-egberts">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/douwe-egberts`
+                      )
+                    }
+                  >
+                    Douwe Egberts
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="percol-coffee">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/percol-coffee`
+                      )
+                    }
+                  >
+                    Percol Coffee
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="beanies">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/beanies`
+                      )
+                    }
+                  >
+                    Beanies
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="beanies">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/beanies`
+                      )
+                    }
+                  >
+                    Beanies
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="kenco">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-brands/kenco`)
+                    }
+                  >
+                    Kenco
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="lor-coffee">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/lor-coffee`
+                      )
+                    }
+                  >
+                    Lor Coffee
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="lavazza">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-brands/lavazza`
+                      )
+                    }
+                  >
+                    Lavazza
+                  </div>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key={"coffee-origin"}
+                title={
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-origin`)
+                    }
+                  >
+                    Coffee Origin
+                  </div>
+                }
+              >
+                <Menu.Item key="india">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-origin/india`)
+                    }
+                  >
+                    India
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="latin-america">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-origin/latin-america`
+                      )
+                    }
+                  >
+                    Latin America
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="usa">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-origin/usa`)
+                    }
+                  >
+                    USA
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="brazil">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-origin/brazil`)
+                    }
+                  >
+                    Brazil
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="russia">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-origin/russia`)
+                    }
+                  >
+                    Russia
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="uae">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-origin/uae`)
+                    }
+                  >
+                    UAE
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="uganda-kenya">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-origin/uganda-kenya`
+                      )
+                    }
+                  >
+                    Uganda Kenya
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="poland">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-origin/poland`)
+                    }
+                  >
+                    Poland
+                  </div>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key={"coffee-types"}
+                title={
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-types`)
+                    }
+                  >
+                    Coffee Types
+                  </div>
+                }
+              >
+                <Menu.Item key="ground-coffee">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-types/ground-coffee`
+                      )
+                    }
+                  >
+                    Ground Coffee
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="instant-coffee">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-types/instant-coffee`
+                      )
+                    }
+                  >
+                    Instant Coffee
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="coffee-beans">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-types/coffee-beans`
+                      )
+                    }
+                  >
+                    Coffee Beans
+                  </div>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key={"coffee-strength"}
+                title={
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-strength`)
+                    }
+                  >
+                    Coffee Strength
+                  </div>
+                }
+              >
+                <Menu.Item key="decaff">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-strength/decaff`
+                      )
+                    }
+                  >
+                    Decaff
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="dark">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/coffee-strength/dark`)
+                    }
+                  >
+                    Dark
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="light">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-strength/light`
+                      )
+                    }
+                  >
+                    Light
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="medium">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/coffee-strength/medium`
+                      )
+                    }
+                  >
+                    Medium
+                  </div>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key={"specials"}
+                title={
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/specials`)
+                    }
+                  >
+                    Specials
+                  </div>
+                }
+              >
+                <Menu.Item key="frappuccino">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/specials/frappuccino`)
+                    }
+                  >
+                    Frappuccino
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="coffee-creamer">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/coffee/specials/coffee-creamer`
+                      )
+                    }
+                  >
+                    Coffee Creamer
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="sachets">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/coffee/specials/sachets`)
+                    }
+                  >
+                    Sachets
+                  </div>
+                </Menu.Item>
+              </SubMenu>
+            </SubMenu>
+            <SubMenu
+              key={"pods"}
+              title={
+                <div
+                  className={styles.DHLink}
+                  onClick={(e) => navigate(`/products/category/pods`)}
+                >
+                  {/* {curr.title} */}
+                  Pods
+                </div>
+              }
+            >
+              <SubMenu
+                key={"pods-type"}
+                title={
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/pods/pods-type`)
+                    }
+                  >
+                    Pods Type
+                  </div>
+                }
+              >
+                <Menu.Item key="nespresso-original-line">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/pods/pods-type/nespresso-original-line`
+                      )
+                    }
+                  >
+                    Nespresso Original Line
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="starbucks-nespresso">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/pods/pods-type/starbucks-nespresso`
+                      )
+                    }
+                  >
+                    Starbucks Nespresso
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="nespresso-vertuo">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/pods/pods-type/nespresso-vertuo`
+                      )
+                    }
+                  >
+                    Nespresso Vertuo
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="nescafe-dolce-gusto">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/pods/pods-type/nescafe-dolce-gusto`
+                      )
+                    }
+                  >
+                    Nescafe Dolce Gusto
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="lor-pods">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/pods/pods-type/lor-pods`)
+                    }
+                  >
+                    LOR Pods
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="davidoff-pods">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/pods/pods-type/davidoff-pods`
+                      )
+                    }
+                  >
+                    Davidoff Pods
+                  </div>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key={"pods-strength"}
+                title={
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/pods/pods-strength`)
+                    }
+                  >
+                    Pods Strength
+                  </div>
+                }
+              >
+                <Menu.Item key="light">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/pods/pods-strength/light`)
+                    }
+                  >
+                    Light
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="medium">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/pods/pods-strength/medium`)
+                    }
+                  >
+                    Medium
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="dark">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/pods/pods-strength/dark`)
+                    }
+                  >
+                    Dark
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="decaff">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/pods/pods-strength/decaff`)
+                    }
+                  >
+                    Decaff
+                  </div>
+                </Menu.Item>
+              </SubMenu>
+            </SubMenu>
+            <SubMenu
+              key={"machine"}
+              title={
+                <div
+                  className={styles.DHLink}
+                  onClick={(e) => navigate(`/products/category/machine`)}
+                >
+                  {/* {curr.title} */}
+                  Machine
+                </div>
+              }
+            >
+              <SubMenu
+                key={"machine-types"}
+                title={
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(`/products/category/machine/machine-types`)
+                    }
+                  >
+                    Machine Types
+                  </div>
+                }
+              >
+                <Menu.Item key="drip-coffee-makers">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/machine/machine-types/drip-coffee-makers`
+                      )
+                    }
+                  >
+                    Drip Coffee Makers
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="thermal-coffee-makers">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/machine/machine-types/thermal-coffee-makers`
+                      )
+                    }
+                  >
+                    Thermal Coffee Makers
+                  </div>
+                </Menu.Item>
+                <Menu.Item key="espresso-machines">
+                  <div
+                    className={styles.DHLink}
+                    onClick={(e) =>
+                      navigate(
+                        `/products/category/machine/machine-types/espresso-machines`
+                      )
+                    }
+                  >
+                    Espresso Machines
+                  </div>
+                </Menu.Item>
+              </SubMenu>
+            </SubMenu>
+            <SubMenu
+              key={"blogs"}
+              title={
+                <div
+                  className={styles.DHLink}
+                  onClick={(e) => navigate(`/blog`)}
+                >
+                  Coffee Talks
+                </div>
+              }
+            ></SubMenu>
+            <SubMenu
+              key={"about-us"}
+              title={
+                <div
+                  className={styles.DHLink}
+                  onClick={(e) => navigate(`/pages/about-us`)}
+                >
+                  About Us
+                </div>
+              }
+            ></SubMenu>
           </Menu>
-          <div
-            className={styles.DHLink}
-            onClick={(e) => navigate("/pages/about-us")}
-          >
-            About Us
-          </div>
-          <div
-            className={styles.DHLink}
-            style={{ marginLeft: "20px" }}
-            onClick={(e) => navigate("/blog")}
-          >
-            Coffee Talks
-          </div>
         </div>
         <div className={styles.DHSearch}>
           <div className={styles.DHSearchBox}>

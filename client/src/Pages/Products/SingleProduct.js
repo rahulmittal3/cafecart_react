@@ -23,9 +23,10 @@ import { Progress } from "antd";
 const { TabPane } = Tabs;
 
 const SingleProduct = () => {
+  const params = useParams();
   React.useEffect(() => {
     document.body.scrollTop = 0;
-  }, []);
+  }, [params]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [other, setOther] = React.useState([]);
@@ -39,7 +40,7 @@ const SingleProduct = () => {
   const [value, setValue] = React.useState("one");
   const [addedtoCart, setAddedtoCart] = React.useState(false);
   const [p, setP] = React.useState(null);
-  const params = useParams();
+
   const getProduct = () => {
     singleProduct(params.id)
       .then((res) => setP(res.data))
@@ -266,7 +267,22 @@ const SingleProduct = () => {
                         curr.sub_variants &&
                         curr.sub_variants.map((curr, index) => {
                           return (
-                            <div key={index} className={styles.variantItem}>
+                            <div
+                              key={index}
+                              onClick={(e) =>
+                                navigate(`/products/${curr.variantid}`)
+                              }
+                              className={`${styles.variantItem} ${
+                                params.id === curr.variantid
+                                  ? styles.variant_selected
+                                  : ""
+                              }`}
+                              id={
+                                params.id === curr.variantid
+                                  ? "variant_selected"
+                                  : ""
+                              }
+                            >
                               {curr.quantity_type}
                             </div>
                           );
