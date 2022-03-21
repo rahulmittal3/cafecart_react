@@ -4,7 +4,7 @@ import styles from "./Checkout.module.css";
 import { Radio, Tooltip, Badge } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getFromCart } from "../../Axios/Cart.js";
-import { createPayment } from "../../Axios/Payment.js";
+import { createPayment, createPaymentPrepaid } from "../../Axios/Payment.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { checkoutCoupon } from "../../Axios/Coupon.js";
@@ -76,8 +76,8 @@ const Checkout = () => {
       setPin("");
     }
   };
-  const orderHandler = () => {
-    setLoading(true);
+  const orderHandler = async () => {
+    // setLoading(true);
     const object = {
       email: email,
       fname: fname,
@@ -126,22 +126,71 @@ const Checkout = () => {
       setLoading(false);
       return;
     }
-    createPayment(object)
-      .then((res) => {
-        toast.success("Order has been placed successfuly");
-        //clear all the cluttering
-        window.localStorage.setItem("cartLS", JSON.stringify([]));
-        dispatch({
-          type: "CART",
-          payload: [],
+    if (method === "cod") {
+      createPayment(object)
+        .then((res) => {
+          toast.success("Order has been placed successfuly");
+          //clear all the cluttering
+          window.localStorage.setItem("cartLS", JSON.stringify([]));
+          dispatch({
+            type: "CART",
+            payload: [],
+          });
+          navigate("/user/profile");
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error(err);
         });
-        navigate("/user/profile");
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        toast.error(err);
-      });
+    } else {
+      createPaymentPrepaid(object)
+        .then((res) => {
+          console.log(res.data);
+
+          //send to localStorage
+          window.localStorage.setItem("p", JSON.stringify(res.data));
+          //clear all the cluttering
+          // window.localStorage.setItem("cartLS", JSON.stringify([]));
+          // dispatch({
+          //   type: "CART",
+          //   payload: [],
+          // });
+          // navigate("/user/profile");
+          try {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "https://secure.payu.in/_payment";
+            for (const key in res.data) {
+              if (res.data.hasOwnProperty(key)) {
+                const hiddenField = document.createElement("input");
+                hiddenField.type = "hidden";
+                hiddenField.name = key;
+                hiddenField.value = res.data[key];
+                form.appendChild(hiddenField);
+              }
+            }
+            document.body.appendChild(form);
+            form.submit();
+            // const result = await axios({
+            //   method: "POST",
+            //   data: res.data,
+            //   url:"https://secure.payu.in/_payment",
+            //   headers: {
+            //     Accept: "application/json",
+            //     "Content-Type": "application/json",
+            //   },
+            // });
+          } catch (error) {
+            navigate("/cart");
+          }
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error(err);
+        });
+    }
   };
   const checkCouponOk = () => {
     console.log(coupon);
@@ -304,19 +353,6 @@ const Checkout = () => {
             autocomplete="new-field-1"
           />
         </div>
-        {/* <div className={styles.options}>
-          <Radio.Group
-            value={method}
-            defaultValue={method}
-            buttonStyle="solid"
-            onChange={(e) => setMethod(e.target.value)}
-          >
-            <Radio.Button value="cod">Pay On Delivery</Radio.Button>
-            <Radio.Button value="pay" disabled={true}>
-              UPI / Debit Card / Credit Card
-            </Radio.Button>
-          </Radio.Group>
-        </div> */}
 
         <div>
           <Radio.Group
@@ -330,16 +366,16 @@ const Checkout = () => {
               </Radio>
             </div>
             <div className={styles.radio}>
-              <Tooltip
+              {/* <Tooltip
                 title="We are Currently undergoing Maintenance for our Prepaid Mode. Please Continue with Pay On Delivery Method"
                 placement="right"
-              >
-                <Radio value="pay" disabled={true}>
-                  <span className={styles.radioBtns}>
-                    UPI / Debit Card / Credit Card
-                  </span>
-                </Radio>
-              </Tooltip>
+              > */}
+              <Radio value="pay">
+                <span className={styles.radioBtns}>
+                  UPI / Debit Card / Credit Card
+                </span>
+              </Radio>
+              {/* </Tooltip> */}
             </div>
           </Radio.Group>
         </div>

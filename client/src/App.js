@@ -35,6 +35,7 @@ import Variety from "./Pages/Products/Variety.js";
 import NewBlogs from "./Pages/Blogs/newBlogs.js";
 import IndividualBlog from "./Pages/Blogs/IndividualBlog.js";
 import SingleBlog from "./Pages/SingleBlog.js";
+import OrderSuccessPayment from "./Pages/User/OrderSuccessPayment.js";
 
 //for admin users
 import AdminAppBar from "./Components/Admin/AdminAppBar.js";
@@ -335,6 +336,20 @@ function App() {
             </>
           }
         />
+        <Route
+          path="/payment-success"
+          exact
+          element={
+            <>
+              <NewHeader />
+              <ProtectRoute>
+                <OrderSuccessPayment />
+              </ProtectRoute>
+              <Footer />
+            </>
+          }
+        />
+        OrderSuccessPayment
         <Route
           path="/user/orders"
           exact

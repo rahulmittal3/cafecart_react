@@ -27,6 +27,7 @@ const getMyOrder = async (req, res) => {
         return o.createdAt;
       },
     ]);
+    box = box.reverse();
     // console.log(oldOrders);
     // res.status(200).json(orders);
     res.status(200).json(box);

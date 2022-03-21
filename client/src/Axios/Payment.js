@@ -18,4 +18,12 @@ const createPaymentPrepaid = async (data) => {
   });
   return result;
 };
-export { createPayment, createPaymentPrepaid };
+const finaliseOrderByPayment = async (id, pay) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/finalise-prepaid`,
+    data: { id: id, pay: pay },
+  });
+  return result;
+};
+export { createPayment, createPaymentPrepaid, finaliseOrderByPayment };
