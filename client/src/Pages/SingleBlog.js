@@ -56,7 +56,7 @@ const SingleBlog = () => {
     <>
       <div className={styles.blogOuter}>
         <div className={`${styles.divider} ${styles.singleDivider}`}>
-          <div className={styles.left}>
+          <div className={styles.leftSection}>
             <div className={styles.left_head}>{pblog?.title}</div>
             <div>
               <img

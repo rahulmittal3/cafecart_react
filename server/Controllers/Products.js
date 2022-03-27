@@ -22,6 +22,17 @@ const newArrivals = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+const searchedItems = async (req, res) => {
+  console.log(req.params);
+  try {
+    var reg = new RegExp(`${req.params.keyword}`, "i");
+    const result = await Product.find({ title: reg }).sort({ price: 1 });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 const trending = async (req, res) => {
   try {
     const homepagedata = await Homepage.findOne({});
@@ -302,6 +313,7 @@ const getReviews = async (req, res) => {
   }
 };
 const object = {
+  searchedItems,
   newArrivals,
   categories,
   categorySlug,

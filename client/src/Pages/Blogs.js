@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { allBlogs } from "../Axios/Blog.js";
+import { allBlogs, getTagsAndCategories } from "../Axios/Blog.js";
 import BlogsIndividual from "../Components/Blogs/BlogsIndividual.js";
 import Slider from "react-slick";
 import styles from "./Blogs.module.css";
@@ -11,6 +11,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import { Pagination } from "antd";
+import { Helmet } from "react-helmet";
 //for single one
 import moment from "moment";
 import { style } from "@mui/system";
@@ -23,17 +24,23 @@ const Blogs = () => {
   const [page, setPage] = React.useState(1);
   const [total, setTotal] = React.useState(0);
   const [search, setSearch] = React.useState("");
+  const [catsAndTags, setCatsAndTags] = React.useState({});
   const getBlogs = (page) => {
     allBlogs(page)
       .then((res) => {
         setBlogs(res.data.blogs);
         setTotal(res.data.total);
+        getTagsAndCategories()
+          .then((res) => setCatsAndTags(res.data))
+          .else((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   };
+
   React.useEffect(() => {
     getBlogs(page);
   }, [page]);
+
   const handlePageChange = (pg) => {
     setPage(pg);
   };
@@ -51,6 +58,9 @@ const Blogs = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>Cafecart | Blogs</title>
+      </Helmet>
       <div className={styles.blogOuter}>
         <div className={styles.slick}>
           <Slider {...settings}>
@@ -64,7 +74,6 @@ const Blogs = () => {
                         "https://res.cloudinary.com/techbuy/image/upload/v1645478597/hey_iv29vv.jpg"
                       }
                       alt="slick"
-                      //style={{ width: "80vw", height: "100%" }}
                       //
                       className={styles.banner}
                     />
@@ -87,7 +96,68 @@ const Blogs = () => {
         </div>
         <div className={styles.heading1}>Coffee Talk</div>
         <div className={styles.divider}>
-          <div className={styles.blogs}>
+          <div className={styles.leftSection}>
+            <div className={styles.leftSectionList}>
+              {blogs &&
+                blogs.length > 0 &&
+                blogs.map((Curr, index) => {
+                  return (
+                    Curr.title.includes(search) && (
+                      <div
+                        className={styles.bItem}
+                        key={index}
+                        onClick={(e) => navigate(`/blog/${Curr._id}`)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <div>
+                          <center>
+                            <img
+                              src={Curr?.imagePath}
+                              alt="Blog Images Here"
+                              className={styles.mediaImage}
+                            />
+                          </center>
+                        </div>
+                        <div className={styles.singleDate}>
+                          <img
+                            src="https://res.cloudinary.com/techbuy/image/upload/v1647436972/jam_write_kwufso.svg"
+                            alt="dateBlog"
+                          />
+                          {moment(Curr?.createdAt).format("MMM Do YYYY")}
+                        </div>
+                        <div className={styles.singleTitle}>{Curr?.title}</div>
+                        <div className={styles.singleDescription}>
+                          {Curr?.preview}
+                        </div>
+                        <div
+                          className={styles.singleButton}
+                          onClick={(e) => navigate(`/blog/${Curr._id}`)}
+                        >
+                          <button className={styles.singleBtn}>
+                            Read More
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  );
+                })}
+            </div>
+            <div style={{ width: "100%", marginTop: "20px" }}>
+              {" "}
+              <div>
+                <center>
+                  <Pagination
+                    defaultCurrent={1}
+                    // defaultPageSize={2}
+                    current={page}
+                    total={total * 3}
+                    onChange={handlePageChange}
+                  />
+                </center>
+              </div>
+            </div>
+          </div>
+          {/* <div className={styles.blogs}>
             {blogs &&
               blogs.length > 0 &&
               blogs.map((curr, index) => {
@@ -137,7 +207,7 @@ const Blogs = () => {
                 </center>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className={styles.search}>
             <div className={styles.searchBar}>
@@ -211,62 +281,21 @@ const Blogs = () => {
             <div className={styles.categories}>
               <div className={styles.categories_heading}>Categories</div>
               <div className={styles.categories__points}>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432770/mortarboard_lo36z1.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Learn
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432816/coffee-machine_jzehlk.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Coffee Machine
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432856/recipe-book_jqzbip.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Recipes
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432892/pot_fjjdpr.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Brewing
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432930/beans_dbi7h5.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Blending & Roasting
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432930/beans_dbi7h5.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Sourcing
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647433019/search-worldwide_hx77zn.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Coffee Pod
-                </div>
+                {catsAndTags &&
+                  catsAndTags.categories &&
+                  catsAndTags.categories.length > 0 &&
+                  catsAndTags.categories.map((curr, index) => {
+                    return (
+                      <div className={styles.category} key={index}>
+                        <img
+                          src={curr?.iconLink}
+                          alt="hello"
+                          className={styles.category_img}
+                        />
+                        {curr?.categoryName}
+                      </div>
+                    );
+                  })}
               </div>
             </div>
             {/*OTHER BLOGS*/}
@@ -297,10 +326,15 @@ const Blogs = () => {
             <div className={styles.tags}>
               <div className={styles.categories_heading}>Tags</div>
               <div className={styles.tagList}>
-                <p className={styles.tag}>coffeeshop</p>
-                <p className={styles.tag}>coffeetime</p>
-                <p className={styles.tag}>coffee</p>
-                <p className={styles.tag}>pod</p>
+                {catsAndTags &&
+                  catsAndTags.tags &&
+                  catsAndTags.tags.map((curr, index) => {
+                    return (
+                      <p className={styles.tag} key={index}>
+                        {curr?.tagName}
+                      </p>
+                    );
+                  })}
               </div>
             </div>
           </div>

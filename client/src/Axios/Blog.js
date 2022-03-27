@@ -15,4 +15,11 @@ const getParticularBlog = async (id) => {
   });
   return result;
 };
-export { allBlogs, getParticularBlog };
+const getTagsAndCategories = async () => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/blogs/tags-and-categories`,
+  });
+  return result;
+};
+export { allBlogs, getParticularBlog, getTagsAndCategories };

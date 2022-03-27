@@ -1,11 +1,12 @@
 import React from "react";
 import styles from "./StaticPage.module.css";
 import { Steps } from "antd";
-
+import { Helmet } from "react-helmet";
 const { Step } = Steps;
 const ShippingPolicy = () => {
   React.useEffect(() => {
     document.body.scrollTop = 0;
+    document.title = "Cafecart | Shipping";
   }, []);
   return (
     <center>

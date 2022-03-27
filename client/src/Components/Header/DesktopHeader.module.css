@@ -55,7 +55,10 @@
   padding: 10px;
   width: 100%;
 }
-
+.DHSearchBox div input {
+  font-family: "Overpass";
+  font-size: 16px;
+}
 .DHButtons {
   display: flex;
   flex-direction: row;

@@ -274,6 +274,17 @@ const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
       })
       .catch((err) => setX(false));
   };
+
+  //FOR SEARCH BAR OPTIONS
+  const [keyword, setKeyword] = React.useState("");
+  const searchHandler = () => {
+    if (!keyword) {
+      toast.warning("Please Enter the Keyword to Find Items");
+      return;
+    }
+    navigate(`/products/search/${keyword}`);
+    setKeyword("");
+  };
   return (
     <>
       <CartDrawer />
@@ -1337,12 +1348,15 @@ const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
               {" "}
               <input
                 type="text"
-                placeholder="Search for items, brands & inspirations"
+                placeholder="Search for items & brands"
+                onChange={(e) => setKeyword(e.target.value)}
+                value={keyword}
+                style={{ backgroundColor: "#f0f0f0" }}
               />
             </div>
             <div>
               {" "}
-              <button>
+              <button onClick={searchHandler}>
                 <SearchIcon sx={{ fontSize: 25 }} />
               </button>
             </div>

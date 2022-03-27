@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./MobileHeader.module.css";
 import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
+import { HeartOutlined, SearchOutlined } from "@ant-design/icons";
 import { Badge } from "antd";
 import SearchIcon from "@mui/icons-material/Search";
 import * as All from "react-responsive-modal";
@@ -8,7 +9,7 @@ import { GoogleLogin } from "react-google-login";
 import { toast } from "react-toastify";
 import { passwordless, login } from "../../Axios/Authentication.js";
 import "react-responsive-modal/styles.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Drawerr from "./Drawerr.js";
 import { categories } from "../../Axios/Products.js";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +26,7 @@ import "firebase/compat/auth";
 const MobileHeader = ({ cart, user, wishlist }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { mobileSearch } = useSelector((state) => ({ ...state }));
   const [current, setCurrent] = React.useState("mail");
   const [fp, setfp] = React.useState({});
   const [on, setOn] = React.useState(false);
@@ -577,38 +579,58 @@ const MobileHeader = ({ cart, user, wishlist }) => {
           />
         </div>
         <div className={styles.MHButtons}>
-          {/* <div className={styles.MHSearch}>
-          <input type="text" className={styles.searchInput} />
-          <button className={styles.searchBtn}>
-            {" "}
-            <SearchIcon sx={{ fontSize: 25 }} />
-          </button>
-        </div> */}
-          {/* <div>
-            {" "}
-            <SearchIcon
-              sx={{ fontSize: 25, marginRight: "20px", cursor: "pointer" }}
-              onClick={handleClick}
-            />
-          </div> */}
-
           {user && (
-            <Badge count={cart.length}>
-              <ShoppingCartOutlined
-                sx={{ fontSize: 30 }}
-                onClick={(e) =>
-                  dispatch({ type: "DRAWER_VISIBLE", payload: true })
-                }
+            <>
+              <SearchOutlined
+                style={{ marginRight: "20px", fontSize: "25px" }}
+                onClick={(e) => {
+                  dispatch({
+                    type: "MOBILE_SEARCH_VISIBLE",
+                    payload: !mobileSearch,
+                  });
+                }}
               />
-            </Badge>
+              <Badge count={wishlist.length} style={{ marginRight: "20px" }}>
+                <HeartOutlined
+                  style={{ fontSize: "25px", marginRight: "20px" }}
+                  onClick={(e) => navigate("/wishlist")}
+                />
+              </Badge>
+              <Badge count={cart.length} style={{ marginRight: "20px" }}>
+                <ShoppingCartOutlined
+                  sx={{ fontSize: 30 }}
+                  onClick={(e) =>
+                    dispatch({ type: "DRAWER_VISIBLE", payload: true })
+                  }
+                  style={{ marginRight: "20px" }}
+                />
+              </Badge>
+            </>
           )}
           {!user && (
-            <button
-              className={styles.loginButton}
-              onClick={(e) => setLoginOpen(true)}
-            >
-              Login
-            </button>
+            <>
+              <SearchOutlined
+                style={{ marginRight: "20px", fontSize: "25px" }}
+                onClick={(e) => {
+                  dispatch({
+                    type: "MOBILE_SEARCH_VISIBLE",
+                    payload: !mobileSearch,
+                  });
+                }}
+              />
+              <Badge count={wishlist.length} style={{ marginRight: "20px" }}>
+                <HeartOutlined
+                  style={{ fontSize: "25px", marginRight: "20px" }}
+                  onClick={(e) => navigate("/wishlist")}
+                />
+              </Badge>
+              <button
+                className={styles.loginButton}
+                onClick={(e) => setLoginOpen(true)}
+              >
+                Login
+              </button>
+            </>
           )}
         </div>
       </div>

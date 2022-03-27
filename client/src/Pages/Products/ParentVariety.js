@@ -11,6 +11,7 @@ import _ from "lodash";
 import { toast } from "react-toastify";
 import { Breadcrumb } from "antd";
 import { Sugar } from "react-preloaders2";
+import { Helmet } from "react-helmet";
 const ParentVariety = () => {
   useEffect(() => {
     document.body.scrollTop = 0;
@@ -110,6 +111,10 @@ const ParentVariety = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>Cafecart | {createName(params.id2)}</title>
+      </Helmet>
+
       <Breadcrumb
         separator=">"
         style={{ marginLeft: "30px", marginBottom: "30px" }}

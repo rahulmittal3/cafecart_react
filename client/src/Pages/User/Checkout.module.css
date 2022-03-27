@@ -226,13 +226,13 @@
   font-family: Poppins;
   font-style: normal;
   font-weight: 600;
-  font-size: 19px;
+  font-size: 16px;
   line-height: 28px;
   letter-spacing: 0.01em;
   text-transform: uppercase;
 
   color: #ffffff;
-  padding: 15px;
+  padding: 10px;
   margin-bottom: 20px;
 }
 @media (max-width: 900px) {
@@ -249,7 +249,21 @@
     width: 100%;
   }
   .items {
-    padding: 0px 40px;
+    padding: 0px 15px;
+  }
+  .answerFinal {
+    font-size: 14px;
+    padding: 7.5px;
+  }
+  .btn {
+    width: 100%;
+    margin-bottom: 0px;
+  }
+  .qa {
+    padding-right: 0px;
+  }
+  .checkoutAddress {
+    padding: 20px 15px;
   }
 }
 

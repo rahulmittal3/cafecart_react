@@ -1,0 +1,25 @@
+.MHSearch {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin: 10px 40px;
+  margin-bottom: 10px;
+}
+.searchInput {
+  width: 80%;
+  background-color: #f0f0f0;
+  border: solid 1px #f0f0f0;
+  padding: 5px;
+  font-size: 16px;
+  font-family: "Overpass";
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.searchBtn {
+  width: 20%;
+  background-color: #d0cbcb;
+  border-left: 2px solid #d0cbcb;
+  padding: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}

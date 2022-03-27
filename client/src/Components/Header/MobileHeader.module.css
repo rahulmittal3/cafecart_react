@@ -220,7 +220,7 @@
 }
 
 .hamburger {
-  margin-left: 25px;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */

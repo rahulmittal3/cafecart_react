@@ -11,6 +11,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Breadcrumb } from "antd";
 import { Dots } from "react-preloaders2";
+import { Helmet } from "react-helmet";
 const Variety = () => {
   useEffect(() => {
     document.body.scrollTop = 0;
@@ -111,6 +112,11 @@ const Variety = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>
+          Cafecart | {createName(params.id1)} : {createName(params.id3)}{" "}
+        </title>
+      </Helmet>
       <Breadcrumb
         separator=">"
         style={{ marginLeft: "30px", marginBottom: "30px" }}

@@ -1,13 +1,18 @@
 import React from "react";
 import styles from "./StaticPage.module.css";
 import { Steps } from "antd";
+import { Helmet } from "react-helmet";
 const { Step } = Steps;
+
 const PrivacyPolicy = () => {
   React.useEffect(() => {
     document.body.scrollTop = 0;
   }, []);
   return (
     <>
+      <Helmet>
+        <title>Cafecart | Privacy Policy</title>
+      </Helmet>
       <center>
         <div className={styles.wrapper}>
           <div className={styles.title}>

@@ -168,6 +168,7 @@ input {
 .quantity {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .plus {
   background: #1b1f20;
@@ -599,4 +600,49 @@ input {
 .variant_selected {
   background-color: #000;
   color: white;
+}
+/* .carouselStyling {
+  width: 80%;
+  height: 300px;
+  object-fit: contain;
+} */
+
+@media (min-width: 961px) {
+  .carouselStyling {
+    width: 80%;
+    height: 400px;
+    object-fit: contain;
+  }
+}
+
+@media (min-width: 1050px) {
+  .carouselStyling {
+    width: 80%;
+    height: 500px;
+    object-fit: contain;
+  }
+}
+@media (max-width: 960px) {
+  .carouselStyling {
+    width: 80%;
+    height: 35vh;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 348px) {
+  .quantity input {
+    width: 60%;
+  }
+  .plus {
+    width: 15%;
+    text-align: center;
+  }
+}
+.starDetail {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  margin-left: 10px;
 }

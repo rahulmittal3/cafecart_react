@@ -20,6 +20,7 @@ import _ from "lodash";
 import StarRatings from "react-star-ratings";
 import moment from "moment";
 import { Progress } from "antd";
+import { Helmet } from "react-helmet";
 const { TabPane } = Tabs;
 
 const SingleProduct = () => {
@@ -212,16 +213,29 @@ const SingleProduct = () => {
   };
   return (
     <React.Fragment>
+      <Helmet>
+        <title>Cafecart | {`${p?.title ? p.title : ""}`}</title>
+      </Helmet>
       <div className={styles.notif}>
         Free Shipping over <span className={styles.notifAmount}>₹ 499</span>
       </div>
       <div className={styles.topMost}>
         <div className={styles.carousel}>
-          <Slider {...settings} style={{ height: "auto", width: "90%" }}>
+          <Slider
+            {...settings}
+            // style={{ height: "", width: "90%", objectFit: "contain" }}
+          >
             {p &&
               p.imagePath &&
               p.imagePath.map((curr, index) => {
-                return <img src={curr} alt="Craousel" key={index} />;
+                return (
+                  <img
+                    src={curr}
+                    alt="Craousel"
+                    key={index}
+                    className={styles.carouselStyling}
+                  />
+                );
               })}
           </Slider>
         </div>
@@ -248,6 +262,27 @@ const SingleProduct = () => {
           </div>
 
           <div className={styles.title}>{p?.title}</div>
+          <div
+            className={styles.starsTotal}
+            style={{
+              margin: "0px 0px",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-end",
+            }}
+          >
+            <StarRatings
+              rating={Number(avg)}
+              starRatedColor="#fccc4d"
+              // changeRating={this.changeRating}
+              numberOfStars={5}
+              svgIconPath="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"
+              starDimension="20px"
+            />
+            <span className={styles.starDetail}>
+              ({rev?.length} {rev?.length <= 1 ? "Review" : "Reviews"})
+            </span>
+          </div>
           <div className={styles.price}>
             <span className={styles.price}>₹ {p?.price}</span>
             <span className={styles.mrpPrice}>₹ {p?.mrpPrice}</span>
@@ -476,7 +511,10 @@ const SingleProduct = () => {
               <div className={styles.singleStarItemCount}>1 Star</div>
               <div className={styles.singleStarItemTable}>
                 <Progress
-                  percent={(one / rev.length) * 100}
+                  percent={(
+                    (one / (rev.length ? rev.length : 1)) *
+                    100
+                  ).toFixed(1)}
                   strokeColor="#fccc4d"
                 />
               </div>
@@ -485,7 +523,10 @@ const SingleProduct = () => {
               <div className={styles.singleStarItemCount}>2 Stars</div>
               <div className={styles.singleStarItemTable}>
                 <Progress
-                  percent={(two / rev.length) * 100}
+                  percent={(
+                    (two / (rev.length ? rev.length : 1)) *
+                    100
+                  ).toFixed(1)}
                   strokeColor="#fccc4d"
                 />
               </div>
@@ -494,7 +535,10 @@ const SingleProduct = () => {
               <div className={styles.singleStarItemCount}>3 Stars</div>
               <div className={styles.singleStarItemTable}>
                 <Progress
-                  percent={(three / rev.length) * 100}
+                  percent={(
+                    (three / (rev.length ? rev.length : 1)) *
+                    100
+                  ).toFixed(1)}
                   strokeColor="#fccc4d"
                 />
               </div>
@@ -503,7 +547,10 @@ const SingleProduct = () => {
               <div className={styles.singleStarItemCount}>4 Stars</div>
               <div className={styles.singleStarItemTable}>
                 <Progress
-                  percent={(four / rev.length) * 100}
+                  percent={(
+                    (four / (rev.length ? rev.length : 1)) *
+                    100
+                  ).toFixed(1)}
                   strokeColor="#fccc4d"
                 />
               </div>
@@ -512,7 +559,10 @@ const SingleProduct = () => {
               <div className={styles.singleStarItemCount}>5 Stars</div>
               <div className={styles.singleStarItemTable}>
                 <Progress
-                  percent={(five / rev.length) * 100}
+                  percent={(
+                    (five / (rev.length ? rev.length : 1)) *
+                    100
+                  ).toFixed(1)}
                   strokeColor="#fccc4d"
                 />
               </div>

@@ -17,7 +17,7 @@
 }
 
 .heading1 {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
@@ -45,6 +45,7 @@
 .blogsList {
   width: 414px;
   height: 512px;
+  flex-basis: 50%;
   /* margin-bottom: 40px; */
 }
 .blogsList:hover {
@@ -57,7 +58,7 @@
   border-radius: 20px;
 }
 .singleDate {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 12.1978px;
@@ -66,7 +67,7 @@
   color: #a09898;
 }
 .singleTitle {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 19px;
@@ -75,7 +76,7 @@
   color: #000000;
 }
 .singleDescription {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 13px;
@@ -85,22 +86,21 @@
   color: #7d7979;
 }
 .singleBtn {
-  border: 2px solid #a0522d;
+  border: 1px solid #a0522d;
   box-sizing: border-box;
-  border-radius: 10px;
-  font-family: Poppins;
+  border-radius: 5px;
+  font-family: "Overpass";
   font-style: normal;
-  font-weight: 600;
   font-size: 14px;
-  line-height: 21px;
   /* identical to box height */
   margin-top: 10px;
-  color: #a0522d;
+  background-color: #a0522d;
   padding: 10px 15px;
+  color: white;
 }
 .singleBtn:hover {
   color: white;
-  background-color: #a0522d;
+  background-color: #63351f;
 }
 .search {
   width: 40%;
@@ -118,7 +118,7 @@
 }
 .input {
   width: 100%;
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -128,7 +128,7 @@
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   color: #000000;
-  padding: 15px 5px;
+  padding: 10px 5px;
 
   opacity: 0.4;
 }
@@ -155,7 +155,7 @@
 }
 .infoHeading {
   margin-top: 20px;
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 23px;
@@ -165,7 +165,7 @@
 }
 .infoDesc {
   margin-top: 30px;
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 15px;
@@ -173,8 +173,8 @@
   /* or 180% */
   text-align: center;
   color: #000000;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 .aboutUsBtn {
   margin-top: 30px;
@@ -205,7 +205,7 @@
   padding-right: 30px;
 }
 .categories_heading {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 21px;
@@ -223,7 +223,7 @@
 }
 .category {
   margin-top: 15px;
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -263,7 +263,7 @@
   justify-content: space-between;
 }
 .otherTitle {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 900;
   font-size: 22px;
@@ -275,7 +275,7 @@
 .link {
   text-align: right;
 
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -296,7 +296,7 @@
   flex-wrap: wrap;
 }
 .tag {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -309,7 +309,7 @@
   margin: 5px;
 }
 .otherTitle {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 900;
   font-size: 18px;
@@ -323,10 +323,10 @@
   margin-top: 20px;
 }
 .left {
-  width: 60%;
+  width: 65%;
 }
 .left_head {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: bolder;
   font-size: 40px;
@@ -337,7 +337,7 @@
 .left_img {
   height: 443px;
   width: 839px;
-  object-fit: cover;
+  object-fit: fill;
   border: 1px solid white;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -349,13 +349,13 @@
 .left_desc span,
 .left_desc strong {
   font-style: normal;
-  font-weight: 600;
+  /* font-weight: 600; */
   text-justify: center;
   line-height: 20px;
   color: #000000 !important;
   font-family: "Overpass" !important;
   font-size: 22px;
-  line-height: 1.1 !important;
+  line-height: 1.6 !important;
 }
 /*FOR TEXT ON IMAGE*/
 .container {
@@ -368,7 +368,7 @@
   top: 50%;
   left: 5%;
   transform: translateY(-50%);
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 50px;
@@ -377,7 +377,7 @@
   color: #ffffff;
 }
 .txtImg2 {
-  font-family: Poppins;
+  font-family: "Overpass";
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -391,6 +391,25 @@
   border: 1px solid #a0522d;
   border-radius: 7.5px;
   line-height: 1;
+}
+.leftSection {
+  width: 60%;
+}
+.leftSectionList {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.bItem {
+  width: 45%;
+  margin-bottom: 20px;
+}
+.mediaImage {
+  border: solid 0.5px white;
+  border-radius: 10px;
 }
 
 @media (max-width: 900px) {
@@ -431,6 +450,7 @@
   .banner {
     height: 55vh;
     width: 100%;
+    object-fit: cover;
   }
   .left_img {
     height: 40vh;
@@ -465,8 +485,9 @@
     border-radius: 10px;
     padding: 10px;
   }
-  .left {
+  .leftSection {
     width: 100%;
+    padding: 20px;
   }
   .txtImg {
     font-size: 20px;
@@ -491,4 +512,21 @@
     border-radius: 7.5px;
     line-height: 1;
   }
+  .leftSectionList {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .bItem {
+    width: 80% !important;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
+  .mediaImage {
+    height: 80% !important;
+  }
+}
+.singleButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }

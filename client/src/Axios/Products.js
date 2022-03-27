@@ -1,5 +1,11 @@
 import axios from "axios";
-
+const searchKeyword = async (keyword) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/search/${keyword}`,
+  });
+  return result;
+};
 const newArrival = async () => {
   const result = await axios({
     method: "GET",
@@ -97,6 +103,7 @@ const getReviews = async (id) => {
   return result;
 };
 export {
+  searchKeyword,
   newArrival,
   categories,
   categorySlug,

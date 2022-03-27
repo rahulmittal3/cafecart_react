@@ -1,4 +1,6 @@
 const blog = require("../Models/blog.js");
+const BlogCategoriesModel = require("../Models/blogCategories.js");
+const BlogTagsModel = require("../Models/blogTags.js");
 const allBlogs = async (req, res) => {
   try {
     console.log(req.query);
@@ -25,5 +27,11 @@ const getParticularBlog = async (req, res) => {
     return res.status(404).json(error);
   }
 };
-const object = { allBlogs, getParticularBlog };
+const getTagsAndCategories = async (req, res) => {
+  const x1 = await BlogCategoriesModel.find({}).sort({ categoryName: 1 });
+  const x2 = await BlogTagsModel.find({}).sort({ tagName: 1 });
+
+  return res.status(200).json({ tags: x2, categories: x1 });
+};
+const object = { allBlogs, getParticularBlog, getTagsAndCategories };
 module.exports = object;

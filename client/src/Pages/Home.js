@@ -7,6 +7,7 @@ import YouMayLike from "../Components/Products/YouMayLike.js";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 const Home = () => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -20,6 +21,9 @@ const Home = () => {
   }, []);
   return (
     <>
+      <Helmet>
+        <title>Cafecart</title>
+      </Helmet>
       <SearchBar />
       <div className="wrap">
         <div className="back">

@@ -20,6 +20,7 @@ import Profile from "./Pages/User/Profile.js";
 import CategorySlug from "./Pages/Products/CategorySlug.js";
 import SingleProduct from "./Pages/Products/SingleProduct.js";
 import ProtectRoute from "./Components/Utilities/ProtectRoutes";
+import ProductSearch from "./Pages/Products/SearchProduct.js";
 import ParentVariety from "./Pages/Products/ParentVariety.js";
 import Cart from "./Pages/User/Cart.js";
 import Checkout from "./Pages/User/Checkout.js";
@@ -75,6 +76,16 @@ import EditHomepage from "./Pages/Admin/EditHomepage.js";
 
 import AdminOrders from "./Pages/Admin/Orders.js";
 import SingleAdminOrder from "./Pages/Admin/SingleOrder.js";
+import AdminReviews from "./Pages/Admin/Reviews.js";
+import CreateReview from "./Pages/Admin/CreateReview.js";
+import BlogCategories from "./Pages/Admin/BlogCategories.js";
+import CreateBlogCategory from "./Pages/Admin/CreateBlogCategory.js";
+import EditBlogCategory from "./Pages/Admin/EditBlogCategory.js";
+
+import BlogTags from "./Pages/Admin/BlogTags.js";
+import CreateBlogTag from "./Pages/Admin/CreateBlogTag.js";
+import EditBlogTag from "./Pages/Admin/EditBlogTag.js";
+
 import { useSelector, useDispatch } from "react-redux";
 
 import { cartDetails } from "./Axios/Cart.js";
@@ -160,6 +171,18 @@ function App() {
             </>
           }
         />
+        <Route
+          path="/products/search/:keyword"
+          exact
+          element={
+            <>
+              <NewHeader />
+              <ProductSearch />
+              <Footer />
+            </>
+          }
+        />
+        SearchProduct
         <Route
           path="/blog"
           exact
@@ -349,7 +372,6 @@ function App() {
             </>
           }
         />
-        OrderSuccessPayment
         <Route
           path="/user/orders"
           exact
@@ -691,6 +713,88 @@ function App() {
             <ProtectRouteAdmin>
               <AdminAppBar />
               <SingleAdminOrder />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/reviews"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <AdminReviews />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/review/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateReview />
+            </ProtectRouteAdmin>
+          }
+        />
+        {/*FOR BLOG CATEGORIES*/}
+        <Route
+          path="/admin/blogs/categories"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <BlogCategories />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/blogs/category/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateBlogCategory />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/blog-category/:blogCategoryId/edit"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <EditBlogCategory />
+            </ProtectRouteAdmin>
+          }
+        />
+        {/*FOR BLOG TAGS*/}
+        <Route
+          path="/admin/blogs/tags"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <BlogTags />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/blogs/tag/new"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <CreateBlogTag />
+            </ProtectRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/blog-tag/:tagId/edit"
+          exact
+          element={
+            <ProtectRouteAdmin>
+              <AdminAppBar />
+              <EditBlogTag />
             </ProtectRouteAdmin>
           }
         />

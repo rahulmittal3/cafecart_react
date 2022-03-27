@@ -6,7 +6,7 @@ import styles from "./Wishlist.module.css";
 import RiseLoader from "react-spinners/RiseLoader";
 import { Link } from "react-router-dom";
 import { Card } from "antd";
-
+import { Helmet } from "react-helmet";
 const { Meta } = Card;
 const Wishlist = () => {
   React.useEffect(() => {
@@ -61,6 +61,9 @@ const Wishlist = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>Cafecart | Wishlist</title>
+      </Helmet>
       <h1 className={styles.head}>Wishlist</h1>
       <center>
         {loading && (

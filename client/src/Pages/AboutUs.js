@@ -6,6 +6,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { toast } from "react-toastify";
 import { sendAboutUsMail } from "../Axios/Mailer.js";
+import { Helmet } from "react-helmet";
 
 const AboutUs = () => {
   React.useEffect(() => {
@@ -20,6 +21,9 @@ const AboutUs = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>Cafecart | About Us </title>
+      </Helmet>
       <div className={styles.overview}>
         <center>
           <div className={styles.title}>WHO WE are</div>

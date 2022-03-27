@@ -18,6 +18,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import * as All from "react-responsive-modal";
 import { updatePassword } from "../../Axios/Authentication.js";
 import fancy1 from "../../Components/Header/Header.module.css";
+import { Helmet } from "react-helmet";
 const Profile = () => {
   React.useEffect(() => {
     document.body.scrollTop = 0;
@@ -140,6 +141,9 @@ const Profile = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Cafecart | My Profile</title>
+      </Helmet>
       <All.Modal open={on} onClose={(e) => setOn(false)} center>
         <div className={fancy1.FPBackground}>
           <h2 className={fancy1.FPHead}>Change Password</h2>

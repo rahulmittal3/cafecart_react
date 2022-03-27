@@ -470,7 +470,166 @@ const getOrder = async (jwt, id) => {
   return result;
 };
 
+const getAllReviews = async (jwt) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/get-all-reviews`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+  });
+  return result;
+};
+const deleteReview = async (jwt, id) => {
+  const result = await axios({
+    method: "DELETE",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/delete-review`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    params: {
+      id: id,
+    },
+  });
+  return result;
+};
+const createReview = async (jwt, data) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/create-review`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+
+    data: data,
+  });
+  return result;
+};
+//all Categories
+const getAllBlogsCategories = async (jwt) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/get-blogs-categories`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+  });
+  return result;
+};
+const getBlogsCategory = async (jwt, id) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/get-blogs-category`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    params: { id: id },
+  });
+  return result;
+};
+const createBlogCategory = async (jwt, data) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/create-blogs-category`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    data: data,
+  });
+  return result;
+};
+const deleteBlogCaetgory = async (jwt, id) => {
+  const result = await axios({
+    method: "DELETE",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/delete-blogs-category`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    params: {
+      id: id,
+    },
+  });
+  return result;
+};
+const updateBlogCategory = async (jwt, data) => {
+  const result = await axios({
+    method: "PATCH",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/edit-blogs-category`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    data: data,
+  });
+  return result;
+};
+//FOR BLOGS TAGS
+const getAllBlogsTags = async (jwt) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/get-blogs-tags`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+  });
+  return result;
+};
+const getBlogsTag = async (jwt, id) => {
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/get-blogs-tag`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    params: { id: id },
+  });
+  return result;
+};
+const createBlogTag = async (jwt, data) => {
+  const result = await axios({
+    method: "POST",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/create-blogs-tag`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    data: data,
+  });
+  return result;
+};
+const deleteBlogTag = async (jwt, id) => {
+  const result = await axios({
+    method: "DELETE",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/delete-blogs-tag`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    params: {
+      id: id,
+    },
+  });
+  return result;
+};
+const updateBlogTag = async (jwt, data) => {
+  const result = await axios({
+    method: "PATCH",
+    url: `${process.env.REACT_APP_BACKEND_URL}/admin/edit-blogs-tag`,
+    headers: {
+      authorization: `Bearer ${jwt}`,
+    },
+    data: data,
+  });
+  return result;
+};
 export {
+  getAllBlogsCategories,
+  createBlogCategory,
+  getBlogsCategory,
+  deleteBlogCaetgory,
+  updateBlogCategory,
+  getAllBlogsTags,
+  createBlogTag,
+  getBlogsTag,
+  deleteBlogTag,
+  updateBlogTag,
   loginAdmin,
   verifyAdmin,
   getAllCoupons,
@@ -511,4 +670,7 @@ export {
   getAllOrders,
   getOrder,
   deleteProduct,
+  getAllReviews,
+  deleteReview,
+  createReview,
 };

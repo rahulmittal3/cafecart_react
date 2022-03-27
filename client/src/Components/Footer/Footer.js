@@ -49,20 +49,19 @@ const Footer = () => {
               className={styles.footerItemContent}
               style={{ cursor: "pointer" }}
               onClick={(e) => {
-                navigate("#");
+                navigate("/pages/about-us");
               }}
             >
-              Track Order
+              About Us
             </div>
             <div
               className={styles.footerItemContent}
               style={{ cursor: "pointer" }}
-              // onClick={(e) => {
-              //   navigate("/pages/about-us/#contact_info");
-              // }}
+              onClick={(e) => {
+                navigate("/pages/terms-of-use");
+              }}
             >
-              Returns
-              {/* <Link to="/pages/about-us/#contact_info">Returns</Link> */}
+              Terms and Conditions
             </div>
             <div
               className={styles.footerItemContent}

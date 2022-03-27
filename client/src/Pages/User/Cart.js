@@ -17,6 +17,7 @@ import { passwordless, login, addPhone } from "../../Axios/Authentication.js";
 import axios from "axios";
 import firebase from "firebase/compat/app";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { Helmet } from "react-helmet";
 const Cart = () => {
   React.useEffect(() => {
     document.body.scrollTop = 0;
@@ -400,6 +401,9 @@ const Cart = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Cafecart | My Cart</title>
+      </Helmet>
       <All.Modal
         open={openverif}
         center
@@ -632,7 +636,7 @@ const Cart = () => {
           </div>
         </div>
       </All.Modal>
-      <div className={styles.cartHead}>Cart</div>
+      <div className={styles.cartHead}>My Cart</div>
       {data.length === 0 && (
         <div className={styles.noItem}>
           No Items in the Cart To Display!
@@ -796,13 +800,13 @@ const Cart = () => {
             </div>
             <div
               style={{
-                fontFamily: "Poppins",
+                fontFamily: "Overpass",
                 fontWeight: 600,
                 fontSize: "16px",
                 color: "white",
                 padding: "10px",
-                borderRadius: "10px",
-                backgroundColor: msg.startsWith("Cong") ? "green" : "red",
+                borderRadius: "5px",
+                backgroundColor: msg.startsWith("Cong") ? "#40BC26" : "red",
               }}
             >
               {msg}

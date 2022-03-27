@@ -11,6 +11,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { toast } from "react-toastify";
 import { Breadcrumb } from "antd";
 import { Lines } from "react-preloaders2";
+import { Helmet } from "react-helmet";
 const CategorySlug = () => {
   useEffect(() => {
     document.body.scrollTop = 0;
@@ -112,6 +113,10 @@ const CategorySlug = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>Cafecart | {createName(params?.slug)}</title>
+      </Helmet>
+
       <Breadcrumb
         separator=">"
         style={{ marginLeft: "30px", marginBottom: "30px" }}

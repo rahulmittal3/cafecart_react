@@ -6,6 +6,7 @@ import wishlistReducer from "./wishlistReducer.js";
 import cartt from "./carttReducer.js";
 import directCheckout from "./directCheckoutReducer.js";
 import drawer from "./drawer.js";
+import mobileSearch from "./mobileSearch.js";
 const rootReducer = combineReducers({
   user: userReducer,
   cart: cartReducer,
@@ -13,5 +14,6 @@ const rootReducer = combineReducers({
   cartt: cartt,
   directCheckout: directCheckout,
   drawer: drawer,
+  mobileSearch: mobileSearch,
 });
 export default rootReducer;

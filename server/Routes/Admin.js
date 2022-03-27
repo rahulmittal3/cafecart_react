@@ -42,6 +42,19 @@ const {
   getOrder,
   createProduct,
   deleteproduct,
+  getAllReviews,
+  deleteReview,
+  createReview,
+  getAllBlogsCategories,
+  getBlogsCategory,
+  createBlogCategory,
+  deleteBlogCategory,
+  updateBlogCategory,
+  getAllBlogsTags,
+  getBlogsTag,
+  createBlogTag,
+  deleteBlogTag,
+  updateBlogTag,
 } = require("../Controllers/Admin.js");
 const { isAdminValid } = require("../Middlewares/isAdminValid.js");
 AdminRouter.route("/admin/login").post(loginAdmin);
@@ -138,5 +151,41 @@ AdminRouter.route("/admin/delete-homepage").delete(
 //for orders------------------------------------------------------------------------
 AdminRouter.route("/admin/get-all-orders").get(isAdminValid, getAllOrders);
 AdminRouter.route("/admin/get-order").get(isAdminValid, getOrder);
+
+//for reviews------------------------------------------------------------------------
+AdminRouter.route("/admin/get-all-reviews").get(isAdminValid, getAllReviews);
+AdminRouter.route("/admin/delete-review").delete(isAdminValid, deleteReview);
+AdminRouter.route("/admin/create-review").post(isAdminValid, createReview);
+
+//for blogs categories------------------------------------------------------------------------
+AdminRouter.route("/admin/get-blogs-categories").get(
+  isAdminValid,
+  getAllBlogsCategories
+);
+AdminRouter.route("/admin/get-blogs-category").get(
+  isAdminValid,
+  getBlogsCategory
+);
+AdminRouter.route("/admin/create-blogs-category").post(
+  isAdminValid,
+  createBlogCategory
+);
+AdminRouter.route("/admin/delete-blogs-category").delete(
+  isAdminValid,
+  deleteBlogCategory
+);
+AdminRouter.route("/admin/edit-blogs-category").patch(
+  isAdminValid,
+  updateBlogCategory
+);
+//for blogs tags------------------------------------------------------------------------
+AdminRouter.route("/admin/get-blogs-tags").get(isAdminValid, getAllBlogsTags);
+AdminRouter.route("/admin/get-blogs-tag").get(isAdminValid, getBlogsTag);
+AdminRouter.route("/admin/create-blogs-tag").post(isAdminValid, createBlogTag);
+AdminRouter.route("/admin/delete-blogs-tag").delete(
+  isAdminValid,
+  deleteBlogTag
+);
+AdminRouter.route("/admin/edit-blogs-tag").patch(isAdminValid, updateBlogTag);
 
 module.exports = AdminRouter;

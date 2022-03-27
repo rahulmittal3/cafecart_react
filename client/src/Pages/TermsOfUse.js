@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./StaticPage.module.css";
+import { Helmet } from "react-helmet";
 const TermsOfUse = () => {
   React.useEffect(() => {
     document.body.scrollTop = 0;
@@ -7,6 +8,9 @@ const TermsOfUse = () => {
   return (
     <>
       <>
+        <Helmet>
+          <title>Cafecart | Terms </title>
+        </Helmet>
         <center>
           <div className={styles.wrapper}>
             <div className={styles.title}>

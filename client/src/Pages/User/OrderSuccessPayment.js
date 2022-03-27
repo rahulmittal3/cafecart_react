@@ -5,6 +5,7 @@ import { finaliseOrderByPayment } from "../../Axios/Payment.js";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Helmet } from "react-helmet";
 const OrderSuccessPayment = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => ({ ...state }));
@@ -49,6 +50,9 @@ const OrderSuccessPayment = () => {
   }, [user]);
   return (
     <>
+      <Helmet>
+        <title>Cafecart | Payment Success</title>
+      </Helmet>
       <h1>Your Payment is Successful!</h1>
       {load && (
         <div>

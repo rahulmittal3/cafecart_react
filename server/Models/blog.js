@@ -18,7 +18,7 @@ const blogSchema = Schema({
   blog_category: {
     type: String,
     required: true,
-  }, 
+  },
   description: {
     type: String,
     required: true,
@@ -31,6 +31,8 @@ const blogSchema = Schema({
     type: Date,
     default: Date.now,
   },
+  category: [String],
+  tags: [String],
 });
 
 module.exports = mongoose.model("Blog", blogSchema);

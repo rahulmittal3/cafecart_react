@@ -12,6 +12,9 @@ const Shippingcharge = require("../Models/shippingcharges.js");
 const Homepage = require("../Models/homepage.js");
 const Order = require("../Models/order.js");
 const NewOrder = require("../Models/newOrder.js");
+const Review = require("../Models/reviews.js");
+const BlogCategoriesModel = require("../Models/blogCategories.js");
+const BlogTagsModel = require("../Models/blogTags.js");
 var _ = require("lodash");
 const loginAdmin = async (req, res) => {
   try {
@@ -563,7 +566,214 @@ const getOrder = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+const getAllReviews = async (req, res) => {
+  try {
+    const result = await Review.find({}).sort({ rating: 1 });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const deleteReview = async (req, res) => {
+  try {
+    const result = await Review.findByIdAndDelete(req.query.id);
+    res.status(200).json("OK");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const createReview = async (req, res) => {
+  console.log(req.body);
+  let { rating, productId, user, comment } = req.body;
+  try {
+    if (!rating || !productId || !user || !comment) {
+      throw "Incomplete Details";
+    }
+    let result = await User.findOne({ _id: user });
+    console.log("result  : ", result);
+    if (!result) {
+      throw "User Id Invalid";
+    }
+    let product = await Product.findOne({ _id: productId });
+    if (!product) {
+      throw "Product Id Invalid";
+    }
+    console.log("product  : ", product);
+    //work on creating the review object
+    //if we are here, it means we are logged in due to isLoggedIn Middlewares
+    //step1  : get the product details from review DB
+    const productReviewed = await Review.findOne({ productId: productId });
+    //what if no review is created for the product
+    if (!productReviewed) {
+      const object = {
+        name: result.username,
+        rating: Number(rating),
+        comment: comment,
+        user: user,
+        productId: productId,
+      };
+
+      const query = new Review(object);
+      const result2 = await query.save();
+      console.log(result2);
+    } else {
+      //if a new user reviews.....
+      const u = await Review.findOne({ user: user });
+      if (u) {
+        const productReviewed = await Review.findOneAndUpdate(
+          { user: user },
+          { comment: comment, rating: Number(rating) },
+          { new: true }
+        );
+        console.log(productReviewed);
+      } else {
+        const object = {
+          name: result.username,
+          rating: Number(rating),
+          comment: comment,
+          user: user,
+          productId: productId,
+        };
+
+        const query = new Review(object);
+        const result1 = await query.save();
+        console.log(result1);
+      }
+    }
+    res.status(200).json("ok");
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+
+const getAllBlogsCategories = async (req, res) => {
+  //get the blogs categories headers
+  try {
+    const allBC = await BlogCategoriesModel.find({}).sort({ categoryName: 1 });
+    return res.status(200).json(allBC);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const createBlogCategory = async (req, res) => {
+  const { category, icon } = req.body;
+  try {
+    if (!category || !icon) {
+      throw "Incomplete Details";
+    }
+    //create a category here------
+    let created = new BlogCategoriesModel({
+      categoryName: category,
+      iconLink: icon,
+    });
+    await created.save();
+    console.log(created);
+    res.status(201).json("Okay");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const deleteBlogCategory = async (req, res) => {
+  const { id } = req.query;
+  try {
+    const deletedCategory = await BlogCategoriesModel.findByIdAndDelete(id);
+    res.status(201).json("ok");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const getBlogsCategory = async (req, res) => {
+  console.log(req.query);
+  try {
+    const e = await BlogCategoriesModel.findOne({ _id: req.query.id });
+    res.status(200).json(e);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const updateBlogCategory = async (req, res) => {
+  console.log(req.body);
+  try {
+    //update one--
+    const blogUpdate = await BlogCategoriesModel.findByIdAndUpdate(
+      req.body._id,
+      { categoryName: req.body.categoryName, iconLink: req.body.iconLink },
+      { new: true }
+    );
+    res.status(200).json("ok");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+//-------------For Blog Tags--------------------
+const getAllBlogsTags = async (req, res) => {
+  try {
+    const allBC = await BlogTagsModel.find({}).sort({ tagName: 1 });
+    return res.status(200).json(allBC);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const createBlogTag = async (req, res) => {
+  console.log(req.body);
+  try {
+    let created = new BlogTagsModel({
+      tagName: req.body.tag,
+    });
+    await created.save();
+    console.log(created);
+    res.status(201).json("Okay");
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const deleteBlogTag = async (req, res) => {
+  const { id } = req.query;
+  try {
+    const deletedCategory = await BlogTagsModel.findByIdAndDelete(id);
+    res.status(201).json("ok");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const getBlogsTag = async (req, res) => {
+  console.log(req.query);
+  try {
+    const e = await BlogTagsModel.findOne({ _id: req.query.id });
+    res.status(200).json(e);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+const updateBlogTag = async (req, res) => {
+  console.log(req.body);
+  try {
+    //update one--
+    const blogUpdate = await BlogTagsModel.findByIdAndUpdate(
+      req.body._id,
+      { tagName: req.body.tagName },
+      { new: true }
+    );
+    res.status(200).json("ok");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 const obj = {
+  getAllBlogsCategories,
+  getBlogsCategory,
+  createBlogCategory,
+  deleteBlogCategory,
+  updateBlogCategory,
+  getAllBlogsTags,
+  getBlogsTag,
+  createBlogTag,
+  deleteBlogTag,
+  updateBlogTag,
   loginAdmin,
   loginVerify,
   getAllCoupons,
@@ -605,5 +815,8 @@ const obj = {
   getAllOrders,
   getOrder,
   deleteproduct,
+  getAllReviews,
+  deleteReview,
+  createReview,
 };
 module.exports = obj;
