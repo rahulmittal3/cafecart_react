@@ -635,6 +635,91 @@ const SingleProduct = () => {
         </div>
       </div>
       <div className={styles1.heading}>Related Products</div>
+      <div className={styles1.newArrivals1}>
+        {other &&
+          other.length > 0 &&
+          other.map((curr, index) => {
+            return (
+              <div key={index} className={styles1.newArrivalItem1}>
+                <div className={styles1.top1}>
+                  <div>
+                    <center>
+                      <img
+                        src={curr?.imagePath[0]}
+                        alt="imr"
+                        className={styles1.newArrivalItem__img1}
+                        onClick={(e) => navigate(`/products/${curr._id}`)}
+                      />
+                    </center>
+                  </div>
+                  <div>
+                    <FavoriteBorderOutlinedIcon
+                      sx={{ fontSize: 24 }}
+                      className={styles1.icon}
+                      onClick={(e) => {
+                        handleWishlist(curr?._id, curr?.title);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className={styles1.text1}>
+                  <div>
+                    <div
+                      className={styles1.newArrivalItem__meta__title}
+                      style={{ fontSize: "100%", textAlign: "left" }}
+                      onClick={(e) => navigate(`/products/${curr._id}`)}
+                    >
+                      {curr?.title}
+                    </div>
+                    <div>
+                      <span
+                        className={styles1.price}
+                        style={{ fontSize: "110%" }}
+                      >
+                        ₹{curr?.price}
+                      </span>
+                      <span
+                        className={styles1.mrpPrice}
+                        style={{ fontSize: "100%" }}
+                      >
+                        <del>₹{curr?.mrpPrice}</del>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className={styles1.newArrivalItem__meta__actions__buttons}
+                  >
+                    {/* <FavoriteBorderOutlinedIcon
+                        sx={{ fontSize: 30 }}
+                        className={styles1.icon}
+                        onClick={(e) => {
+                          handleWishlist(curr?._id, curr?.title);
+                        }}
+                      /> */}
+                    <ShoppingCartOutlinedIcon
+                      sx={{ fontSize: 30 }}
+                      className={styles1.icon}
+                      onClick={(e) => {
+                        handleCart(curr?._id, curr?.title);
+                        dispatch({
+                          type: "DRAWER_VISIBLE",
+                          payload: true,
+                        });
+                      }}
+                    />
+                    &emsp;
+                    <button
+                      className={styles1.buyNowButton}
+                      onClick={(e) => buyNowHandler(curr)}
+                    >
+                      Buy
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+      </div>
       <div className={styles1.newArrivals}>
         {other &&
           other.length > 0 &&
@@ -688,7 +773,7 @@ const SingleProduct = () => {
               </div>
             );
           })}
-      </div>
+      </div>{" "}
       {/* {JSON.stringify(p)} */}
     </React.Fragment>
   );

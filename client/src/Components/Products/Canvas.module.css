@@ -898,3 +898,43 @@
     height: 45vh;
   }
 }
+@media (max-width: 560px) {
+  .newArrivalItem1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    padding-right: 10px;
+  }
+  .top1 {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: row;
+  }
+  .text1 {
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+  }
+  .newArrivals1 {
+    display: flex;
+    flex-direction: column;
+  }
+  .newArrivalItem__img1 {
+    width: 200px;
+    height: 100px;
+    object-fit: contain;
+  }
+  .newArrivals {
+    display: none;
+  }
+}
+@media (min-width: 561px) {
+  .newArrivals1 {
+    display: none;
+  }
+}

@@ -16,20 +16,21 @@ import { Helmet } from "react-helmet";
 import moment from "moment";
 import { style } from "@mui/system";
 const Blogs = () => {
-  React.useEffect(() => {
-    document.body.scrollTop = 0;
-  }, []);
   const navigate = useNavigate();
   const [blogs, setBlogs] = React.useState(null);
   const [page, setPage] = React.useState(1);
   const [total, setTotal] = React.useState(0);
   const [search, setSearch] = React.useState("");
+  const [other, setOther] = React.useState(null);
   const [catsAndTags, setCatsAndTags] = React.useState({});
+  const [tagSelected, setTagSelected] = React.useState("");
+  const [categorySelected, setCategorySelected] = React.useState("");
   const getBlogs = (page) => {
     allBlogs(page)
       .then((res) => {
         setBlogs(res.data.blogs);
         setTotal(res.data.total);
+        setOther(res.data.otherBlogs);
         getTagsAndCategories()
           .then((res) => setCatsAndTags(res.data))
           .else((err) => console.log(err));
@@ -56,6 +57,9 @@ const Blogs = () => {
     autoplaySpeed: 3000,
     fade: true,
   };
+  React.useEffect(() => {
+    document.body.scrollTop = 0;
+  }, [categorySelected, tagSelected]);
   return (
     <>
       <Helmet>
@@ -102,6 +106,10 @@ const Blogs = () => {
                 blogs.length > 0 &&
                 blogs.map((Curr, index) => {
                   return (
+                    (tagSelected === "" ||
+                      Curr.tags.indexOf(tagSelected) !== -1) &&
+                    (categorySelected === "" ||
+                      Curr.category.indexOf(categorySelected) !== -1) &&
                     Curr.title.includes(search) && (
                       <div
                         className={styles.bItem}
@@ -129,10 +137,7 @@ const Blogs = () => {
                         <div className={styles.singleDescription}>
                           {Curr?.preview}
                         </div>
-                        <div
-                          className={styles.singleButton}
-                          onClick={(e) => navigate(`/blog/${Curr._id}`)}
-                        >
+                        <div className={styles.singleButton}>
                           <button className={styles.singleBtn}>
                             Read More
                           </button>
@@ -150,64 +155,14 @@ const Blogs = () => {
                     defaultCurrent={1}
                     // defaultPageSize={2}
                     current={page}
-                    total={total * 3}
+                    total={total}
                     onChange={handlePageChange}
+                    pageSize={4}
                   />
                 </center>
               </div>
             </div>
           </div>
-          {/* <div className={styles.blogs}>
-            {blogs &&
-              blogs.length > 0 &&
-              blogs.map((curr, index) => {
-                return (
-                  curr.title.includes(search) && (
-                    <div className={styles.blogsList} key={index}>
-                      <div className={styles.imgBlog}>
-                        <img
-                          src={curr.imagePath}
-                          className={styles.singleImg}
-                          alt="blog"
-                        />
-                      </div>
-                      <div className={styles.singleDate}>
-                        <img
-                          src="https://res.cloudinary.com/techbuy/image/upload/v1647436972/jam_write_kwufso.svg"
-                          alt="dateBlog"
-                        />
-                        {moment(curr.createdAt).format("MMM Do YYYY")}
-                      </div>
-                      <div className={styles.singleTitle}>{curr.title}</div>
-                      <div className={styles.singleDescription}>
-                        {curr.preview}
-                      </div>
-                      <div
-                        className={styles.singleButton}
-                        onClick={(e) => navigate(`/blog/${curr._id}`)}
-                      >
-                        <button className={styles.singleBtn}>Read More</button>
-                      </div>
-                    </div>
-                  )
-                );
-              })}
-
-            <div style={{ width: "100%" }}>
-              {" "}
-              <div>
-                <center>
-                  <Pagination
-                    defaultCurrent={1}
-                    // defaultPageSize={2}
-                    current={page}
-                    total={total * 3}
-                    onChange={handlePageChange}
-                  />
-                </center>
-              </div>
-            </div>
-          </div> */}
 
           <div className={styles.search}>
             <div className={styles.searchBar}>
@@ -286,7 +241,14 @@ const Blogs = () => {
                   catsAndTags.categories.length > 0 &&
                   catsAndTags.categories.map((curr, index) => {
                     return (
-                      <div className={styles.category} key={index}>
+                      <div
+                        className={styles.category}
+                        key={index}
+                        onClick={(e) => {
+                          setTagSelected("");
+                          setCategorySelected(curr?._id);
+                        }}
+                      >
                         <img
                           src={curr?.iconLink}
                           alt="hello"
@@ -296,32 +258,57 @@ const Blogs = () => {
                       </div>
                     );
                   })}
-              </div>
-            </div>
-            {/*OTHER BLOGS*/}
-            <div className={styles.otherBlogs}>
-              <div className={styles.categories_heading}>
-                Popular Coffee Talk
-              </div>
-              <div className={styles.other_list}>
-                <div className={styles.other}>
-                  <div className={styles.other_img}>
-                    {" "}
-                    <img
-                      src="https://www.wallpaperup.com/uploads/wallpapers/2013/11/09/171722/63511993de344e27beb1880b7a9810fd-1000.jpg"
-                      className={styles.singleImgOther}
-                      alt="blog"
-                    />
-                  </div>
-                  <div className={styles.other_text}>
-                    <div className={styles.otherTitle}>
-                      Pretium tempus odio tristique pellentesque sociis.
-                    </div>
-                    <div className={styles.link}>Read More</div>
-                  </div>
+                <div
+                  className={styles.category}
+                  onClick={(e) => {
+                    setTagSelected("");
+                    setCategorySelected("");
+                  }}
+                >
+                  <img
+                    src={
+                      "https://res.cloudinary.com/techbuy/image/upload/v1644658063/helllo_po0gga.jpg"
+                    }
+                    alt="hello"
+                    className={styles.category_img}
+                  />
+                  Show All
                 </div>
               </div>
             </div>
+            {/*OTHER BLOGS*/}
+            {other && (
+              <div className={styles.otherBlogs}>
+                <div className={styles.categories_heading}>
+                  Popular Coffee Talk
+                </div>
+                <div className={styles.other_list}>
+                  <div className={styles.other}>
+                    <div className={styles.other_img}>
+                      {" "}
+                      <img
+                        src={other?.imagePath}
+                        className={styles.singleImgOther}
+                        alt="blog"
+                      />
+                    </div>
+                    <div className={styles.other_text}>
+                      <div className={styles.otherTitle}>{other?.title}</div>
+                      <div
+                        className={styles.otherTitle}
+                        style={{ fontWeight: "normal" }}
+                      >
+                        {other?.preview}
+                      </div>
+                      <div className={styles.link}>
+                        <Link to={`/blog/${other?._id}`}>Read More</Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/*OTHER TAGS*/}
             <div className={styles.tags}>
               <div className={styles.categories_heading}>Tags</div>
@@ -330,11 +317,29 @@ const Blogs = () => {
                   catsAndTags.tags &&
                   catsAndTags.tags.map((curr, index) => {
                     return (
-                      <p className={styles.tag} key={index}>
+                      <p
+                        className={styles.tag}
+                        style={{ cursor: "pointer" }}
+                        key={index}
+                        onClick={(e) => {
+                          setCategorySelected("");
+                          setTagSelected(curr?._id);
+                        }}
+                      >
                         {curr?.tagName}
                       </p>
                     );
                   })}
+                <p
+                  className={styles.tag}
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => {
+                    setCategorySelected("");
+                    setTagSelected("");
+                  }}
+                >
+                  Show All
+                </p>
               </div>
             </div>
           </div>

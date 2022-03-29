@@ -1,6 +1,10 @@
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { allBlogs, getParticularBlog } from "../Axios/Blog.js";
+import {
+  allBlogs,
+  getParticularBlog,
+  getTagsAndCategories,
+} from "../Axios/Blog.js";
 import BlogsIndividual from "../Components/Blogs/BlogsIndividual.js";
 import Slider from "react-slick";
 import styles from "./Blogs.module.css";
@@ -10,6 +14,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { Pagination } from "antd";
 
 //for single one
@@ -21,15 +26,21 @@ const SingleBlog = () => {
   }, []);
   const params = useParams();
   const navigate = useNavigate();
+  const [catsAndTags, setCatsAndTags] = React.useState({});
   const [blogs, setBlogs] = React.useState(null);
   const [page, setPage] = React.useState(1);
   const [total, setTotal] = React.useState(0);
   const [search, setSearch] = React.useState("");
   const [pblog, setPblog] = React.useState(null);
+  const [other, setOther] = React.useState(null);
   const getBlogs = () => {
     getParticularBlog(params.blogId)
       .then((res) => {
-        setPblog(res.data);
+        setPblog(res.data.blog);
+        setOther(res.data.other);
+        getTagsAndCategories()
+          .then((res) => setCatsAndTags(res.data))
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   };
@@ -65,6 +76,19 @@ const SingleBlog = () => {
                 className={styles.left_img}
               />
             </div>
+            {/* <LocalOfferIcon fontSize={"large"} />{" "} */}
+            {/* <div className={styles.tagss}>
+              {pblog &&
+                pblog.tags &&
+                pblog.tags.length > 0 &&
+                pblog.tags.map((curr, index) => (
+                  <div className={styles.tagNames} key={index}>
+                    {curr?.tagName}
+                  </div>
+                ))}
+            </div> */}
+            <br />
+            <br />
             <div
               className={styles.left_desc}
               dangerouslySetInnerHTML={createMarkup()}
@@ -72,7 +96,7 @@ const SingleBlog = () => {
           </div>
 
           <div className={styles.search}>
-            <div className={styles.searchBar}>
+            {/* <div className={styles.searchBar}>
               <div className={styles.searchField}>
                 <input
                   type="text"
@@ -84,7 +108,7 @@ const SingleBlog = () => {
               <button className={styles.searchBtn}>
                 <SearchIcon sx={{ color: "#ffffff", fontSize: 30 }} />
               </button>
-            </div>
+            </div> */}
             <div className={styles.info}>
               <center>
                 <div
@@ -141,98 +165,74 @@ const SingleBlog = () => {
             </div>
             {/*CATEGORIES */}
             <div className={styles.categories}>
-              <div className={styles.categories_heading}>Categories</div>
+              <div className={styles.categories_heading}>Blog Category</div>
               <div className={styles.categories__points}>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432770/mortarboard_lo36z1.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Learn
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432816/coffee-machine_jzehlk.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Coffee Machine
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432856/recipe-book_jqzbip.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Recipes
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432892/pot_fjjdpr.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Brewing
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432930/beans_dbi7h5.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Blending & Roasting
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647432930/beans_dbi7h5.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Sourcing
-                </div>
-                <div className={styles.category}>
-                  <img
-                    src="https://res.cloudinary.com/techbuy/image/upload/v1647433019/search-worldwide_hx77zn.svg"
-                    alt="hello"
-                    className={styles.category_img}
-                  />
-                  Coffee Pod
-                </div>
+                {pblog?.category &&
+                  pblog?.category &&
+                  pblog?.category.length > 0 &&
+                  pblog?.category.map((curr, index) => {
+                    return (
+                      <div className={styles.category} key={index}>
+                        <img
+                          src={curr?.iconLink}
+                          alt="hello"
+                          className={styles.category_img}
+                        />
+                        {curr?.categoryName}
+                      </div>
+                    );
+                  })}
               </div>
             </div>
             {/*OTHER BLOGS*/}
-            <div className={styles.otherBlogs}>
-              <div className={styles.categories_heading}>
-                Popular Coffee Talk
-              </div>
-              <div className={styles.other_list}>
-                <div className={styles.other}>
-                  <div className={styles.other_img}>
-                    {" "}
-                    <img
-                      src="https://www.wallpaperup.com/uploads/wallpapers/2013/11/09/171722/63511993de344e27beb1880b7a9810fd-1000.jpg"
-                      className={styles.singleImgOther}
-                      alt="blog"
-                    />
-                  </div>
-                  <div className={styles.other_text}>
-                    <div className={styles.otherTitle}>
-                      Pretium tempus odio tristique pellentesque sociis.
+            {/*OTHER BLOGS*/}
+            {other && (
+              <div className={styles.otherBlogs}>
+                <div className={styles.categories_heading}>
+                  Popular Coffee Talk
+                </div>
+                <div className={styles.other_list}>
+                  <div
+                    className={styles.other}
+                    onClick={(e) => navigate(`/blog/${other?._id}`)}
+                  >
+                    <div className={styles.other_img}>
+                      {" "}
+                      <img
+                        src={other?.imagePath}
+                        className={styles.singleImgOther}
+                        alt="blog"
+                      />
                     </div>
-                    <div className={styles.link}>Read More</div>
+                    <div className={styles.other_text}>
+                      <div className={styles.otherTitle}>{other?.title}</div>
+                      <div
+                        className={styles.otherTitle}
+                        style={{ fontWeight: "normal" }}
+                      >
+                        {other?.preview}
+                      </div>
+                      <div className={styles.link}>
+                        <Link to={`/blog/${other?._id}`}>Read More</Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             {/*OTHER TAGS*/}
             <div className={styles.tags}>
-              <div className={styles.categories_heading}>Tags</div>
+              <div className={styles.categories_heading}>Blog Tags</div>
               <div className={styles.tagList}>
-                <p className={styles.tag}>coffeeshop</p>
-                <p className={styles.tag}>coffeetime</p>
-                <p className={styles.tag}>coffee</p>
-                <p className={styles.tag}>pod</p>
+                {pblog &&
+                  pblog.tags &&
+                  pblog.tags.map((curr, index) => {
+                    return (
+                      <p className={styles.tag} key={index}>
+                        {curr?.tagName}
+                      </p>
+                    );
+                  })}
               </div>
             </div>
           </div>

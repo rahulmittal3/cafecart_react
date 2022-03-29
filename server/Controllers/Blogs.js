@@ -12,7 +12,14 @@ const allBlogs = async (req, res) => {
       .find({})
       .skip((currPage - 1) * perPage)
       .limit(perPage);
-    res.status(200).json({ blogs: allBlogs, total: countBlogs });
+    const otherBlogs = await blog
+      .find({})
+      .skip(currPage * perPage)
+      .limit(perPage);
+    const rand = await blog.aggregate([{ $sample: { size: 2 } }]);
+    res
+      .status(200)
+      .json({ blogs: allBlogs, total: countBlogs, otherBlogs: rand[0] });
   } catch (error) {
     res.status(400).json(error);
   }
@@ -20,8 +27,12 @@ const allBlogs = async (req, res) => {
 
 const getParticularBlog = async (req, res) => {
   try {
-    const result = await blog.findOne({ _id: req.params.blogId });
-    return res.status(200).json(result);
+    const result = await blog
+      .findOne({ _id: req.params.blogId })
+      .populate({ path: "tags", BlogTagsModel })
+      .populate({ path: "category", BlogCategoriesModel });
+    const rand = await blog.aggregate([{ $sample: { size: 2 } }]);
+    return res.status(200).json({ blog: result, other: rand[0] });
   } catch (error) {
     console.log(error);
     return res.status(404).json(error);

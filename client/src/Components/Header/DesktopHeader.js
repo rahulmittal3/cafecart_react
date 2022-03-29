@@ -790,18 +790,7 @@ const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
                     Percol Coffee
                   </div>
                 </Menu.Item>
-                <Menu.Item key="beanies">
-                  <div
-                    className={styles.DHLink}
-                    onClick={(e) =>
-                      navigate(
-                        `/products/category/coffee/coffee-brands/beanies`
-                      )
-                    }
-                  >
-                    Beanies
-                  </div>
-                </Menu.Item>
+
                 <Menu.Item key="beanies">
                   <div
                     className={styles.DHLink}

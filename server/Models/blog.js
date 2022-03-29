@@ -31,8 +31,8 @@ const blogSchema = Schema({
     type: Date,
     default: Date.now,
   },
-  category: [String],
-  tags: [String],
+  category: [{ type: String, ref: "BlogCategoriesModel" }],
+  tags: [{ type: String, ref: "BlogTagsModel" }],
 });
 
 module.exports = mongoose.model("Blog", blogSchema);

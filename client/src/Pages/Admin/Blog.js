@@ -42,13 +42,6 @@ const Blog = () => {
       // : 80,
       align: "center",
     },
-
-    {
-      title: "Category",
-      dataIndex: "blog_category",
-      // : 40,
-      align: "center",
-    },
     {
       title: "Created On",
       dataIndex: "createdAt",

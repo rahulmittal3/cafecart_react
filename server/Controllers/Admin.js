@@ -146,9 +146,19 @@ const createBlog = async (req, res) => {
 const getBlog = async (req, res) => {
   console.log(req.query);
   try {
-    const result = await Blog.findOne({ _id: req.query.id });
+    const result = await Blog.findOne({ _id: req.query.id })
+      .populate({
+        path: "category",
+        BlogCategoriesModel,
+      })
+      .populate({
+        path: "tags",
+        BlogTagsModel,
+      });
+    console.log(result);
     return res.status(200).json(result);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };

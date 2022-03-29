@@ -530,3 +530,18 @@
   flex-direction: row;
   justify-content: flex-end;
 }
+.tagNames {
+  background-color: #a0522d;
+  padding: 5px;
+  color: #fff;
+  border: 1px solid #a0522d;
+  border-radius: 3px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.tagss {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
