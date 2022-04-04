@@ -79,12 +79,12 @@ const createPayment = async (req, res) => {
       udf4: req.body.city,
       udf5: `${req.body.state}`,
     };
-    // await axios({
-    //   method: "POST",
-    //   url: `${process.env.DEV_URL}/codsuccess`,
-    //   data: { pay: pay, user: req.body.user },
-    // });
-    // return res.status(201).json("Created");
+    await axios({
+      method: "POST",
+      url: `${process.env.DEV_URL}/codsuccess`,
+      data: { pay: pay, user: req.body.user },
+    });
+    return res.status(201).json("Created");
   } catch (error) {
     console.log("87", error);
     res.status(400).json(error);
