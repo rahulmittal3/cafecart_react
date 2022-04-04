@@ -162,6 +162,7 @@ const CategorySlug = () => {
                     />
                   </div>
                 </div>
+
                 <div className={styles.newArrivalItem__meta}>
                   <div
                     className={styles.newArrivalItem__meta__title}
@@ -188,6 +189,10 @@ const CategorySlug = () => {
                         className={styles.icon}
                         onClick={(e) => {
                           handleCart(curr?._id, curr?.title);
+                          dispatch({
+                            type: "DRAWER_VISIBLE",
+                            payload: true,
+                          });
                         }}
                       />
                       <button
@@ -205,6 +210,96 @@ const CategorySlug = () => {
                         <del>₹{curr?.mrpPrice}</del>
                       </p>
                     </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+      <div className={styles.newArrivals1}>
+        {!ans | (ans && ans.length === 0) && (
+          <div className={styles.noItem}>
+            <div>No Items Found</div>
+          </div>
+        )}
+        {ans &&
+          ans.length > 0 &&
+          ans.map((curr, index) => {
+            return (
+              <div key={index} className={styles.newArrivalItem1}>
+                <div className={styles.top1}>
+                  <div>
+                    <center>
+                      <img
+                        src={curr?.imagePath[0]}
+                        alt="imr"
+                        className={styles.newArrivalItem__img1}
+                        onClick={(e) => navigate(`/products/${curr._id}`)}
+                      />
+                    </center>
+                  </div>
+                  <div>
+                    <FavoriteBorderOutlinedIcon
+                      sx={{ fontSize: 24 }}
+                      className={styles.icon}
+                      onClick={(e) => {
+                        handleWishlist(curr?._id, curr?.title);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className={styles.text1}>
+                  <div>
+                    <div
+                      className={styles.newArrivalItem__meta__title}
+                      style={{ fontSize: "100%", textAlign: "left" }}
+                      onClick={(e) => navigate(`/products/${curr._id}`)}
+                    >
+                      {curr?.title}
+                    </div>
+                    <div>
+                      <span
+                        className={styles.price}
+                        style={{ fontSize: "110%" }}
+                      >
+                        ₹{curr?.price}
+                      </span>
+                      <span
+                        className={styles.mrpPrice}
+                        style={{ fontSize: "100%" }}
+                      >
+                        <del>₹{curr?.mrpPrice}</del>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className={styles.newArrivalItem__meta__actions__buttons}
+                  >
+                    {/* <FavoriteBorderOutlinedIcon
+                        sx={{ fontSize: 30 }}
+                        className={styles.icon}
+                        onClick={(e) => {
+                          handleWishlist(curr?._id, curr?.title);
+                        }}
+                      /> */}
+                    <ShoppingCartOutlinedIcon
+                      sx={{ fontSize: 30 }}
+                      className={styles.icon}
+                      onClick={(e) => {
+                        handleCart(curr?._id, curr?.title);
+                        dispatch({
+                          type: "DRAWER_VISIBLE",
+                          payload: true,
+                        });
+                      }}
+                    />
+                    &emsp;
+                    <button
+                      className={styles.buyNowButton}
+                      onClick={(e) => buyNowHandler(curr)}
+                    >
+                      Buy
+                    </button>
                   </div>
                 </div>
               </div>

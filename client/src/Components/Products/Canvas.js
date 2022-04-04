@@ -167,59 +167,14 @@ const Canvas = ({ data, setData, getItems, show, setShow, showDrawer }) => {
   };
   return (
     <>
-      <div className={styles.canvasWrapper}>
-        <Carousel
-          showIndicators={false}
-          autoPlay={true}
-          infiniteLoop={true}
-          stopOnHover={true}
-        >
-          <div className={styles.bannerLeft}>
-            <p className={styles.leftStyle}>
-              {/* <p className={styles.headStyle}>New Arrivals</p> */}
-              <p className={styles.middleStyle}>Nescafe Taster's Choice</p>
-              <span className={styles.shopNow}>
-                Buy Now <ArrowRightAltOutlinedIcon sx={{ fontSize: 20 }} />
-              </span>
-            </p>
-            <div className={styles.bannerImg}>
-              <img
-                src="https://res.cloudinary.com/techbuy/image/upload/v1645949093/Group_561_jswj7f.png"
-                alt="pew"
-              />
-            </div>
-          </div>
-          <div className={styles.bannerLeft}>
-            <p className={styles.leftStyle}>
-              {/* <p className={styles.headStyle}>New Arrivals</p> */}
-              <p className={styles.middleStyle}>Nestle Coffee Mate</p>
-              <span className={styles.shopNow}>
-                Buy Now <ArrowRightAltOutlinedIcon sx={{ fontSize: 20 }} />
-              </span>
-            </p>
-            <div className={styles.bannerImg}>
-              <img
-                src="https://res.cloudinary.com/techbuy/image/upload/v1645949093/Group_561_jswj7f.png"
-                alt="pew"
-              />
-            </div>
-          </div>
-          <div className={styles.bannerLeft}>
-            <p className={styles.leftStyle}>
-              {/* <p className={styles.headStyle}>New Arrivals</p> */}
-              <p className={styles.middleStyle}>Nescafé Gold Decaff</p>
-              <span className={styles.shopNow}>
-                Buy Now <ArrowRightAltOutlinedIcon sx={{ fontSize: 20 }} />
-              </span>
-            </p>
-            <div className={styles.bannerImg}>
-              <img
-                src="https://res.cloudinary.com/techbuy/image/upload/v1645949093/Group_561_jswj7f.png"
-                alt="pew"
-              />
-            </div>
-          </div>
-        </Carousel>
+      <div>
+        {/* <div className={styles.bannerImageFinal}> */}
+        <img
+          src="https://res.cloudinary.com/techbuy/image/upload/v1648572014/WhatsApp_Image_2022-03-29_at_10.03.59_PM_kiceis.jpg"
+          alt="/images here"
+          className={styles.bannerImgFinal}
+        />
+        {/* </div> */}
       </div>
       <div className={styles.logoImg}>
         {/* <center> */}
@@ -287,7 +242,7 @@ const Canvas = ({ data, setData, getItems, show, setShow, showDrawer }) => {
       <div className={styles.whyCafecart}>
         <center>
           <img
-            src="https://res.cloudinary.com/techbuy/image/upload/v1645949093/Group_561_jswj7f.png"
+            src="https://res.cloudinary.com/techbuy/image/upload/v1648646720/WhatsApp_Image_2022-03-30_at_6.48.40_PM_uyj6yg.jpg"
             alt="hshs"
             style={{ padding: "2px 10px" }}
           />
