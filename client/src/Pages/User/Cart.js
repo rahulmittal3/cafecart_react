@@ -34,10 +34,12 @@ const Cart = () => {
   const [couponText, setCouponText] = React.useState("");
   const [pinMsg, setPinMsg] = React.useState("");
   const [pin, setPin] = React.useState("");
+  const [pinCheckBtn, setPinCheckBtn] = React.useState(false);
   const [shipping, setShipping] = React.useState({
     cartsize: 0,
     shipping_charge: 0,
   });
+  const [couponButtonPressed, setCouponButtonPressed] = React.useState(false);
   const setData = () => {
     setLoading(true);
     cartDetails(cart)
@@ -140,16 +142,38 @@ const Cart = () => {
       }
     }
   };
-
   const handleCoupon = () => {
     setTexting(true);
-    checkCoupon(couponText)
+
+    checkCoupon(couponText === "" ? "invalidCoupon" : couponText)
       .then((res) => {
-        setDisc(res.data);
-        setTexting(false);
+        // console.log(res, "coupon");
+        if (couponButtonPressed === true) {
+          toast.success(`You have availed a Discount on coupon ${couponText}`);
+          setDisc(res.data);
+          setTexting(false);
+          // setCouponButtonPressed(false);
+        } else {
+          setDisc(0);
+          setTexting(false);
+          // setCouponButtonPressed(false);
+        }
       })
-      .catch((err) => setTexting(false));
+      .catch((err) => {
+        if (disc !== 0) {
+          toast.warning("Coupon is Invalid! Please Try a Valid Coupon");
+        } else if (couponButtonPressed === true) {
+          toast.warning("Coupon is Invalid! Please Try a Valid Coupon");
+        }
+        setDisc(0);
+        setTexting(false);
+        setCouponButtonPressed(false);
+      });
   };
+  React.useEffect(() => {
+    handleCoupon();
+  }, [couponText, couponButtonPressed]);
+
   const calcDisc = () => {
     //work on total number
     if (!disc._id) {
@@ -162,7 +186,7 @@ const Cart = () => {
 
   const handlePIN = async (e) => {
     e.preventDefault();
-    setTexting(true);
+    setPinCheckBtn(true);
 
     try {
       const result = await axios({
@@ -172,18 +196,17 @@ const Cart = () => {
 
       if (result.data[0].PostOffice) {
         //means a valid post office here, gte the 1st item here
-        setPinMsg(
-          `Shipping Available at ${result.data[0].PostOffice[0].Name},${result.data[0].PostOffice[0].District}! Happy Shopping! 🛍️`
+        toast.success(
+          `Shipping Available at ${result.data[0].PostOffice[0].Name},${result.data[0].PostOffice[0].District}!`
         );
       } else {
         //means valid post office not present
         setPinMsg("Item unavailable for delivery at your doorstep!");
       }
-      setTexting(false);
+      setPinCheckBtn(false);
     } catch (error) {
-      console.log(error);
       toast.error("Unexpected Error");
-      setTexting(false);
+      setPinCheckBtn(false);
     }
   };
 
@@ -741,10 +764,10 @@ const Cart = () => {
                 placeholder="Enter PIN Code"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
-                disabled={texting}
+                disabled={pinCheckBtn}
               />
               <button className={styles.PINCheck} onClick={handlePIN}>
-                {texting ? <LoadingOutlined /> : "Check"}
+                {pinCheckBtn ? <LoadingOutlined /> : "Check"}
               </button>
             </div>
             <div
@@ -762,6 +785,7 @@ const Cart = () => {
               {pinMsg}
             </div>
           </div>
+
           <div className={styles.cartCoupons}>
             <div className={styles.couponHead}>Check Coupon</div>
             <div className={styles.PIN}>
@@ -777,7 +801,10 @@ const Cart = () => {
                 className={styles.PINCheck}
                 style={{ width: "20%" }}
                 disabled={couponText.length === 0 || texting}
-                onClick={handleCoupon}
+                onClick={() => {
+                  setCouponButtonPressed(true);
+                  handleCoupon();
+                }}
               >
                 {texting ? <LoadingOutlined /> : "Check"}
               </button>
