@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { singleProduct, createReview } from "../../Axios/Products.js";
 import { Carousel } from "react-responsive-carousel";
-import ModalImage from "react-modal-image";
+
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Tabs } from "antd";
