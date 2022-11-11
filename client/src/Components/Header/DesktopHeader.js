@@ -285,6 +285,16 @@ const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
     navigate(`/products/search/${keyword}`);
     setKeyword("");
   };
+  function handleKeyPress(e) {
+    if (!keyword && e.code === "Enter") {
+      toast.warning("Please Enter the Keyword to Find Items");
+      return;
+    }
+    if (e?.code === "Enter") {
+      navigate(`/products/search/${keyword}`);
+      setKeyword("");
+    }
+  }
   return (
     <>
       <CartDrawer />
@@ -1341,6 +1351,7 @@ const DesktopHeader = ({ cart, user, wishlist, headers, show, setShow }) => {
                 onChange={(e) => setKeyword(e.target.value)}
                 value={keyword}
                 style={{ backgroundColor: "#f0f0f0" }}
+                onKeyPress={(e) => handleKeyPress(e)}
               />
             </div>
             <div>

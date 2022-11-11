@@ -1,98 +1,123 @@
 import "./App.css";
-import React from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 //importing React-Compnents..........
 import { Route, Routes } from "react-router-dom";
-
-//importing pages........
-import AboutUs from "./Pages/AboutUs.js";
-import Blogs from "./Pages/Blogs.js";
-import Coffee from "./Pages/Coffee.js";
-import Machine from "./Pages/Machine.js";
-import Pods from "./Pages/Pods.js";
-import Root from "./Pages/Root.js";
-import ShippingPolicy from "./Pages/ShippingPolicy.js";
-import TermsOfUse from "./Pages/TermsOfUse.js";
-import PrivacyPolicy from "./Pages/PrivacyPolicy.js";
-import Home from "./Pages/Root.js";
-import ChangePassword from "./Pages/User/ChangePassword.js";
-import Profile from "./Pages/User/Profile.js";
-import CategorySlug from "./Pages/Products/CategorySlug.js";
-import SingleProduct from "./Pages/Products/SingleProduct.js";
-import ProtectRoute from "./Components/Utilities/ProtectRoutes";
-import ProductSearch from "./Pages/Products/SearchProduct.js";
-import ParentVariety from "./Pages/Products/ParentVariety.js";
-import Cart from "./Pages/User/Cart.js";
-import Checkout from "./Pages/User/Checkout.js";
-import Wishlist from "./Pages/User/Wishlist.js";
-import Orders from "./Pages/User/Orders.js";
-import EditProfile from "./Pages/User/EditProfile.js";
-import SingleOrder from "./Pages/User/SingleOrder.js";
-//header and footer
-import Header from "./Components/Header/Header.js";
-import NewHeader from "./Components/Header/NewHeader.js";
-import Footer from "./Components/Footer/Footer.js";
-import Variety from "./Pages/Products/Variety.js";
-import NewBlogs from "./Pages/Blogs/newBlogs.js";
-import IndividualBlog from "./Pages/Blogs/IndividualBlog.js";
-import SingleBlog from "./Pages/SingleBlog.js";
-import OrderSuccessPayment from "./Pages/User/OrderSuccessPayment.js";
-
-//for admin users
-import AdminAppBar from "./Components/Admin/AdminAppBar.js";
-import AdminLogin from "./Pages/Admin/Login.js";
-import AdminHome from "./Pages/Admin/Home.js";
-import AdminCoupon from "./Pages/Admin/Coupons.js";
-import ProtectRouteAdmin from "./Components/Admin/ProtectRouteAdmin.js";
-import CreateCoupon from "./Pages/Admin/CreateCoupon.js";
-import SingleCouponAdmin from "./Pages/Admin/SingleCoupon.js";
-import AdminUser from "./Pages/Admin/User.js";
-import AdminBlog from "./Pages/Admin/Blog.js";
-import CreateBlog from "./Pages/Admin/CreateBlog.js";
-import SingleBlogAdmin from "./Pages/Admin/SingleBlog.js";
-import SubcategoriesChildren from "./Pages/Admin/SubcategoriesChildren.js";
-import CreateSubcategoriesChildren from "./Pages/Admin/CreateSubcategoriesChildren.js";
-import SingleSubcategoriesChildren from "./Pages/Admin/SingleSubcategoriesChildren.js";
-import SubcategoriesParent from "./Pages/Admin/SubcategoriesParent.js";
-import CreateSubcategoriesParent from "./Pages/Admin/CreateSubcategoriesParent.js";
-import SingleSubcategoriesParent from "./Pages/Admin/SingleSubcategoriesParent.js";
-import AdminCategory from "./Pages/Admin/Category.js";
-import CreateCategory from "./Pages/Admin/CreateCategory.js";
-
-import AdminProducts from "./Pages/Admin/Products.js";
-import AdminSingleProduct from "./Pages/Admin/SingleProduct";
-import AdminEditProduct from "./Pages/Admin/EditProduct.js";
-import AdminCreateProduct from "./Pages/Admin/CreateProduct.js";
-
-import ShippingCharges from "./Pages/Admin/ShippingCharges.js";
-import CreateShippingCharge from "./Pages/Admin/CreateShippingCharge.js";
-import SingleShippingCharge from "./Pages/Admin/SingleShippingCharge.js";
-import EditShippingCharge from "./Pages/Admin/EditShippingCharge.js";
-
-import Homepage from "./Pages/Admin/Homepage.js";
-import CreateHomepage from "./Pages/Admin/CreateHomepage.js";
-import SingleHomepage from "./Pages/Admin/SingleHomepage.js";
-import EditHomepage from "./Pages/Admin/EditHomepage.js";
-
-import AdminOrders from "./Pages/Admin/Orders.js";
-import SingleAdminOrder from "./Pages/Admin/SingleOrder.js";
-import AdminReviews from "./Pages/Admin/Reviews.js";
-import CreateReview from "./Pages/Admin/CreateReview.js";
-import BlogCategories from "./Pages/Admin/BlogCategories.js";
-import CreateBlogCategory from "./Pages/Admin/CreateBlogCategory.js";
-import EditBlogCategory from "./Pages/Admin/EditBlogCategory.js";
-
-import BlogTags from "./Pages/Admin/BlogTags.js";
-import CreateBlogTag from "./Pages/Admin/CreateBlogTag.js";
-import EditBlogTag from "./Pages/Admin/EditBlogTag.js";
-
 import { useSelector, useDispatch } from "react-redux";
 
 import { cartDetails } from "./Axios/Cart.js";
+//importing pages........
+import FallBack from "./FallBack.js";
+const AboutUs = lazy(() => import("./Pages/AboutUs.js"));
+const Blogs = lazy(() => import("./Pages/Blogs.js"));
+const Coffee = lazy(() => import("./Pages/Coffee.js"));
+const Machine = lazy(() => import("./Pages/Machine.js"));
+const Pods = lazy(() => import("./Pages/Pods.js"));
+const Root = lazy(() => import("./Pages/Root.js"));
+const ShippingPolicy = lazy(() => import("./Pages/ShippingPolicy.js"));
+const TermsOfUse = lazy(() => import("./Pages/TermsOfUse.js"));
+const PrivacyPolicy = lazy(() => import("./Pages/PrivacyPolicy.js"));
+const Home = lazy(() => import("./Pages/Root.js"));
+const ChangePassword = lazy(() => import("./Pages/User/ChangePassword.js"));
+const Profile = lazy(() => import("./Pages/User/Profile.js"));
+const CategorySlug = lazy(() => import("./Pages/Products/CategorySlug.js"));
+const SingleProduct = lazy(() => import("./Pages/Products/SingleProduct.js"));
+const ProtectRoute = lazy(() => import("./Components/Utilities/ProtectRoutes"));
+const ProductSearch = lazy(() => import("./Pages/Products/SearchProduct.js"));
+const ParentVariety = lazy(() => import("./Pages/Products/ParentVariety.js"));
+const Cart = lazy(() => import("./Pages/User/Cart.js"));
+const Checkout = lazy(() => import("./Pages/User/Checkout.js"));
+const Wishlist = lazy(() => import("./Pages/User/Wishlist.js"));
+const Orders = lazy(() => import("./Pages/User/Orders.js"));
+const EditProfile = lazy(() => import("./Pages/User/EditProfile.js"));
+const SingleOrder = lazy(() => import("./Pages/User/SingleOrder.js"));
+//header and footer
+const Header = lazy(() => import("./Components/Header/Header.js"));
+const NewHeader = lazy(() => import("./Components/Header/NewHeader.js"));
+const Footer = lazy(() => import("./Components/Footer/Footer.js"));
+const Variety = lazy(() => import("./Pages/Products/Variety.js"));
+const NewBlogs = lazy(() => import("./Pages/Blogs/newBlogs.js"));
+const IndividualBlog = lazy(() => import("./Pages/Blogs/IndividualBlog.js"));
+const SingleBlog = lazy(() => import("./Pages/SingleBlog.js"));
+const OrderSuccessPayment = lazy(() =>
+  import("./Pages/User/OrderSuccessPayment.js")
+);
+
+//for admin users
+const AdminAppBar = lazy(() => import("./Components/Admin/AdminAppBar.js"));
+const AdminLogin = lazy(() => import("./Pages/Admin/Login.js"));
+const AdminHome = lazy(() => import("./Pages/Admin/Home.js"));
+const AdminCoupon = lazy(() => import("./Pages/Admin/Coupons.js"));
+const ProtectRouteAdmin = lazy(() =>
+  import("./Components/Admin/ProtectRouteAdmin.js")
+);
+const CreateCoupon = lazy(() => import("./Pages/Admin/CreateCoupon.js"));
+const SingleCouponAdmin = lazy(() => import("./Pages/Admin/SingleCoupon.js"));
+const AdminUser = lazy(() => import("./Pages/Admin/User.js"));
+const AdminBlog = lazy(() => import("./Pages/Admin/Blog.js"));
+const CreateBlog = lazy(() => import("./Pages/Admin/CreateBlog.js"));
+const SingleBlogAdmin = lazy(() => import("./Pages/Admin/SingleBlog.js"));
+const SubcategoriesChildren = lazy(() =>
+  import("./Pages/Admin/SubcategoriesChildren.js")
+);
+const CreateSubcategoriesChildren = lazy(() =>
+  import("./Pages/Admin/CreateSubcategoriesChildren.js")
+);
+const SingleSubcategoriesChildren = lazy(() =>
+  import("./Pages/Admin/SingleSubcategoriesChildren.js")
+);
+const SubcategoriesParent = lazy(() =>
+  import("./Pages/Admin/SubcategoriesParent.js")
+);
+const CreateSubcategoriesParent = lazy(() =>
+  import("./Pages/Admin/CreateSubcategoriesParent.js")
+);
+const SingleSubcategoriesParent = lazy(() =>
+  import("./Pages/Admin/SingleSubcategoriesParent.js")
+);
+const AdminCategory = lazy(() => import("./Pages/Admin/Category.js"));
+const CreateCategory = lazy(() => import("./Pages/Admin/CreateCategory.js"));
+
+const AdminProducts = lazy(() => import("./Pages/Admin/Products.js"));
+const AdminSingleProduct = lazy(() => import("./Pages/Admin/SingleProduct"));
+const AdminEditProduct = lazy(() => import("./Pages/Admin/EditProduct.js"));
+const AdminCreateProduct = lazy(() => import("./Pages/Admin/CreateProduct.js"));
+
+const ShippingCharges = lazy(() => import("./Pages/Admin/ShippingCharges.js"));
+const CreateShippingCharge = lazy(() =>
+  import("./Pages/Admin/CreateShippingCharge.js")
+);
+const SingleShippingCharge = lazy(() =>
+  import("./Pages/Admin/SingleShippingCharge.js")
+);
+const EditShippingCharge = lazy(() =>
+  import("./Pages/Admin/EditShippingCharge.js")
+);
+
+const Homepage = lazy(() => import("./Pages/Admin/Homepage.js"));
+const CreateHomepage = lazy(() => import("./Pages/Admin/CreateHomepage.js"));
+const SingleHomepage = lazy(() => import("./Pages/Admin/SingleHomepage.js"));
+const EditHomepage = lazy(() => import("./Pages/Admin/EditHomepage.js"));
+
+const AdminOrders = lazy(() => import("./Pages/Admin/Orders.js"));
+const SingleAdminOrder = lazy(() => import("./Pages/Admin/SingleOrder.js"));
+const AdminReviews = lazy(() => import("./Pages/Admin/Reviews.js"));
+const CreateReview = lazy(() => import("./Pages/Admin/CreateReview.js"));
+const BlogCategories = lazy(() => import("./Pages/Admin/BlogCategories.js"));
+const CreateBlogCategory = lazy(() =>
+  import("./Pages/Admin/CreateBlogCategory.js")
+);
+const EditBlogCategory = lazy(() =>
+  import("./Pages/Admin/EditBlogCategory.js")
+);
+
+const BlogTags = lazy(() => import("./Pages/Admin/BlogTags.js"));
+const CreateBlogTag = lazy(() => import("./Pages/Admin/CreateBlogTag.js"));
+const EditBlogTag = lazy(() => import("./Pages/Admin/EditBlogTag.js"));
 
 function App() {
   const dispatch = useDispatch();
-  React.useEffect(() => {
+  useEffect(() => {
     let wishlist = [];
     if (window !== "undefined" && window.localStorage.getItem("wishlist")) {
       wishlist = JSON.parse(window.localStorage.getItem("wishlist"));
@@ -134,7 +159,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Suspense fallback={<FallBack />}>
       <ToastContainer />
 
       <Routes>
@@ -799,7 +824,7 @@ function App() {
           }
         />
       </Routes>
-    </>
+    </Suspense>
   );
 }
 

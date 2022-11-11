@@ -20,6 +20,20 @@ const MobileSearchBar = () => {
       payload: false,
     });
   };
+  function handleKeyPress(e) {
+    if (!key && e.code === "Enter") {
+      toast.warning("Please Enter the Keyword to Find Items");
+      return;
+    }
+    if (e?.code === "Enter") {
+      navigate(`/products/search/${key}`);
+      setKey("");
+      dispatch({
+        type: "MOBILE_SEARCH_VISIBLE",
+        payload: false,
+      });
+    }
+  }
   const [key, setKey] = React.useState("");
   return (
     <center>
@@ -30,6 +44,7 @@ const MobileSearchBar = () => {
           placeholder="Search for items & brands"
           onChange={(e) => setKey(e.target.value)}
           value={key}
+          onKeyPress={(e) => handleKeyPress(e)}
         />
         <button className={styles.searchBtn} onClick={searchHandler}>
           {" "}
